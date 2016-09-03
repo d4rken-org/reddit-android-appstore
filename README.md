@@ -6,11 +6,11 @@ Pulls the curated app list from the /r/Android wiki and displays.
 [Make an issue ticket.](https://github.com/d4rken/reddit-android-appstore/issues/new)
 
 ## Contribute
-* View current issue tickets to make sure no one else is working on the same thing
-* Make a new issue ticket if there is none for what you are working on
+* Make sure there is an issue ticket (create one if necessary) for what you are working on
+* Write into that issue ticket that you are working on it
 * Follow current coding style
 * If you can, write a unit test for your code change
-* Send in a pullrequest
+* Send in a pullrequest and mention your ticket
 * Wait for it to be merged
 
 ## Screenshots
