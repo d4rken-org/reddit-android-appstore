@@ -1,0 +1,146 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+
+def gitSha() {
+    def p = 'git rev-parse --short HEAD'.execute([], project.rootDir)
+    p.waitFor()
+    if (p.exitValue() != 0) {
+        throw new RuntimeException(p.errorStream.text)
+    }
+    return p.text.trim()
+}
+
+def gitTimestamp() {
+    def p = 'git log -n 1 --format=%at'.execute([], rootDir)
+    p.waitFor()
+    if (p.exitValue() != 0) {
+        throw new RuntimeException(p.errorStream.text)
+    }
+    return p.text.trim()
+}
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
+
+    def versionMajor = 1
+    def versionMinor = 0
+    def versionPatch = 0
+    def versionBuild = 0
+
+
+    defaultConfig {
+        applicationId "subreddit.android.appstore"
+        minSdkVersion 16
+        targetSdkVersion 24
+        versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        applicationVariants.all { variant ->
+            if (variant.buildType.name != "debug") {
+                variant.outputs.each { output ->
+                    def file = output.outputFile
+                    //noinspection GroovyAssignabilityCheck
+                    output.outputFile = new File(file.parent, "rAndroid_AppStore-v" + defaultConfig.versionName + "(" + defaultConfig.versionCode + ")-" + variant.buildType.name.toUpperCase() + "-" + gitSha + ".apk")
+                }
+            }
+        }
+    }
+    productFlavors {
+        mock {
+            applicationIdSuffix = ".mock"
+        }
+        //noinspection GroovyMissingReturnStatement
+        prod {
+
+        }
+    }
+
+    // Remove mockRelease as it's not needed.
+    android.variantFilter { variant ->
+        if (variant.buildType.name.equals('release') && variant.getFlavors().get(0).name.equals('mock')) {
+            variant.setIgnore(true);
+        }
+    }
+
+    // Always show the result of every unit test, even if it passes.
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+            outputs.upToDateWhen { false }
+            showStandardStreams = true
+        }
+    }
+}
+
+tasks.withType(Test) {
+    systemProperty "robolectric.logging", "stdout"
+}
+ext {
+    supportLibVersion = '24.2.0'
+}
+configurations.all {
+    //noinspection GroovyAssignabilityCheck
+    resolutionStrategy.force "com.android.support:recyclerview-v7:${supportLibVersion}"
+}
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    // Support libs
+    compile "com.android.support:support-annotations:${supportLibVersion}"
+    compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
+
+    compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
+
+    // OKHttp
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+
+    // Flow layout for tags
+    compile 'com.wefika:flowlayout:0.4.0'
+
+    // RX
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.1.9'
+
+    //Dagger
+    apt 'com.google.dagger:dagger-compiler:2.2'
+    compile 'com.google.dagger:dagger:2.2'
+    provided 'javax.annotation:jsr250-api:1.0'
+
+    //Butterknife
+    compile 'com.jakewharton:butterknife:8.0.1'
+    apt 'com.jakewharton:butterknife-compiler:8.0.1'
+
+    //Timber
+    compile 'com.jakewharton.timber:timber:4.1.2'
+
+    // jUnit
+    testCompile 'junit:junit:4.12'
+    // Mocktio
+    testCompile 'org.mockito:mockito-core:2.0.62-beta'
+
+    //Intrumentation tests (UI tests)
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2'
+
+    //Resolve conflicts with depdencies
+    androidTestCompile 'com.android.support:support-annotations:24.2.0'
+
+    //Leakcanary
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+}

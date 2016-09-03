@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/ThreeLineListItemContainer"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="16dp">
+
+    <TextView
+        android:id="@+id/appname"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Appname"/>
+
+    <TextView
+        android:id="@+id/description"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="3"
+        tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."/>
+
+    <com.wefika.flowlayout.FlowLayout
+        android:id="@+id/tag_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <include layout="@layout/view_tagtemplate"/>
+
+        <include layout="@layout/view_tagtemplate"/>
+
+        <include layout="@layout/view_tagtemplate"/>
+
+        <include layout="@layout/view_tagtemplate"/>
+
+        <include layout="@layout/view_tagtemplate"/>
+
+        <include layout="@layout/view_tagtemplate"/>
+
+        <include layout="@layout/view_tagtemplate"/>
+    </com.wefika.flowlayout.FlowLayout>
+</LinearLayout>

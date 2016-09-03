@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:title="@string/button_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_filter"
+        android:icon="@drawable/ic_filter_list_white_24dp"
+        android:title="@string/button_filter"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/menu_force_refresh"
+        android:icon="@drawable/ic_refresh_white_24dp"
+        android:title="@string/button_refresh"/>
+
+    <item
+        android:id="@+id/menu_about"
+        android:icon="@drawable/ic_info_white_24dp"
+        android:title="@string/button_about"
+        app:showAsAction="never"/>
+
+</menu>
