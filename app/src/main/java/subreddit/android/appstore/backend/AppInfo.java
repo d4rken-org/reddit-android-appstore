@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 
 
-public class AppInfo implements Parcelable {
+public class AppInfo implements Parcelable, Comparable<AppInfo> {
 
 
     public enum Tag {
@@ -81,5 +81,10 @@ public class AppInfo implements Parcelable {
             return new AppInfo[size];
         }
     };
+
+    @Override
+    public int compareTo(AppInfo appInfo) {
+        return appName.compareTo(appInfo.appName);
+    }
 }
 

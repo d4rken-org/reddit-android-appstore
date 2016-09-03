@@ -29,6 +29,7 @@ import butterknife.Unbinder;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.R;
 import subreddit.android.appstore.backend.AppInfo;
+import subreddit.android.appstore.screens.details.AboutActivity;
 import subreddit.android.appstore.screens.details.AppDetailsActivity;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
@@ -158,7 +159,7 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
                 toggleTagFilterDrawer();
                 return true;
             case R.id.menu_about:
-                // TODO info, link to repo, library licenses
+                startActivity(new Intent(getActivity(), AboutActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

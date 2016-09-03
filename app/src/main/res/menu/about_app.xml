@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <group android:checkableBehavior="single">
+
+        <item
+            android:icon="@drawable/ic_perm_device_information_black_48px"
+            android:title="@string/version" />
+
+        <item
+            android:icon="@drawable/ic_receipt_black_48px"
+            android:id="@+id/licenses"
+            android:title="@string/licenses" />
+
+        <item
+            android:icon="@drawable/ic_bug_report_black_48px"
+            android:id="@+id/reportbug"
+            android:title="@string/bugreport" />
+
+    </group>
+
 </menu>

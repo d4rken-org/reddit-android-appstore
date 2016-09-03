@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="subreddit.android.appstore"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="subreddit.android.appstore">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".AppStoreApp"
         android:allowBackup="true"
@@ -14,14 +15,15 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity android:name=".screens.list.AppListActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".screens.details.AppDetailsActivity"
-            android:label="@string/screen_details"/>
+            android:label="@string/screen_details" />
+        <activity android:name=".screens.details.AboutActivity"></activity>
     </application>
 
 </manifest>

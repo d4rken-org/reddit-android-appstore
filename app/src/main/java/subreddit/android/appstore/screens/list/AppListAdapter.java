@@ -12,6 +12,7 @@ import com.wefika.flowlayout.FlowLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -53,6 +54,7 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
         this.data.clear();
         this.originalData.clear();
         if (data != null) {
+            Collections.sort(data);
             this.data.addAll(data);
             this.originalData.addAll(data);
         }
