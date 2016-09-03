@@ -48,6 +48,8 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+
         app_nav = (NavigationView) findViewById(R.id.app_nav);
         app_nav.getMenu().findItem(0).setTitle(getResources().getString(R.string.version) + " " + BuildConfig.VERSION_NAME);
         app_nav.setNavigationItemSelectedListener(aboutListener);
