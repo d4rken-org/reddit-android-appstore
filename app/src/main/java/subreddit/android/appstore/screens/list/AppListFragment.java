@@ -91,6 +91,12 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     }
 
     @Override
+    public void updateTagCount(int[] tagCount) {
+        filterListAdapter.updateTagCount(tagCount);
+        filterListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onPresenterReady(@NonNull AppListContract.Presenter presenter) {
         super.onPresenterReady(presenter);
     }

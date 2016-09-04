@@ -3,8 +3,10 @@ package subreddit.android.appstore.screens.list;
 import android.os.Bundle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import rx.Observer;
 import rx.Subscription;
@@ -45,6 +47,7 @@ public class AppListPresenter implements AppListContract.Presenter {
                     public void call(Collection<AppInfo> appInfos) {
                         ArrayList<AppInfo> data = new ArrayList<AppInfo>(appInfos);
                         Collections.sort(data);
+                        AppListPresenter.this.view.updateTagCount(countTags(data));
                         AppListPresenter.this.view.showAppList(data);
                     }
                 });
@@ -66,6 +69,17 @@ public class AppListPresenter implements AppListContract.Presenter {
     @Override
     public void onDestroy() {
 
+    }
+
+    private int[] countTags(ArrayList<AppInfo> appInfos) {
+        int[] tagCount = new int[9];
+        List<AppInfo.Tag> data = Arrays.asList(AppInfo.Tag.values());
+        for (AppInfo info : appInfos) {
+            for (AppInfo.Tag tag : info.getTags()) {
+                tagCount[data.indexOf(tag)]++;
+            }
+        }
+        return tagCount;
     }
 
     @Override

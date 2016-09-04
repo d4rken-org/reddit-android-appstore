@@ -14,6 +14,7 @@ public class AppListContract {
 
         void showLoadingScreen();
 
+        void updateTagCount(int[] tagCount);
     }
 
     interface Presenter extends BasePresenter<View> {

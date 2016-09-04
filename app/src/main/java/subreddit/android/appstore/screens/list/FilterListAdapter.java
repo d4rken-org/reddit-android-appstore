@@ -23,6 +23,7 @@ import subreddit.android.appstore.util.ui.BaseViewHolder;
 public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder> {
     final List<AppInfo.Tag> data = Arrays.asList(AppInfo.Tag.values());
     final SparseBooleanArray selectedItems = new SparseBooleanArray(AppInfo.Tag.values().length);
+    private int[] tagCArray = new int[9];
 
     interface FilterListener {
         void onNewFilterTags(Collection<AppInfo.Tag> tags);
@@ -45,6 +46,10 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
         });
     }
 
+    public void updateTagCount(int[] tagCount) {
+        this.tagCArray = tagCount;
+    }
+
     @Override
     public FilterListAdapter.ViewHolder onCreateSDMViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
         View layout = inflater.inflate(R.layout.adapter_tagfilter_line, parent, false);
@@ -53,7 +58,7 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
 
     @Override
     public void onBindSDMViewHolder(FilterListAdapter.ViewHolder holder, int position) {
-        holder.bind(getItem(position), selectedItems.get(position));
+        holder.bind(getItem(position), selectedItems.get(position), tagCArray[position]);
     }
 
     public AppInfo.Tag getItem(int position) {
@@ -75,10 +80,9 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(AppInfo.Tag item, boolean checked) {
+        public void bind(AppInfo.Tag item, boolean checked, int tagNumber) {
             tagName.setText(item.name());
-            // TODO get tag counts
-            tagCount.setText(getQuantityString(R.plurals.x_items, 0, "?"));
+            tagCount.setText(getQuantityString(R.plurals.x_items, tagNumber, tagNumber));
             checkBox.setChecked(checked);
         }
     }
