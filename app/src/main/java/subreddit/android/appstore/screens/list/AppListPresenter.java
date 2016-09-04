@@ -72,7 +72,7 @@ public class AppListPresenter implements AppListContract.Presenter {
     }
 
     private int[] countTags(ArrayList<AppInfo> appInfos) {
-        int[] tagCount = new int[9];
+        int[] tagCount = new int[AppInfo.Tag.values().length];
         List<AppInfo.Tag> data = Arrays.asList(AppInfo.Tag.values());
         for (AppInfo info : appInfos) {
             for (AppInfo.Tag tag : info.getTags()) {

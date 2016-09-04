@@ -23,7 +23,7 @@ import subreddit.android.appstore.util.ui.BaseViewHolder;
 public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder> {
     final List<AppInfo.Tag> data = Arrays.asList(AppInfo.Tag.values());
     final SparseBooleanArray selectedItems = new SparseBooleanArray(AppInfo.Tag.values().length);
-    private int[] tagCArray = new int[9];
+    private int[] tagCArray = new int[AppInfo.Tag.values().length];
 
     interface FilterListener {
         void onNewFilterTags(Collection<AppInfo.Tag> tags);
