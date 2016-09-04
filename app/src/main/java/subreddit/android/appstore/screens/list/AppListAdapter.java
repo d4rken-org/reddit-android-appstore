@@ -54,7 +54,6 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
         this.data.clear();
         this.originalData.clear();
         if (data != null) {
-            Collections.sort(data);
             this.data.addAll(data);
             this.originalData.addAll(data);
         }

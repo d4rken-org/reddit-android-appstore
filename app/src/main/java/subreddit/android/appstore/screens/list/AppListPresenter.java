@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import rx.Observer;
 import rx.Subscription;
@@ -42,8 +43,9 @@ public class AppListPresenter implements AppListContract.Presenter {
                 .subscribe(new Action1<Collection<AppInfo>>() {
                     @Override
                     public void call(Collection<AppInfo> appInfos) {
-                        // TODO sorting
-                        AppListPresenter.this.view.showAppList(new ArrayList<>(appInfos));
+                        ArrayList<AppInfo> data = new ArrayList<AppInfo>(appInfos);
+                        Collections.sort(data);
+                        AppListPresenter.this.view.showAppList(data);
                     }
                 });
         if (appInfoSubject.size() == 0) refreshData();
