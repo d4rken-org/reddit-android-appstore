@@ -97,7 +97,15 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
                 // TODO implement download link
                 return true;
             case R.id.menu_contact:
-                // TODO implement contact link
+                Intent i = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+            "mailto","darken@darken.eu", null));
+                i.putExtra(Intent.EXTRA_EMAIL, new String[]{"darken@darken.eu"});
+                i.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.app_name));
+                try {
+                        startActivity(Intent.createChooser(i, "Send email..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                        Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
