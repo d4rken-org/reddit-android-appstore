@@ -13,8 +13,8 @@ import subreddit.android.appstore.R;
 
 public class AboutActivity extends AppCompatActivity {
 
-    private static final String REDDIT_URL="https://www.reddit.com";
-    private static final String BUG_URL="https://github.com/d4rken/reddit-android-appstore/issues";
+    protected static final String REDDIT_URL="https://www.reddit.com";
+    protected static final String BUG_URL="https://github.com/d4rken/reddit-android-appstore/issues";
 
     NavigationView app_nav, contributor_nav;
 
