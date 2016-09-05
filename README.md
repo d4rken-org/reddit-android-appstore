@@ -1,24 +1,38 @@
 # /r/Android App Store
-Inspired by https://www.reddit.com/r/Android/comments/50rafp/meta_we_have_an_app_wiki_with_over_700_apps_made/
-Pulls the curated app list from the /r/Android wiki and displays.
+[![Project License](https://img.shields.io/badge/license-Apache--2.0-blue.svg?style=flat-square)](LICENSE)
 
-## Questions?
-[Make an issue ticket.](https://github.com/d4rken/reddit-android-appstore/issues/new)
+App inspired by [this reddit post](https://redd.it/50rafp)
 
-## Contribute
-* Make sure there is an issue ticket (create one if necessary) for what you are working on
+Simply pulls the curated app list from the [/r/Android wiki](https://www.reddit.com/r/android/wiki/apps) and displays.
+
+## How to Contribute
+* Make sure there is an issue for what you are working on __(create one if necessary)__
 * Write into that issue ticket that you are working on it
 * Follow current coding style
 * If you can, write a unit test for your code change
-* Send in a pullrequest and mention your ticket
-* Wait for it to be merged
+* Send in a pull request and reference your ticket
+
+## Questions?
+[Create an issue](https://github.com/d4rken/reddit-android-appstore/issues/new)
 
 ## Screenshots
-From commit https://github.com/d4rken/reddit-android-appstore/commit/36e4daaa4a1f9969917c3fc3833213d68c684bf4
+From commit [36e4daa](https://github.com/d4rken/reddit-android-appstore/commit/36e4daaa4a1f9969917c3fc3833213d68c684bf4)
 
-![](https://cloud.githubusercontent.com/assets/1439229/18225086/13215eaa-71eb-11e6-9a6e-38f25369de86.png)
-
-![](https://cloud.githubusercontent.com/assets/1439229/18225359/b3ba484a-71f0-11e6-8f3e-6cc0a9485610.png)
+![](art/preview.png)
 
 ## License
-[Apache 2.0](https://github.com/d4rken/reddit-android-appstore/blob/master/LICENSE)
+```
+Copyright 2016 Matthias Urhahn
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
