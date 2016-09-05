@@ -19,5 +19,6 @@ public class AppDetailsActivity extends BaseActivity {
                     .add(R.id.contentFrame, fragment)
                     .commit();
         }
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
 }

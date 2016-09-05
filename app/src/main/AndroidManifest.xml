@@ -22,7 +22,8 @@
         </activity>
         <activity
             android:name=".screens.details.AppDetailsActivity"
-            android:label="@string/screen_details" />
+            android:label="@string/screen_details"
+            android:parentActivityName=".screens.list.AppListActivity" />
         <activity android:name=".screens.details.AboutActivity"
             android:parentActivityName=".screens.list.AppListActivity"/>
     </application>

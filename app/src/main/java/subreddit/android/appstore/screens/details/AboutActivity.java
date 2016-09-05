@@ -4,14 +4,14 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.NavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import subreddit.android.appstore.BuildConfig;
 import subreddit.android.appstore.R;
+import subreddit.android.appstore.util.ui.BaseActivity;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends BaseActivity {
 
     protected static final String REDDIT_URL="https://www.reddit.com";
     protected static final String BUG_URL="https://github.com/d4rken/reddit-android-appstore/issues";

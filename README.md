@@ -22,7 +22,7 @@ From commit [36e4daa](https://github.com/d4rken/reddit-android-appstore/commit/3
 
 ## License
 ```
-Copyright 2016 Matthias Urhahn
+Copyright 2016 Matthias Urhahn and Garret Yoder
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
