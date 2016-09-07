@@ -12,6 +12,7 @@
     <string name="licenses">Licenses</string>
     <string name="version">Version</string>
     <string name="bugreport">Report bug</string>
+    <string name="settings">Settings</string>
     <plurals name="x_items">
         <item quantity="one">%s item</item>
         <item quantity="other">%s items</item>

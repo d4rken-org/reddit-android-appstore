@@ -5,18 +5,23 @@ import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.NavigationView;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import subreddit.android.appstore.BuildConfig;
 import subreddit.android.appstore.R;
 import subreddit.android.appstore.util.ui.BaseActivity;
 
-public class AboutActivity extends BaseActivity {
+public class AboutActivity extends BaseActivity implements View.OnClickListener {
+    @BindView(R.id.app_nav) NavigationView app_nav;
+    @BindView(R.id.contributor_nav) NavigationView contributor_nav;
+    @BindView(R.id.about_toolbar) Toolbar mToolbar;
 
     protected static final String REDDIT_URL="https://www.reddit.com";
     protected static final String BUG_URL="https://github.com/d4rken/reddit-android-appstore/issues";
-
-    NavigationView app_nav, contributor_nav;
 
     NavigationView.OnNavigationItemSelectedListener aboutListener = new NavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -47,15 +52,21 @@ public class AboutActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        ButterKnife.bind(this);
 
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
+        mToolbar.setNavigationOnClickListener(this);
 
-        app_nav = (NavigationView) findViewById(R.id.app_nav);
         app_nav.getMenu().findItem(0).setTitle(getResources().getString(R.string.version) + " " + BuildConfig.VERSION_NAME);
         app_nav.setNavigationItemSelectedListener(aboutListener);
 
-        contributor_nav = (NavigationView) findViewById(R.id.contributor_nav);
         contributor_nav.setNavigationItemSelectedListener(contributorListener);
+    }
+
+    @Override
+    public void onClick(View view) {
+        finish();
     }
 
     private void openInChrome(String url) {
