@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.futuremind.recyclerviewfastscroll.FastScroller;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -45,6 +47,7 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     @BindView(R.id.loading_container) View loadingContainer;
     @BindView(R.id.drawerlayout) DrawerLayout drawerLayout;
     @BindView(R.id.list_tagfilter) RecyclerView filterList;
+    @BindView(R.id.appinfos_fastscroll) FastScroller fastscroller;
 
     @Inject
     PresenterFactory<AppListContract.Presenter> presenterFactory;
@@ -82,6 +85,8 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
         appListAdapter = new AppListAdapter();
         appListAdapter.setItemClickListener(this);
         appList.setAdapter(appListAdapter);
+
+        fastscroller.setRecyclerView(appList);
 
         filterList.setLayoutManager(new LinearLayoutManager(getContext()));
         filterList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));

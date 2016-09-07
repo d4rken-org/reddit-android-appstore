@@ -22,7 +22,7 @@
                 android:layout_gravity="center"/>
         </FrameLayout>
 
-        <FrameLayout
+        <RelativeLayout
             android:id="@+id/applist_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -32,9 +32,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
-        </FrameLayout>
-    </LinearLayout>
+            <com.futuremind.recyclerviewfastscroll.FastScroller
+                android:id="@+id/appinfos_fastscroll"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"/>
 
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="180dp"

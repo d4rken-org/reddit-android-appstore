@@ -8,6 +8,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 import com.wefika.flowlayout.FlowLayout;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import subreddit.android.appstore.util.ui.BaseAdapter;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
 
 
-public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> implements Filterable {
+public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> implements Filterable, SectionTitleProvider {
     private AppInfoFilter filter;
     final List<AppInfo> data = new ArrayList<>();
     final List<AppInfo> originalData = new ArrayList<>();
@@ -43,6 +44,11 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
 
     public AppInfo getItem(int position) {
         return data.get(position);
+    }
+
+    @Override
+    public String getSectionTitle(int position) {
+        return data.get(position).getAppName().substring(0,1);
     }
 
     @Override
