@@ -33,6 +33,26 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
         setItemClickListener(new BaseViewHolder.ClickListener() {
             @Override
             public boolean onItemClick(View view, int position, long itemId) {
+                //If selected tag is FREE, make sure paid is removed from selectedItems before it is added
+                if (data.get(position) == AppInfo.Tag.FREE) {
+                    //Find 'PAID' in selectedItems and remove it
+                    for (int i = 0; i < selectedItems.size(); i++) {
+                        int key = selectedItems.keyAt(i);
+                        if (data.get(key) == AppInfo.Tag.PAID) {
+                            selectedItems.delete(key);
+                            notifyDataSetChanged();
+                        }
+                    }
+                } else if (data.get(position) == AppInfo.Tag.PAID) {
+                    //Find 'FREE' in selectedItems and remove it
+                    for (int i = 0; i < selectedItems.size(); i++) {
+                        int key = selectedItems.keyAt(i);
+                        if (data.get(key) == AppInfo.Tag.FREE) {
+                            selectedItems.delete(key);
+                            notifyDataSetChanged();
+                        }
+                    }
+                }
                 selectedItems.put(position, !selectedItems.get(position));
                 notifyItemChanged(position);
                 Collection<AppInfo.Tag> activeTags = new ArrayList<>();
