@@ -33,13 +33,9 @@
         android:background="?android:colorBackground"
         android:clickable="true">
 
-        <android.support.design.widget.NavigationView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/content_nav"/>
+        <!-- TODO: MODE FILTER LIST HERE WITH CATEGORIES -->
 
         <android.support.design.widget.NavigationView
-            android:layout_above="@id/content_nav"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

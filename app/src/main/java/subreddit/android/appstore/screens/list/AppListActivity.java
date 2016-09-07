@@ -22,7 +22,6 @@ public class AppListActivity extends BaseActivity implements View.OnClickListene
     @BindView(R.id.main_drawer) DrawerLayout mDrawer;
     @BindView(R.id.applist_toolbar) Toolbar mToolbar;
     @BindView(R.id.footer_nav) NavigationView nav_footer;
-    @BindView(R.id.content_nav) NavigationView content_nav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
