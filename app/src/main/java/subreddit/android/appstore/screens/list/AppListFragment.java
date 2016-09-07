@@ -87,6 +87,7 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
         appList.setAdapter(appListAdapter);
 
         fastscroller.setRecyclerView(appList);
+        fastscroller.setBubbleColor(getResources().getColor(R.color.colorAccent));
 
         filterList.setLayoutManager(new LinearLayoutManager(getContext()));
         filterList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
