@@ -13,6 +13,12 @@
     <string name="version">Version</string>
     <string name="bugreport">Report bug</string>
     <string name="settings">Settings</string>
+    <string name="more">More</string>
+    <string name="appearance">Appearance</string>
+    <string name="preference_night">Night mode</string>
+    <string name="preference_night_desc">Use a dark theme</string>
+    <string name="restart">A restart is required to toggle night mode</string>
+    <string name="later">Later</string>
     <plurals name="x_items">
         <item quantity="one">%s item</item>
         <item quantity="other">%s items</item>

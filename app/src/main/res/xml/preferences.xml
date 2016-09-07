@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/appearance" >
+        <SwitchPreference
+            android:title="@string/preference_night"
+            android:contentDescription="@string/preference_night_desc"
+            android:key="night_mode" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/more" >
+        <Preference android:title="@string/button_about"
+            android:key="about"/>
+    </PreferenceCategory>
+</PreferenceScreen>

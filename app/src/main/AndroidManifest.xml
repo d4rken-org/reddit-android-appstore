@@ -24,8 +24,13 @@
             android:name=".screens.details.AppDetailsActivity"
             android:label="@string/screen_details"
             android:parentActivityName=".screens.list.AppListActivity" />
-        <activity android:name=".screens.details.AboutActivity"
-            android:parentActivityName=".screens.list.AppListActivity"/>
+        <activity
+            android:name=".screens.details.AboutActivity"
+            android:label="@string/button_about"
+            android:parentActivityName=".screens.list.AppListActivity" />
+        <activity android:name=".screens.details.SettingsActivity"
+            android:label="@string/settings"
+            android:parentActivityName=".screens.list.AppListActivity" />
     </application>
 
 </manifest>
