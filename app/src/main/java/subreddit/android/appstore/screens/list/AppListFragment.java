@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -40,14 +41,13 @@ import subreddit.android.appstore.util.ui.DividerItemDecoration;
 
 
 public class AppListFragment extends BasePresenterFragment<AppListContract.Presenter, AppListContract.View>
-        implements AppListContract.View, BaseViewHolder.ClickListener, FilterListAdapter.FilterListener {
+        implements AppListContract.View, BaseViewHolder.ClickListener, FilterListAdapter.FilterListener, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.list_appinfos) RecyclerView appList;
-    @BindView(R.id.applist_container) View applistContainer;
-    @BindView(R.id.loading_container) View loadingContainer;
     @BindView(R.id.drawerlayout) DrawerLayout drawerLayout;
     @BindView(R.id.list_tagfilter) RecyclerView filterList;
     @BindView(R.id.appinfos_fastscroll) FastScroller fastscroller;
+    @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
 
     @Inject
     PresenterFactory<AppListContract.Presenter> presenterFactory;
@@ -79,6 +79,11 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     }
 
     @Override
+    public void onRefresh() {
+        getPresenter().refreshData();
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         appList.setLayoutManager(new LinearLayoutManager(getContext()));
         appList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
@@ -88,6 +93,9 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
 
         fastscroller.setRecyclerView(appList);
         fastscroller.setBubbleColor(getResources().getColor(R.color.colorAccent));
+
+        swipeRefresh.setOnRefreshListener(this);
+        swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
 
         filterList.setLayoutManager(new LinearLayoutManager(getContext()));
         filterList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
@@ -123,15 +131,13 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     public void showAppList(List<AppInfo> appInfos) {
         appListAdapter.setData(appInfos);
         appListAdapter.notifyDataSetChanged();
-        applistContainer.setVisibility(View.VISIBLE);
-        loadingContainer.setVisibility(View.GONE);
+        swipeRefresh.setRefreshing(false);
         setHasOptionsMenu(true);
     }
 
     @Override
     public void showLoadingScreen() {
-        applistContainer.setVisibility(View.GONE);
-        loadingContainer.setVisibility(View.VISIBLE);
+        swipeRefresh.setRefreshing(true);
         setHasOptionsMenu(false);
     }
 
@@ -162,16 +168,10 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_force_refresh:
-                getPresenter().refreshData();
-                return true;
             case R.id.menu_search:
                 return true;
             case R.id.menu_filter:
                 toggleTagFilterDrawer();
-                return true;
-            case R.id.menu_about:
-                startActivity(new Intent(getActivity(), AboutActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -12,16 +12,6 @@
         android:id="@+id/menu_filter"
         android:icon="@drawable/ic_filter_list_white_24dp"
         android:title="@string/button_filter"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_force_refresh"
-        android:icon="@drawable/ic_refresh_white_24dp"
-        android:title="@string/button_refresh"/>
-
-    <item
-        android:id="@+id/menu_about"
-        android:icon="@drawable/ic_info_white_24dp"
-        android:title="@string/button_about"
-        app:showAsAction="never"/>
+        app:showAsAction="always"/>
 
 </menu>
