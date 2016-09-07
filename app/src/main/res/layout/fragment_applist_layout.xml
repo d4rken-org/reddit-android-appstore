@@ -40,7 +40,7 @@
         android:layout_width="180dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:background="@android:color/background_light">
+        android:background="?android:colorBackground">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_tagfilter"

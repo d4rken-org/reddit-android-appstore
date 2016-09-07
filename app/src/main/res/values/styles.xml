@@ -8,6 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.Dark" parent="Theme.AppCompat">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
     <style name="DefaultListItemContainer">
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">?attr/selectableItemBackground</item>
@@ -34,3 +41,4 @@
     </style>
 
 </resources>
+
