@@ -58,6 +58,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             switch (preference.getKey()) {
                 case "about": {
                     startActivity(new Intent(getActivity(), AboutActivity.class));
+                    break;
                 }
                 case "night_mode": {
                     new AlertDialog.Builder(getActivity())
@@ -72,6 +73,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                             .show();
                 }
             }
+
             return true;
         }
     }
