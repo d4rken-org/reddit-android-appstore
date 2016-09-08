@@ -1,33 +1,35 @@
 package subreddit.android.appstore.screens.details;
 
 import android.app.Activity;
-import android.content.Intent;
 
 import dagger.Module;
 import dagger.Provides;
-import subreddit.android.appstore.util.dagger.ActivityScope;
+import subreddit.android.appstore.backend.data.AppInfo;
+import subreddit.android.appstore.util.dagger.FragmentScope;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
 
 
 @Module
 public class AppDetailsModule {
-    private final Activity activity;
+    private final AppInfo appInfo;
 
-    public AppDetailsModule(Activity activity) {this.activity = activity;}
-
-    @Provides
-    @ActivityScope
-    public Intent provideIntent() {
-        return activity.getIntent();
+    public AppDetailsModule(Activity activity) {
+        appInfo = AppInfo.fromJson(activity.getIntent().getStringExtra(AppDetailsActivity.ARG_KEY));
     }
 
     @Provides
-    @ActivityScope
-    public PresenterFactory<AppDetailsContract.Presenter> providePresenterFactory(final Intent activityIntent) {
+    @FragmentScope
+    public AppInfo provideAppInfo() {
+        return appInfo;
+    }
+
+    @Provides
+    @FragmentScope
+    public PresenterFactory<AppDetailsContract.Presenter> providePresenterFactory(final AppInfo appInfo) {
         return new PresenterFactory<AppDetailsContract.Presenter>() {
             @Override
             public AppDetailsContract.Presenter create() {
-                return new AppDetailsPresenter(activityIntent);
+                return new AppDetailsPresenter(appInfo);
             }
 
             @Override

@@ -11,6 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import subreddit.android.appstore.R;
 import subreddit.android.appstore.screens.list.AppListFragment;
+import subreddit.android.appstore.screens.navigation.CategoryFilter;
 import subreddit.android.appstore.screens.navigation.NavigationFragment;
 import subreddit.android.appstore.util.ui.BaseActivity;
 
@@ -31,7 +32,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         Fragment contentFragment = getSupportFragmentManager().findFragmentById(R.id.contentFrame);
         if (contentFragment == null) {
             // TODO if we need to create a new list fragment we need to restore it with the correct categories
-            contentFragment = AppListFragment.newInstance();
+            contentFragment = AppListFragment.newInstance(new CategoryFilter());
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.contentFrame, contentFragment).commit();
 

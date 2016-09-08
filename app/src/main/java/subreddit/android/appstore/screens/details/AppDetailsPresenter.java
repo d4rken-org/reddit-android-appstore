@@ -1,6 +1,5 @@
 package subreddit.android.appstore.screens.details;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import subreddit.android.appstore.backend.data.AppInfo;
@@ -10,8 +9,8 @@ public class AppDetailsPresenter implements AppDetailsContract.Presenter {
     private AppDetailsContract.View view;
     private AppInfo appInfoItem;
 
-    public AppDetailsPresenter(Intent activityIntent) {
-        appInfoItem = AppInfo.fromJson(activityIntent.getStringExtra(AppDetailsActivity.ARG_KEY));
+    public AppDetailsPresenter(AppInfo appInfoItem) {
+        this.appInfoItem = appInfoItem;
     }
 
     @Override

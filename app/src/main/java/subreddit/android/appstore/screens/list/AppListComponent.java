@@ -2,10 +2,10 @@ package subreddit.android.appstore.screens.list;
 
 import dagger.Component;
 import subreddit.android.appstore.AppComponent;
-import subreddit.android.appstore.util.dagger.ActivityScope;
+import subreddit.android.appstore.util.dagger.FragmentScope;
 
 
-@ActivityScope
+@FragmentScope
 @Component(modules = AppListModule.class, dependencies = AppComponent.class)
 public interface AppListComponent {
     void inject(AppListFragment fragment);

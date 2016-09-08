@@ -15,18 +15,21 @@ import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.WikiRepository;
 import subreddit.android.appstore.backend.data.AppInfo;
+import subreddit.android.appstore.screens.navigation.CategoryFilter;
 import timber.log.Timber;
 
 
 public class AppListPresenter implements AppListContract.Presenter {
     static final String TAG = AppStoreApp.LOGPREFIX + "AppListPresenter";
     final WikiRepository repository;
-    Disposable listUpdater;
+    private final CategoryFilter categoryFilter;
+    private Disposable listUpdater;
     AppListContract.View view;
-    Disposable filterUpdater;
+    private Disposable filterUpdater;
 
-    public AppListPresenter(WikiRepository repository) {
+    public AppListPresenter(WikiRepository repository, CategoryFilter categoryFilter) {
         this.repository = repository;
+        this.categoryFilter = categoryFilter;
     }
 
     @Override
@@ -43,6 +46,7 @@ public class AppListPresenter implements AppListContract.Presenter {
                 .map(new Function<Collection<AppInfo>, List<AppInfo>>() {
                     @Override
                     public List<AppInfo> apply(Collection<AppInfo> appInfos) throws Exception {
+                        // TODO use categoryFilter
                         ArrayList<AppInfo> data = new ArrayList<>(appInfos);
                         Collections.sort(data);
                         return data;

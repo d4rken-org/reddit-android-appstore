@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -35,6 +36,7 @@ import subreddit.android.appstore.R;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.screens.details.AppDetailsActivity;
+import subreddit.android.appstore.screens.navigation.CategoryFilter;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
@@ -43,7 +45,7 @@ import subreddit.android.appstore.util.ui.DividerItemDecoration;
 
 public class AppListFragment extends BasePresenterFragment<AppListContract.Presenter, AppListContract.View>
         implements AppListContract.View, BaseViewHolder.ClickListener, FilterListAdapter.FilterListener, SwipeRefreshLayout.OnRefreshListener {
-
+    static final String ARG_KEY_CATEGORYFILTER = "categoryFilter";
     @BindView(R.id.list_appinfos) RecyclerView appList;
     @BindView(R.id.drawerlayout) DrawerLayout drawerLayout;
     @BindView(R.id.list_tagfilter) RecyclerView filterList;
@@ -58,17 +60,22 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     AppListAdapter appListAdapter;
     FilterListAdapter filterListAdapter;
 
-    public static AppListFragment newInstance() {
-        return new AppListFragment();
+    public static Fragment newInstance(@NonNull CategoryFilter categoryFilter) {
+        AppListFragment fragment = new AppListFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ARG_KEY_CATEGORYFILTER, categoryFilter);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         DaggerAppListComponent.builder()
                 .appComponent(AppStoreApp.Injector.INSTANCE.getAppComponent())
+                .appListModule(new AppListModule(getArguments()))
                 .build().inject(this);
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
