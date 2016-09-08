@@ -1,4 +1,4 @@
-package subreddit.android.appstore.screens.details;
+package subreddit.android.appstore.screens.settings;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import subreddit.android.appstore.util.ui.BaseActivity;
 
 public class SettingsActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.settings_toolbar) Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +57,12 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         public boolean onPreferenceClick(Preference preference) {
             switch (preference.getKey()) {
                 case "about": {
-                    startActivity(new Intent(getActivity(),AboutActivity.class));
+                    startActivity(new Intent(getActivity(), AboutActivity.class));
                 }
                 case "night_mode": {
                     new AlertDialog.Builder(getActivity())
                             .setMessage(R.string.restart)
-                            .setNegativeButton(R.string.later,null)
+                            .setNegativeButton(R.string.later, null)
                             .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {

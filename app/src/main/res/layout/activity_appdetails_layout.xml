@@ -16,6 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/contentFrame"
-        tools:context=".screens.list.AppListActivity"/>
+        tools:context=".screens.MainActivity"/>
 
 </LinearLayout>

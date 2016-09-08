@@ -3,33 +3,30 @@ package subreddit.android.appstore.screens.list;
 import android.os.Bundle;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import rx.Observer;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
-import rx.subjects.ReplaySubject;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.AppStoreApp;
-import subreddit.android.appstore.backend.AppInfo;
 import subreddit.android.appstore.backend.WikiRepository;
+import subreddit.android.appstore.backend.data.AppInfo;
 import timber.log.Timber;
 
 
 public class AppListPresenter implements AppListContract.Presenter {
     static final String TAG = AppStoreApp.LOGPREFIX + "AppListPresenter";
     final WikiRepository repository;
-    final ReplaySubject<Collection<AppInfo>> appInfoSubject;
-    Subscription viewSubscription;
+    Disposable listUpdater;
     AppListContract.View view;
+    Disposable filterUpdater;
 
     public AppListPresenter(WikiRepository repository) {
         this.repository = repository;
-        appInfoSubject = ReplaySubject.createWithSize(1);
     }
 
     @Override
@@ -40,24 +37,47 @@ public class AppListPresenter implements AppListContract.Presenter {
     @Override
     public void onAttachView(AppListContract.View view) {
         this.view = view;
-        viewSubscription = appInfoSubject
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Collection<AppInfo>>() {
+        view.showLoadingScreen();
+        listUpdater = repository.getAppList()
+                .observeOn(Schedulers.computation())
+                .map(new Function<Collection<AppInfo>, List<AppInfo>>() {
                     @Override
-                    public void call(Collection<AppInfo> appInfos) {
-                        ArrayList<AppInfo> data = new ArrayList<AppInfo>(appInfos);
+                    public List<AppInfo> apply(Collection<AppInfo> appInfos) throws Exception {
+                        ArrayList<AppInfo> data = new ArrayList<>(appInfos);
                         Collections.sort(data);
-                        AppListPresenter.this.view.updateTagCount(countTags(data));
-                        AppListPresenter.this.view.showAppList(data);
+                        return data;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<AppInfo>>() {
+                    @Override
+                    public void accept(List<AppInfo> appInfos) throws Exception {
+                        Timber.tag(TAG).d("showAppList(%s items)", appInfos.size());
+                        AppListPresenter.this.view.showAppList(appInfos);
                     }
                 });
-        if (appInfoSubject.size() == 0) refreshData();
+        filterUpdater = repository.getAppList()
+                .observeOn(Schedulers.computation())
+                .map(new Function<Collection<AppInfo>, TagMap>() {
+                    @Override
+                    public TagMap apply(Collection<AppInfo> appInfos) throws Exception {
+                        return new TagMap(appInfos);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<TagMap>() {
+                    @Override
+                    public void accept(TagMap tagMap) throws Exception {
+                        Timber.tag(TAG).d("updateTagCount(%s)", tagMap);
+                        AppListPresenter.this.view.updateTagCount(tagMap);
+                    }
+                });
     }
 
     @Override
     public void onDetachView() {
-        viewSubscription.unsubscribe();
-        viewSubscription = null;
+        listUpdater.dispose();
+        filterUpdater.dispose();
         view = null;
     }
 
@@ -71,38 +91,10 @@ public class AppListPresenter implements AppListContract.Presenter {
 
     }
 
-    private int[] countTags(ArrayList<AppInfo> appInfos) {
-        int[] tagCount = new int[AppInfo.Tag.values().length];
-        List<AppInfo.Tag> data = Arrays.asList(AppInfo.Tag.values());
-        for (AppInfo info : appInfos) {
-            for (AppInfo.Tag tag : info.getTags()) {
-                tagCount[data.indexOf(tag)]++;
-            }
-        }
-        return tagCount;
-    }
 
     @Override
     public void refreshData() {
         view.showLoadingScreen();
-        repository.getAppList()
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<Collection<AppInfo>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        // TODO error handling
-                        Timber.tag(TAG).e(e, null);
-                    }
-
-                    @Override
-                    public void onNext(Collection<AppInfo> appInfos) {
-                        appInfoSubject.onNext(appInfos);
-                    }
-                });
+        repository.refresh();
     }
 }

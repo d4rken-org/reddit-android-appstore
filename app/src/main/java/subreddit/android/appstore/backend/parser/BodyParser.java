@@ -1,28 +1,38 @@
-package subreddit.android.appstore.backend;
+package subreddit.android.appstore.backend.parser;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import okhttp3.ResponseBody;
 import subreddit.android.appstore.AppStoreApp;
-import timber.log.Timber;
+import subreddit.android.appstore.backend.data.AppInfo;
 
 public class BodyParser {
-    static final String TAG = AppStoreApp.LOGPREFIX + "BodyParser";
-    static final Pattern PRIMARY_CATEGORY_PATTERN = Pattern.compile("^(?:#(?!#+)\\s?)(.+?)$");
+    private static final String TAG = AppStoreApp.LOGPREFIX + "BodyParser";
+    private static final Pattern PRIMARY_CATEGORY_PATTERN = Pattern.compile("^(?:#(?!#+)\\s?)(.+?)$");
+    private final List<AppParser> appParsers = new ArrayList<>();
 
-    Collection<AppInfo> parseBody(ResponseBody responseBody) throws IOException {
+    public BodyParser() {
+        appParsers.add(new CategoryParser());
+        appParsers.add(new NameColumnParser());
+        appParsers.add(new PriceColumnParser());
+        appParsers.add(new DeviceColumnParser());
+        appParsers.add(new DescriptionColumnParser());
+        appParsers.add(new ContactColumnParser());
+    }
+
+    public Collection<AppInfo> parseBody(ResponseBody responseBody) throws IOException {
         return parseBody(responseBody.string());
     }
 
-    Collection<AppInfo> parseBody(String bodyString) {
+    public Collection<AppInfo> parseBody(String bodyString) {
         Collection<AppInfo> parsedOutput = new ArrayList<>();
         int start = bodyString.indexOf("<textarea readonly class=\"source\"");
         int stop = bodyString.lastIndexOf("</textarea>");
@@ -52,7 +62,14 @@ public class BodyParser {
                 }
             }
         }
-
+        if (lastPrimaryBlock != -1) {
+            // End of output, is obviously also the end of the last block
+            Collection<AppInfo> parsedBlock = parsePrimaryBlock(
+                    lastPrimaryCategory,
+                    lines.subList(lastPrimaryBlock, lines.size())
+            );
+            parsedOutput.addAll(parsedBlock);
+        }
         return parsedOutput;
     }
 
@@ -113,64 +130,21 @@ public class BodyParser {
             String line = secondaryBlock.get(i);
             String[] split = line.split("\\|");
             if (split.length != 5) continue;
+
             AppInfo app = new AppInfo();
-            parseNameField(app, split[0].trim());
-            parsePriceField(app, split[1].trim());
-            parseFormatField(app, split[2].trim());
-            parseDescriptionField(app, split[3].trim());
-            parseContactField(app, split[4].trim());
+            Map<AppParser.Column, String> columnMap = new HashMap<>();
+            columnMap.put(AppParser.Column.PRIMARY_CATEGORY, primaryCategory);
+            columnMap.put(AppParser.Column.SECONDARY_CATEGORY, secondaryCategory);
+            columnMap.put(AppParser.Column.NAME, split[0].trim());
+            columnMap.put(AppParser.Column.PRICE, split[1].trim());
+            columnMap.put(AppParser.Column.DEVICE, split[2].trim());
+            columnMap.put(AppParser.Column.DESCRIPTION, split[3].trim());
+            columnMap.put(AppParser.Column.CONTACT, split[4].trim());
 
-            if (primaryCategory.equals("Apps")) app.getTags().add(AppInfo.Tag.APP);
-            else if (primaryCategory.equals("Games")) app.getTags().add(AppInfo.Tag.GAME);
-
-            // TODO turn secondaryCategory into tags
-
+            for (AppParser parser : appParsers) parser.parse(app, columnMap);
             appInfos.add(app);
         }
         return appInfos;
     }
 
-    static final Pattern NAME_PATTERN = Pattern.compile("^(?:\\[(.+)\\]\\((.+)\\))$");
-
-    void parseNameField(AppInfo appInfo, String rawNameString) {
-        Matcher matcher = NAME_PATTERN.matcher(rawNameString);
-        if (matcher.matches()) {
-            appInfo.appName = matcher.group(1);
-            try {
-                appInfo.targetLink = new URL(matcher.group(2));
-            } catch (MalformedURLException e) {
-                Timber.tag(TAG).e(e, "Can't parse target link: %s", rawNameString);
-            }
-        } else {
-            appInfo.appName = rawNameString;
-            Timber.tag(TAG).w("parseNameField(%s) failed", rawNameString);
-        }
-    }
-
-    void parsePriceField(AppInfo appInfo, String rawPriceString) {
-        // TODO
-        if (rawPriceString.toLowerCase().contains("free")) appInfo.getTags().add(AppInfo.Tag.FREE);
-        if (rawPriceString.toLowerCase().contains("paid")) appInfo.getTags().add(AppInfo.Tag.PAID);
-        if (rawPriceString.toLowerCase().contains("iap")) appInfo.getTags().add(AppInfo.Tag.IAP);
-    }
-
-    void parseFormatField(AppInfo appInfo, String rawFormatString) {
-        // TODO
-        if (rawFormatString.toLowerCase().contains("wear")) appInfo.getTags().add(AppInfo.Tag.WEAR);
-        if (rawFormatString.toLowerCase().contains("phone")) appInfo.getTags().add(AppInfo.Tag.PHONE);
-        if (rawFormatString.toLowerCase().contains("tablet")) appInfo.getTags().add(AppInfo.Tag.TABLET);
-        if (rawFormatString.toLowerCase().contains("both")) {
-            appInfo.getTags().add(AppInfo.Tag.PHONE);
-            appInfo.getTags().add(AppInfo.Tag.TABLET);
-        }
-    }
-
-    void parseDescriptionField(AppInfo appInfo, String rawDescriptionString) {
-        // TODO
-        appInfo.description = rawDescriptionString;
-    }
-
-    void parseContactField(AppInfo appInfo, String rawContactString) {
-        // TODO
-    }
 }

@@ -1,10 +1,11 @@
-package subreddit.android.appstore.screens.details;
+package subreddit.android.appstore.screens.settings;
 
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.NavigationView;
-import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,8 +21,8 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
     @BindView(R.id.contributor_nav) NavigationView contributor_nav;
     @BindView(R.id.about_toolbar) Toolbar mToolbar;
 
-    protected static final String REDDIT_URL="https://www.reddit.com";
-    protected static final String BUG_URL="https://github.com/d4rken/reddit-android-appstore/issues";
+    protected static final String REDDIT_URL = "https://www.reddit.com";
+    protected static final String BUG_URL = "https://github.com/d4rken/reddit-android-appstore/issues";
 
     NavigationView.OnNavigationItemSelectedListener aboutListener = new NavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -69,10 +70,10 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
         finish();
     }
 
-    private void openInChrome(String url) {
+    void openInChrome(String url) {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
-        builder.setSecondaryToolbarColor(getResources().getColor(R.color.colorPrimary));
+        builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        builder.setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(this, Uri.parse(url));
     }

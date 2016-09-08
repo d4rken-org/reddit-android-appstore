@@ -15,18 +15,18 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import subreddit.android.appstore.R;
-import subreddit.android.appstore.backend.AppInfo;
+import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.util.ui.BaseAdapter;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
 
 
 public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder> {
-    final List<AppInfo.Tag> data = Arrays.asList(AppInfo.Tag.values());
-    final SparseBooleanArray selectedItems = new SparseBooleanArray(AppInfo.Tag.values().length);
-    private int[] tagCArray = new int[AppInfo.Tag.values().length];
+    final List<AppTags> data = Arrays.asList(AppTags.values());
+    final SparseBooleanArray selectedItems = new SparseBooleanArray(AppTags.values().length);
+    TagMap tagMap = new TagMap();
 
     interface FilterListener {
-        void onNewFilterTags(Collection<AppInfo.Tag> tags);
+        void onNewFilterTags(Collection<AppTags> appTagses);
     }
 
     public FilterListAdapter(final FilterListener filterListener) {
@@ -34,20 +34,20 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
             @Override
             public boolean onItemClick(View view, int position, long itemId) {
                 //If selected tag is FREE, make sure paid is removed from selectedItems before it is added
-                if (data.get(position) == AppInfo.Tag.FREE) {
+                if (data.get(position) == AppTags.FREE) {
                     //Find 'PAID' in selectedItems and remove it
                     for (int i = 0; i < selectedItems.size(); i++) {
                         int key = selectedItems.keyAt(i);
-                        if (data.get(key) == AppInfo.Tag.PAID) {
+                        if (data.get(key) == AppTags.PAID) {
                             selectedItems.delete(key);
                             notifyDataSetChanged();
                         }
                     }
-                } else if (data.get(position) == AppInfo.Tag.PAID) {
+                } else if (data.get(position) == AppTags.PAID) {
                     //Find 'FREE' in selectedItems and remove it
                     for (int i = 0; i < selectedItems.size(); i++) {
                         int key = selectedItems.keyAt(i);
-                        if (data.get(key) == AppInfo.Tag.FREE) {
+                        if (data.get(key) == AppTags.FREE) {
                             selectedItems.delete(key);
                             notifyDataSetChanged();
                         }
@@ -55,19 +55,19 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
                 }
                 selectedItems.put(position, !selectedItems.get(position));
                 notifyItemChanged(position);
-                Collection<AppInfo.Tag> activeTags = new ArrayList<>();
+                Collection<AppTags> activeAppTagses = new ArrayList<>();
                 for (int i = 0; i < selectedItems.size(); i++) {
                     int key = selectedItems.keyAt(i);
-                    if (selectedItems.get(key)) activeTags.add(data.get(key));
+                    if (selectedItems.get(key)) activeAppTagses.add(data.get(key));
                 }
-                filterListener.onNewFilterTags(activeTags);
+                filterListener.onNewFilterTags(activeAppTagses);
                 return false;
             }
         });
     }
 
-    public void updateTagCount(int[] tagCount) {
-        this.tagCArray = tagCount;
+    public void updateTagMap(TagMap tagMap) {
+        this.tagMap = tagMap;
     }
 
     @Override
@@ -78,10 +78,11 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
 
     @Override
     public void onBindSDMViewHolder(FilterListAdapter.ViewHolder holder, int position) {
-        holder.bind(getItem(position), selectedItems.get(position), tagCArray[position]);
+        AppTags tag = getItem(position);
+        holder.bind(tag, selectedItems.get(position), tagMap.getCount(tag));
     }
 
-    public AppInfo.Tag getItem(int position) {
+    public AppTags getItem(int position) {
         return data.get(position);
     }
 
@@ -100,7 +101,7 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(AppInfo.Tag item, boolean checked, int tagNumber) {
+        public void bind(AppTags item, boolean checked, int tagNumber) {
             tagName.setText(item.name());
             tagCount.setText(getQuantityString(R.plurals.x_items, tagNumber, tagNumber));
             checkBox.setChecked(checked);

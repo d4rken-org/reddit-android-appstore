@@ -1,4 +1,4 @@
-package subreddit.android.appstore.backend;
+package subreddit.android.appstore.backend.parser;
 
 
 import org.junit.Test;
@@ -6,9 +6,11 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Collection;
 
+import subreddit.android.appstore.backend.data.AppInfo;
+
 import static junit.framework.Assert.assertFalse;
 
-public class WikiRepositoryTest {
+public class BodyParserTest {
 
     @Test
     public void testBodyParser() throws IOException {

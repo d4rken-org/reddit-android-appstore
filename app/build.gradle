@@ -92,6 +92,7 @@ tasks.withType(Test) {
 ext {
     supportLibVersion = '24.2.0'
 }
+//noinspection GroovyAssignabilityCheck
 configurations.all {
     //noinspection GroovyAssignabilityCheck
     resolutionStrategy.force "com.android.support:recyclerview-v7:${supportLibVersion}"
@@ -116,8 +117,11 @@ dependencies {
     compile 'com.wefika:flowlayout:0.4.0'
 
     // RX
-    compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'io.reactivex:rxjava:1.1.9'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.0-RC1'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.0-RC2'
+
+    // Gson
+    compile 'com.google.code.gson:gson:2.7'
 
     //Dagger
     apt 'com.google.dagger:dagger-compiler:2.2'

@@ -13,7 +13,6 @@ import com.wefika.flowlayout.FlowLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -21,7 +20,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import subreddit.android.appstore.R;
-import subreddit.android.appstore.backend.AppInfo;
+import subreddit.android.appstore.backend.data.AppInfo;
+import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.util.ui.BaseAdapter;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
 
@@ -80,9 +80,9 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
             description.setText(item.getDescription());
 
             tagContainer.removeAllViews();
-            for (AppInfo.Tag tag : item.getTags()) {
+            for (AppTags appTags : item.getTags()) {
                 TextView tv = (TextView) getLayoutInflater().inflate(R.layout.view_tagtemplate, tagContainer, false);
-                tv.setText(tag.name());
+                tv.setText(appTags.name());
                 FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.setMargins(0, 0, 8, 0);
                 tv.setLayoutParams(params);
@@ -99,12 +99,12 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
     }
 
     public class AppInfoFilter extends Filter {
-        private final Collection<AppInfo.Tag> filterTags = new HashSet<>();
+        private final Collection<AppTags> filterAppTagses = new HashSet<>();
         private CharSequence filterString;
 
-        public void setFilterTags(@Nullable Collection<AppInfo.Tag> filterTags) {
-            this.filterTags.clear();
-            if (filterTags != null) this.filterTags.addAll(filterTags);
+        public void setFilterAppTagses(@Nullable Collection<AppTags> filterAppTagses) {
+            this.filterAppTagses.clear();
+            if (filterAppTagses != null) this.filterAppTagses.addAll(filterAppTagses);
         }
 
         @SuppressWarnings("unchecked")
@@ -123,7 +123,7 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
 
                 if (filter.length() > 0 && !appName.contains(filter) && !description.contains(filter)) {
                     apps.remove(i);
-                } else if (!item.getTags().containsAll(filterTags)) {
+                } else if (!item.getTags().containsAll(filterAppTagses)) {
                     apps.remove(i);
                 }
             }

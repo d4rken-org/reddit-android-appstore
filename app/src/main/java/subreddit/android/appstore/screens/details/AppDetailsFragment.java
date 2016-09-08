@@ -20,7 +20,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.R;
-import subreddit.android.appstore.backend.AppInfo;
+import subreddit.android.appstore.backend.data.AppInfo;
+import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
 
@@ -73,15 +74,20 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         appName.setText(appInfo.getAppName());
         description.setText(appInfo.getDescription());
         tagContainer.removeAllViews();
-        for (AppInfo.Tag tag : appInfo.getTags()) {
+        for (AppTags appTags : appInfo.getTags()) {
             TextView tv = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.view_tagtemplate, tagContainer, false);
-            tv.setText(tag.name());
+            tv.setText(appTags.name());
             FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.setMargins(0, 0, 8, 0);
             tv.setLayoutParams(params);
             tagContainer.addView(tv);
         }
         tagContainer.setVisibility(appInfo.getTags().isEmpty() ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    public void closeDetails() {
+        getActivity().finish();
     }
 
     @Override

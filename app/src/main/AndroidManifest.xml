@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".screens.list.AppListActivity">
+        <activity android:name=".screens.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,14 +23,15 @@
         <activity
             android:name=".screens.details.AppDetailsActivity"
             android:label="@string/screen_details"
-            android:parentActivityName=".screens.list.AppListActivity" />
+            android:parentActivityName=".screens.MainActivity"/>
         <activity
-            android:name=".screens.details.AboutActivity"
+            android:name=".screens.settings.AboutActivity"
             android:label="@string/button_about"
-            android:parentActivityName=".screens.list.AppListActivity" />
-        <activity android:name=".screens.details.SettingsActivity"
+            android:parentActivityName=".screens.MainActivity"/>
+        <activity
+            android:name=".screens.settings.SettingsActivity"
             android:label="@string/settings"
-            android:parentActivityName=".screens.list.AppListActivity" />
+            android:parentActivityName=".screens.MainActivity"/>
     </application>
 
 </manifest>

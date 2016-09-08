@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout android:id="@+id/main_drawer"
+                                        xmlns:android="http://schemas.android.com/apk/res/android"
+                                        xmlns:tools="http://schemas.android.com/tools"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        tools:context=".screens.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/applist_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:theme="@style/AppTheme.Dark"/>
+
+        <FrameLayout
+            android:id="@+id/contentFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/navigationFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"/>
+
+
+</android.support.v4.widget.DrawerLayout>

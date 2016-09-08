@@ -1,16 +1,13 @@
-package subreddit.android.appstore.screens.details;
+package subreddit.android.appstore.screens.navigation;
 
-import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.util.mvp.BasePresenter;
 import subreddit.android.appstore.util.mvp.BaseView;
 
 
-public interface AppDetailsContract {
+public interface NavigationContract {
     interface View extends BaseView {
 
-        void onShowDetails(AppInfo appInfo);
-
-        void closeDetails();
+        void showNavigationItems(NavigationData navigationData);
     }
 
     interface Presenter extends BasePresenter<View> {

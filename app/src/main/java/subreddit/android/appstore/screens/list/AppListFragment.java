@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -31,8 +32,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.R;
-import subreddit.android.appstore.backend.AppInfo;
-import subreddit.android.appstore.screens.details.AboutActivity;
+import subreddit.android.appstore.backend.data.AppInfo;
+import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.screens.details.AppDetailsActivity;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
@@ -92,10 +93,10 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
         appList.setAdapter(appListAdapter);
 
         fastscroller.setRecyclerView(appList);
-        fastscroller.setBubbleColor(getResources().getColor(R.color.colorAccent));
+        fastscroller.setBubbleColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
 
         swipeRefresh.setOnRefreshListener(this);
-        swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        swipeRefresh.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.colorAccent));
 
         filterList.setLayoutManager(new LinearLayoutManager(getContext()));
         filterList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
@@ -105,8 +106,8 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     }
 
     @Override
-    public void updateTagCount(int[] tagCount) {
-        filterListAdapter.updateTagCount(tagCount);
+    public void updateTagCount(TagMap tagMap) {
+        filterListAdapter.updateTagMap(tagMap);
         filterListAdapter.notifyDataSetChanged();
     }
 
@@ -181,7 +182,7 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     @Override
     public boolean onItemClick(View view, int position, long itemId) {
         Intent intent = new Intent(getActivity(), AppDetailsActivity.class);
-        intent.putExtra(AppDetailsActivity.ARG_KEY, appListAdapter.getItem(position));
+        intent.putExtra(AppDetailsActivity.ARG_KEY, appListAdapter.getItem(position).toJson());
         startActivity(intent);
         return true;
     }
@@ -199,8 +200,8 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     }
 
     @Override
-    public void onNewFilterTags(Collection<AppInfo.Tag> tags) {
-        appListAdapter.getFilter().setFilterTags(tags);
+    public void onNewFilterTags(Collection<AppTags> appTagses) {
+        appListAdapter.getFilter().setFilterAppTagses(appTagses);
         appListAdapter.getFilter().filter(appListAdapter.getFilter().getFilterString());
     }
 }
