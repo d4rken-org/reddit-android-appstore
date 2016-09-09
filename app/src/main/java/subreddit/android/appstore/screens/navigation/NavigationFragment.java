@@ -138,6 +138,8 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
 
     @Override
     public void showNavigationItems(NavigationData navigationData) {
+        appMenu.getMenu().clear();
+        gameMenu.getMenu().clear();
         appHeader.setText(navigationData.getPrimaryCategories().get(0));
         gameHeader.setText(navigationData.getPrimaryCategories().get(1));
         for (String subCategory : navigationData.getSecondaryCategories().get(navigationData.getPrimaryCategories().get(0))) {
