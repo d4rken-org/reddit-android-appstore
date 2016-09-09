@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,12 +69,12 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
             case R.id.app_category_header: {
                 gameMenu.setVisibility(View.GONE);
                 appMenu.setVisibility(View.VISIBLE);
-                l.onCategorySelected(new CategoryFilter("Apps",""));
+                l.onCategorySelected(new CategoryFilter("Apps",null));
                 break;
             }case R.id.game_category_header: {
                 appMenu.setVisibility(View.GONE);
                 gameMenu.setVisibility(View.VISIBLE);
-                l.onCategorySelected(new CategoryFilter("Games",""));
+                l.onCategorySelected(new CategoryFilter("Games",null));
             }
         }
     }
@@ -140,10 +141,10 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
         appHeader.setText(navigationData.getPrimaryCategories().get(0));
         gameHeader.setText(navigationData.getPrimaryCategories().get(1));
         for (String subCategory : navigationData.getSecondaryCategories().get(navigationData.getPrimaryCategories().get(0))) {
-            appMenu.getMenu().add(subCategory.replace("&amp;","&")).setCheckable(true);
+            appMenu.getMenu().add(Html.fromHtml(subCategory)).setCheckable(true);
         }
         for (String subCategory : navigationData.getSecondaryCategories().get(navigationData.getPrimaryCategories().get(1))) {
-            gameMenu.getMenu().add(subCategory.replace("&amp;","&")).setCheckable(true);
+            gameMenu.getMenu().add(Html.fromHtml(subCategory)).setCheckable(true);
         }
     }
 

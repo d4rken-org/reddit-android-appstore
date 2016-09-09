@@ -46,10 +46,16 @@ public class AppListPresenter implements AppListContract.Presenter {
                 .map(new Function<Collection<AppInfo>, List<AppInfo>>() {
                     @Override
                     public List<AppInfo> apply(Collection<AppInfo> appInfos) throws Exception {
-                        // TODO use categoryFilter
                         ArrayList<AppInfo> data = new ArrayList<>(appInfos);
-                        Collections.sort(data);
-                        return data;
+                        ArrayList<AppInfo> filteredData = new ArrayList<AppInfo>();
+                        for (AppInfo app : data) {
+                            if ( (app.getPrimaryCategory().equals(categoryFilter.getPrimaryCategory()) || categoryFilter.getPrimaryCategory()==null) &&
+                                            (app.getSecondaryCategory().equals(categoryFilter.getSecondaryCategory()) || categoryFilter.getSecondaryCategory()==null)) {
+                                filteredData.add(app);
+                            }
+                        }
+                        Collections.sort(filteredData);
+                        return filteredData;
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
