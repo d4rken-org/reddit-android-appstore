@@ -59,6 +59,7 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     Unbinder unbinder;
     AppListAdapter appListAdapter;
     FilterListAdapter filterListAdapter;
+    Collection<AppTags> appTags;
 
     public static Fragment newInstance(@NonNull CategoryFilter categoryFilter) {
         AppListFragment fragment = new AppListFragment();
@@ -139,6 +140,8 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     public void showAppList(List<AppInfo> appInfos) {
         appListAdapter.setData(appInfos);
         appListAdapter.notifyDataSetChanged();
+        appListAdapter.getFilter().setFilterAppTagses(appTags);
+        appListAdapter.getFilter().filter(appListAdapter.getFilter().getFilterString());
         swipeRefresh.setRefreshing(false);
         setHasOptionsMenu(true);
     }
@@ -208,6 +211,7 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
 
     @Override
     public void onNewFilterTags(Collection<AppTags> appTagses) {
+        appTags=appTagses;
         appListAdapter.getFilter().setFilterAppTagses(appTagses);
         appListAdapter.getFilter().filter(appListAdapter.getFilter().getFilterString());
     }
