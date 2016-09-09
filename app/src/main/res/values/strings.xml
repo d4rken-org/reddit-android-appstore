@@ -6,6 +6,13 @@
     <string name="screen_details">Details</string>
     <string name="button_contact">Contact</string>
     <string name="button_download">Download</string>
+    <string name="gplay">Google Play</string>
+    <string name="fdroid">F-Droid</string>
+    <string name="website">Website</string>
+    <string name="mail">E-Mail</string>
+    <string name="reddit">Reddit</string>
+    <string name="twitter">Twitter</string>
+    <string name="instagram">Instagram</string>
     <string name="hint_type_to_filter">Type to filter</string>
     <string name="button_about">About</string>
     <string name="text_contributors">Contributors</string>

@@ -7,13 +7,6 @@
               android:padding="16dp">
 
     <TextView
-        android:id="@+id/appname"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="This is an appname"/>
-
-    <TextView
         android:id="@+id/description"
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="match_parent"
@@ -28,4 +21,30 @@
         android:layout_gravity="top|start"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:gravity="left|center_vertical"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/details_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:textColor="@color/colorAccent"
+            android:text="@string/button_contact"/>
+
+        <Button
+            android:gravity="right|center_vertical"
+            android:layout_alignParentRight="true"
+            android:id="@+id/details_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:textColor="@color/colorAccent"
+            android:text="@string/button_download"/>
+
+    </RelativeLayout>
 </LinearLayout>
