@@ -103,6 +103,15 @@ public class BodyParser {
                 }
             }
         }
+        if (lastSecondaryBlock != -1) {
+            // End of output is obviously also the end of the last block
+            Collection<AppInfo> parsedBlock = parseSecondaryBlock(
+                    primaryCategory,
+                    lastSecondaryCategory,
+                    primaryBlock.subList(lastSecondaryBlock, primaryBlock.size())
+            );
+            parsedOutput.addAll(parsedBlock);
+        }
         return parsedOutput;
     }
 
