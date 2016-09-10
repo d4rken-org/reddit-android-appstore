@@ -211,7 +211,7 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
 
     @Override
     public void onNewFilterTags(Collection<AppTags> appTagses) {
-        appTags=appTagses;
+        appTags = appTagses;
         appListAdapter.getFilter().setFilterAppTagses(appTagses);
         appListAdapter.getFilter().filter(appListAdapter.getFilter().getFilterString());
     }

@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -22,10 +23,10 @@ import timber.log.Timber;
 public class AppListPresenter implements AppListContract.Presenter {
     static final String TAG = AppStoreApp.LOGPREFIX + "AppListPresenter";
     final WikiRepository repository;
-    private final CategoryFilter categoryFilter;
+    final CategoryFilter categoryFilter;
     private Disposable listUpdater;
+    private Disposable tagUpdater;
     AppListContract.View view;
-    private Disposable filterUpdater;
 
     public AppListPresenter(WikiRepository repository, CategoryFilter categoryFilter) {
         this.repository = repository;
@@ -41,23 +42,24 @@ public class AppListPresenter implements AppListContract.Presenter {
     public void onAttachView(AppListContract.View view) {
         this.view = view;
         view.showLoadingScreen();
-        listUpdater = repository.getAppList()
+        Observable<List<AppInfo>> filteredData = repository.getAppList()
                 .observeOn(Schedulers.computation())
                 .map(new Function<Collection<AppInfo>, List<AppInfo>>() {
                     @Override
                     public List<AppInfo> apply(Collection<AppInfo> appInfos) throws Exception {
                         ArrayList<AppInfo> data = new ArrayList<>(appInfos);
-                        ArrayList<AppInfo> filteredData = new ArrayList<AppInfo>();
+                        ArrayList<AppInfo> filteredData = new ArrayList<>();
                         for (AppInfo app : data) {
-                            if ( (app.getPrimaryCategory().equals(categoryFilter.getPrimaryCategory()) || categoryFilter.getPrimaryCategory()==null) &&
-                                            (app.getSecondaryCategory().equals(categoryFilter.getSecondaryCategory()) || categoryFilter.getSecondaryCategory()==null)) {
+                            if ((app.getPrimaryCategory().equals(categoryFilter.getPrimaryCategory()) || categoryFilter.getPrimaryCategory() == null) &&
+                                    (app.getSecondaryCategory().equals(categoryFilter.getSecondaryCategory()) || categoryFilter.getSecondaryCategory() == null)) {
                                 filteredData.add(app);
                             }
                         }
                         Collections.sort(filteredData);
                         return filteredData;
                     }
-                })
+                }).replay().refCount();
+        listUpdater = filteredData
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<AppInfo>>() {
                     @Override
@@ -66,7 +68,7 @@ public class AppListPresenter implements AppListContract.Presenter {
                         AppListPresenter.this.view.showAppList(appInfos);
                     }
                 });
-        filterUpdater = repository.getAppList()
+        tagUpdater = filteredData
                 .observeOn(Schedulers.computation())
                 .map(new Function<Collection<AppInfo>, TagMap>() {
                     @Override
@@ -87,7 +89,7 @@ public class AppListPresenter implements AppListContract.Presenter {
     @Override
     public void onDetachView() {
         listUpdater.dispose();
-        filterUpdater.dispose();
+        tagUpdater.dispose();
         view = null;
     }
 
