@@ -36,26 +36,4 @@ public class Contact {
         return target;
     }
 
-    /**
-     * @return can return NULL if type is UNKNOWN
-     */
-    @Nullable
-    public Intent getContactIntent(@NonNull Context context) {
-        switch (type) {
-            case EMAIL:
-                return new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", target, null));
-            case WEBSITE:
-                // TODO do reddit apps recognize a specific message intent?
-                return new Intent(Intent.ACTION_VIEW, Uri.parse(target));
-            case REDDIT_USERNAME:
-                return new Intent(Intent.ACTION_VIEW, Uri.parse(String.format(Locale.US, "http://www.reddit.com/message/compose/?to=%s", target)));
-            default:
-                try {
-                    return new Intent(Intent.ACTION_VIEW, Uri.parse(target));
-                } catch (Exception e) {
-                    Timber.e(e, "Failed to uri parse %s", target);
-                    return null;
-                }
-        }
-    }
 }

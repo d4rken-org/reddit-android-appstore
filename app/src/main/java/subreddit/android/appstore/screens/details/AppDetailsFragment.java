@@ -1,9 +1,12 @@
 package subreddit.android.appstore.screens.details;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import com.wefika.flowlayout.FlowLayout;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -30,6 +34,7 @@ import subreddit.android.appstore.backend.data.Contact;
 import subreddit.android.appstore.backend.data.Download;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
+import timber.log.Timber;
 
 
 public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract.Presenter, AppDetailsContract.View>
@@ -86,7 +91,20 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     }
 
     void openContact(Contact c) {
-        startActivity(c.getContactIntent(getContext()));
+        switch (c.getType()) {
+            case EMAIL:
+                startActivity(new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", c.getTarget(), null)));
+                break;
+            case WEBSITE:
+                // TODO do reddit apps recognize a specific message intent?
+                openInChrome(c.getTarget());
+                break;
+            case REDDIT_USERNAME:
+                openInChrome(String.format(Locale.US, "http://www.reddit.com/message/compose/?to=%s", c.getTarget()));
+                break;
+            default:
+                openInChrome(c.getTarget());
+        }
     }
 
     @Nullable
@@ -193,6 +211,14 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
             }
 
         }
+    }
+
+    private void openInChrome(String url) {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+        builder.setSecondaryToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
     }
 
     @Override
