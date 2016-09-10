@@ -9,6 +9,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 import com.wefika.flowlayout.FlowLayout;
 
@@ -25,6 +26,7 @@ import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.util.ui.BaseAdapter;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
+import subreddit.android.appstore.util.ui.glide.PlaceHolderRequestListener;
 
 
 public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> implements Filterable, SectionTitleProvider {
@@ -82,10 +84,10 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
             appName.setText(item.getAppName());
             description.setText(item.getDescription());
 
-//            Glide.with(getContext())
-//                    .load(R.mipmap.ic_launcher)
-//                    .listener(new PlaceHolderRequestListener(iconImage, iconPlaceholder))
-//                    .into(iconImage);
+            Glide.with(getContext())
+                    .load(R.mipmap.ic_launcher)
+                    .listener(new PlaceHolderRequestListener(iconImage, iconPlaceholder))
+                    .into(iconImage);
 
             tagContainer.removeAllViews();
             for (AppTags appTags : item.getTags()) {
