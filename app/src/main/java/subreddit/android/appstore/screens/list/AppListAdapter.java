@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 import com.wefika.flowlayout.FlowLayout;
 
@@ -24,6 +26,7 @@ import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.util.ui.BaseAdapter;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
+import subreddit.android.appstore.util.ui.glide.PlaceHolderRequestListener;
 
 
 public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> implements Filterable, SectionTitleProvider {
@@ -48,7 +51,7 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
 
     @Override
     public String getSectionTitle(int position) {
-        return data.get(position).getAppName().substring(0,1).toUpperCase();
+        return data.get(position).getAppName().substring(0, 1).toUpperCase();
     }
 
     @Override
@@ -69,6 +72,8 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
         @BindView(R.id.appname) TextView appName;
         @BindView(R.id.description) TextView description;
         @BindView(R.id.tag_container) FlowLayout tagContainer;
+        @BindView(R.id.icon_image) ImageView iconImage;
+        @BindView(R.id.icon_placeholder) View iconPlaceholder;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -78,6 +83,11 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
         public void bind(AppInfo item) {
             appName.setText(item.getAppName());
             description.setText(item.getDescription());
+
+            Glide.with(getContext())
+                    .load(R.mipmap.ic_launcher)
+                    .listener(new PlaceHolderRequestListener(iconImage, iconPlaceholder))
+                    .into(iconImage);
 
             tagContainer.removeAllViews();
             for (AppTags appTags : item.getTags()) {
