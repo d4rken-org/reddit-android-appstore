@@ -8,6 +8,12 @@ import subreddit.android.appstore.backend.ScrapeResult;
 
 
 public class GPlayResult implements ScrapeResult {
+    private Collection<String> urls;
+
+    GPlayResult(Collection<String> urls) {
+        this.urls=urls;
+    }
+
     @Nullable
     @Override
     public String getIconUrl() {
@@ -16,6 +22,6 @@ public class GPlayResult implements ScrapeResult {
 
     @Override
     public Collection<String> getScreenshotUrls() {
-        return null;
+        return urls;
     }
 }

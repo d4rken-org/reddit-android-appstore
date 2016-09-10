@@ -26,12 +26,16 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.R;
+import subreddit.android.appstore.backend.ScrapeResult;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.backend.data.Contact;
 import subreddit.android.appstore.backend.data.Download;
+import subreddit.android.appstore.backend.scrapers.gplay.GPlayScraper;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
 import timber.log.Timber;
@@ -173,6 +177,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         getActivity().setTitle(appInfo.getAppName());
 
         createMenus();
+
     }
 
     private void createMenus() {
