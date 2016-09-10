@@ -19,7 +19,6 @@ import subreddit.android.appstore.util.ui.BaseActivity;
 public class MainActivity extends BaseActivity implements View.OnClickListener, NavigationFragment.OnCategorySelectedListener {
     @BindView(R.id.main_drawer) DrawerLayout drawerLayout;
     @BindView(R.id.applist_toolbar) Toolbar toolbar;
-    private CategoryFilter currentFilter = new CategoryFilter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,17 +29,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         toolbar.setNavigationIcon(R.drawable.ic_menu_white_48px);
         toolbar.setNavigationOnClickListener(this);
 
-        Fragment contentFragment = getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        if (contentFragment == null) {
-            contentFragment = AppListFragment.newInstance(currentFilter);
-        }
-        getSupportFragmentManager().beginTransaction().replace(R.id.contentFrame, contentFragment).commit();
-
         Fragment navigationFragment = getSupportFragmentManager().findFragmentById(R.id.navigationFrame);
         if (navigationFragment == null) navigationFragment = NavigationFragment.newInstance();
 
         ((NavigationFragment) navigationFragment).setOnCategorySelectedListener(this);
         getSupportFragmentManager().beginTransaction().replace(R.id.navigationFrame, navigationFragment).commit();
+
+        if (savedInstanceState == null) onCategorySelected(new CategoryFilter());
     }
 
     @Override
@@ -50,7 +45,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onCategorySelected(CategoryFilter filter) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.contentFrame, AppListFragment.newInstance(filter)).commit();
-        currentFilter=filter;
+        Fragment contentFragment = getSupportFragmentManager().findFragmentByTag(filter.getFragmentTag());
+        if (contentFragment == null) {
+            contentFragment = AppListFragment.newInstance(filter);
+            getSupportFragmentManager().beginTransaction().replace(R.id.contentFrame, contentFragment, filter.getFragmentTag()).commit();
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        toolbar.setTitle(filter.getName(this));
     }
 }

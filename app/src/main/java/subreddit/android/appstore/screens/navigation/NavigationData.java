@@ -12,29 +12,31 @@ import java.util.Map;
 import subreddit.android.appstore.backend.data.AppInfo;
 
 public class NavigationData {
-    private final List<String> primaryCategories = new ArrayList<>();
-    private final Map<String, List<String>> secondaryCategories = new HashMap<>();
+    private final List<CategoryFilter> primaryCategories = new ArrayList<>();
+    private final Map<CategoryFilter, List<CategoryFilter>> secondaryCategories = new HashMap<>();
     int secondaryCount = 0;
 
     public void addApp(@NonNull AppInfo appInfo) {
         // TODO order this
-        if (!primaryCategories.contains(appInfo.getPrimaryCategory())) {
-            primaryCategories.add(appInfo.getPrimaryCategory());
+        CategoryFilter primaryFilter = new CategoryFilter(appInfo.getPrimaryCategory(), null);
+        if (!primaryCategories.contains(primaryFilter)) {
+            primaryCategories.add(primaryFilter);
         }
-        List<String> secondary = secondaryCategories.get(appInfo.getPrimaryCategory());
+        List<CategoryFilter> secondary = secondaryCategories.get(primaryFilter);
         if (secondary == null) secondary = new ArrayList<>();
-        if (!secondary.contains(appInfo.getSecondaryCategory())) {
+        CategoryFilter secondaryFilter = new CategoryFilter(appInfo.getPrimaryCategory(), appInfo.getSecondaryCategory());
+        if (!secondary.contains(secondaryFilter)) {
             secondaryCount++;
-            secondary.add(appInfo.getSecondaryCategory());
+            secondary.add(secondaryFilter);
         }
-        secondaryCategories.put(appInfo.getPrimaryCategory(), secondary);
+        secondaryCategories.put(primaryFilter, secondary);
     }
 
-    public List<String> getPrimaryCategories() {
+    public List<CategoryFilter> getPrimaryCategories() {
         return primaryCategories;
     }
 
-    public Map<String, List<String>> getSecondaryCategories() {
+    public Map<CategoryFilter, List<CategoryFilter>> getSecondaryCategories() {
         return secondaryCategories;
     }
 

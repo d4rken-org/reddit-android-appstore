@@ -1,19 +1,19 @@
 package subreddit.android.appstore.screens.navigation;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ScrollView;
 import android.widget.TextView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -29,55 +29,13 @@ import subreddit.android.appstore.util.mvp.PresenterFactory;
 
 
 public class NavigationFragment extends BasePresenterFragment<NavigationContract.Presenter, NavigationContract.View>
-        implements NavigationContract.View, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationContract.View, NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.footer_nav) NavigationView navFooter;
     @BindView(R.id.header_version_text) TextView versionText;
-    @BindView(R.id.app_category_header) TextView appHeader;
-    @BindView(R.id.game_category_header) TextView gameHeader;
-    @BindView(R.id.app_category_submenu) NavigationView appMenu;
-    @BindView(R.id.game_category_submenu) NavigationView gameMenu;
-    @BindView(R.id.nav_scroll) ScrollView navScroll;
+    @BindView(R.id.navigationview) NavigationView navigationView;
+    OnCategorySelectedListener onCategorySelectedListener;
 
-    OnCategorySelectedListener l;
-
-    private NavigationView.OnNavigationItemSelectedListener appListener = new NavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            l.onCategorySelected(new CategoryFilter("Apps",item.getTitle().toString()));
-            return true;
-        }
-    };
-
-    private NavigationView.OnNavigationItemSelectedListener gameListener = new NavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            l.onCategorySelected(new CategoryFilter("Games",item.getTitle().toString()));
-            return true;
-        }
-    };
-
-    @Override
-    public void onClick(View view) {
-        for (int i=0;i<appMenu.getMenu().size();i++) {
-            appMenu.getMenu().getItem(i).setChecked(false);
-        }
-        for (int i=0;i<gameMenu.getMenu().size();i++) {
-            gameMenu.getMenu().getItem(i).setChecked(false);
-        }
-        switch (view.getId()) {
-            case R.id.app_category_header: {
-                gameMenu.setVisibility(View.GONE);
-                appMenu.setVisibility(View.VISIBLE);
-                l.onCategorySelected(new CategoryFilter("Apps",null));
-                break;
-            }case R.id.game_category_header: {
-                appMenu.setVisibility(View.GONE);
-                gameMenu.setVisibility(View.VISIBLE);
-                l.onCategorySelected(new CategoryFilter("Games",null));
-            }
-        }
-    }
 
     public static NavigationFragment newInstance() {
         return new NavigationFragment();
@@ -112,22 +70,15 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        navFooter.setNavigationItemSelectedListener(this);
         versionText.setText(getResources().getString(R.string.version) + " " + BuildConfig.VERSION_NAME);
-        appMenu.setNavigationItemSelectedListener(appListener);
-        gameMenu.setNavigationItemSelectedListener(gameListener);
-        appHeader.setOnClickListener(this);
-        gameHeader.setOnClickListener(this);
-        if (Build.VERSION.SDK_INT>20) {
-            appMenu.setElevation(0);
-            gameMenu.setElevation(0);
-        }
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        startActivity(new Intent(getActivity(), SettingsActivity.class));
-        return false;
+        navFooter.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                return false;
+            }
+        });
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -137,22 +88,71 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     }
 
     @Override
-    public void showNavigationItems(NavigationData navigationData) {
-        appMenu.getMenu().clear();
-        gameMenu.getMenu().clear();
-        appHeader.setText(navigationData.getPrimaryCategories().get(0));
-        gameHeader.setText(navigationData.getPrimaryCategories().get(1));
-        for (String subCategory : navigationData.getSecondaryCategories().get(navigationData.getPrimaryCategories().get(0))) {
-            appMenu.getMenu().add(Html.fromHtml(subCategory)).setCheckable(true);
+    public boolean onNavigationItemSelected(@NonNull MenuItem clickedItem) {
+        CategoryFilter clickedFilter = menuItemCategoryFilterMap.get(clickedItem);
+        for (int i = 0; i < navigationView.getMenu().size(); i++) {
+            MenuItem item = navigationView.getMenu().getItem(i);
+            item.setChecked(false);
+            CategoryFilter filter = menuItemCategoryFilterMap.get(item);
+            item.setVisible(clickedFilter.getPrimaryCategory() == null
+                    || filter.getPrimaryCategory() == null
+                    || filter.getSecondaryCategory() == null
+                    || filter.getPrimaryCategory().equals(clickedFilter.getPrimaryCategory()));
         }
-        for (String subCategory : navigationData.getSecondaryCategories().get(navigationData.getPrimaryCategories().get(1))) {
-            gameMenu.getMenu().add(Html.fromHtml(subCategory)).setCheckable(true);
+        clickedItem.setChecked(true);
+        getPresenter().notifySelectedFilter(clickedFilter);
+        onCategorySelectedListener.onCategorySelected(clickedFilter);
+
+        return true;
+    }
+
+    Map<MenuItem, CategoryFilter> menuItemCategoryFilterMap = new HashMap<>();
+
+    @Override
+    public void showNavigationItems(NavigationData navigationData, CategoryFilter selectedItem) {
+        Menu menu = navigationView.getMenu();
+        menu.clear();
+        menuItemCategoryFilterMap.clear();
+
+        CategoryFilter noFilterFilter = new CategoryFilter();
+        MenuItem noFilterItem = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, noFilterFilter.getName(getContext()));
+        menuItemCategoryFilterMap.put(noFilterItem, noFilterFilter);
+
+        for (CategoryFilter primaryFilter : navigationData.getPrimaryCategories()) {
+            int groupId = navigationData.getPrimaryCategories().indexOf(primaryFilter) + 1;
+            MenuItem primaryItem = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, primaryFilter.getName(getContext()));
+            menuItemCategoryFilterMap.put(primaryItem, primaryFilter);
+            for (CategoryFilter secondaryFilter : navigationData.getSecondaryCategories().get(primaryFilter)) {
+                MenuItem secondaryItem = menu.add(groupId, Menu.NONE, Menu.NONE, "   " + secondaryFilter.getName(getContext()));
+                menuItemCategoryFilterMap.put(secondaryItem, secondaryFilter);
+            }
+        }
+
+        for (int i = 0; i < navigationView.getMenu().size(); i++) {
+            MenuItem item = navigationView.getMenu().getItem(i);
+            CategoryFilter filter = menuItemCategoryFilterMap.get(item);
+            item.setChecked(filter.equals(selectedItem));
+            if (item.isChecked()) break; // only one checked
         }
     }
 
-    public void setOnCategorySelectedListener(OnCategorySelectedListener l) {
-        this.l = l;
+    @Override
+    public void selectFilter(CategoryFilter toSelect) {
+        for (int i = 0; i < navigationView.getMenu().size(); i++) {
+            MenuItem item = navigationView.getMenu().getItem(i);
+            CategoryFilter filter = menuItemCategoryFilterMap.get(item);
+            if (filter.equals(toSelect)) {
+                item.setChecked(true);
+                break;
+            }
+        }
+        onCategorySelectedListener.onCategorySelected(toSelect);
     }
+
+    public void setOnCategorySelectedListener(OnCategorySelectedListener onCategorySelectedListener) {
+        this.onCategorySelectedListener = onCategorySelectedListener;
+    }
+
 
     public interface OnCategorySelectedListener {
         void onCategorySelected(CategoryFilter filter);

@@ -21,6 +21,7 @@ public class NavigationPresenter implements NavigationContract.Presenter {
 
     NavigationContract.View view;
     private Disposable categoryUpdater;
+    CategoryFilter currentCategoryFilter = new CategoryFilter();
 
     public NavigationPresenter(WikiRepository repository) {
         this.repository = repository;
@@ -49,7 +50,7 @@ public class NavigationPresenter implements NavigationContract.Presenter {
                     @Override
                     public void accept(NavigationData navigationData) throws Exception {
                         Timber.tag(TAG).d("showNavigationItems(%s)", navigationData);
-                        NavigationPresenter.this.view.showNavigationItems(navigationData);
+                        NavigationPresenter.this.view.showNavigationItems(navigationData, currentCategoryFilter);
                     }
                 });
     }
@@ -68,5 +69,10 @@ public class NavigationPresenter implements NavigationContract.Presenter {
     @Override
     public void onDestroy() {
 
+    }
+
+    @Override
+    public void notifySelectedFilter(CategoryFilter categoryFilter) {
+        currentCategoryFilter = categoryFilter;
     }
 }

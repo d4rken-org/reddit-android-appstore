@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="start"
     android:background="?android:colorBackground"
-    android:clickable="true">
+    android:clickable="true"
+    android:orientation="vertical">
 
     <FrameLayout
-        android:layout_weight="0"
         android:layout_width="match_parent"
         android:layout_height="120dp"
+        android:layout_weight="0"
         android:background="@color/colorPrimary">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:layout_margin="16dp"
             android:gravity="center_vertical"
-            android:layout_gravity="center_vertical|left"
-            android:layout_margin="16dp">
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -29,24 +29,24 @@
                 android:src="@mipmap/ic_launcher"/>
 
             <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:orientation="vertical">
 
                 <TextView
-                    android:textColor="@android:color/white"
-                    android:textSize="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/app_name"/>
+                    android:text="@string/app_name"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"/>
 
                 <TextView
-                    android:textColor="@android:color/white"
+                    android:id="@+id/header_version_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/header_version_text"/>
+                    android:textColor="@android:color/white"/>
 
             </LinearLayout>
 
@@ -54,73 +54,23 @@
 
     </FrameLayout>
 
-    <ScrollView
-        android:id="@+id/nav_scroll"
-        android:layout_weight = "1"
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigationview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"/>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_gravity="start"
-                android:padding="16dp"
-                android:background="?attr/selectableItemBackground"
-                android:textColor="@color/colorAccent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/app_category_header"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height=".1dp"
-                android:background="@color/colorSelector"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"/>
-
-            <subreddit.android.appstore.util.ui.FullHeightNavView
-                android:descendantFocusability="blocksDescendants"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/app_category_submenu"
-                app:menu="@menu/apps_placeholder"/>
-
-            <TextView
-                android:layout_gravity="start"
-                android:padding="16dp"
-                android:background="?attr/selectableItemBackground"
-                android:textColor="@color/colorAccent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/game_category_header"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height=".1dp"
-                android:background="@color/colorSelector"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"/>
-
-            <subreddit.android.appstore.util.ui.FullHeightNavView
-                android:descendantFocusability="blocksDescendants"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/game_category_submenu"
-                app:menu="@menu/games_placeholder"/>
-
-        </LinearLayout>
-
-    </ScrollView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height=".1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/colorSelector"/>
 
     <android.support.design.widget.NavigationView
-        android:layout_weight="0"
         android:id="@+id/footer_nav"
-        app:menu="@menu/drawer_footer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        app:menu="@menu/drawer_footer"/>
 
 </LinearLayout>

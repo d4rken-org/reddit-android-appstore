@@ -26,6 +26,7 @@
     <string name="preference_night_desc">Use a dark theme</string>
     <string name="restart">A restart is required to toggle night mode</string>
     <string name="later">Later</string>
+    <string name="app_category_everything">Everything</string>
     <plurals name="x_items">
         <item quantity="one">%s item</item>
         <item quantity="other">%s items</item>
