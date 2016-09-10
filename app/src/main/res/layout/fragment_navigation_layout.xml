@@ -57,14 +57,8 @@
     <android.support.design.widget.NavigationView
         android:id="@+id/navigationview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height=".1dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@color/colorSelector"/>
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/footer_nav"
