@@ -31,14 +31,14 @@ public class ContactColumnParserTest {
 
         ArrayList<Contact> emailContacts = new ArrayList<>();
         for (Contact contact : appInfo.getContacts()) {
-            if (contact.getType() == Contact.Type.MAIL) emailContacts.add(contact);
+            if (contact.getType() == Contact.Type.EMAIL) emailContacts.add(contact);
         }
         assertEquals("thisismail1@gmail.com", emailContacts.get(0).getTarget());
         assertEquals("okanothermail@internet.com", emailContacts.get(1).getTarget());
 
         ArrayList<Contact> redditContacts = new ArrayList<>();
         for (Contact contact : appInfo.getContacts()) {
-            if (contact.getType() == Contact.Type.REDDIT) redditContacts.add(contact);
+            if (contact.getType() == Contact.Type.REDDIT_USERNAME) redditContacts.add(contact);
         }
         assertEquals("/u/someuser1", redditContacts.get(0).getTarget());
         assertEquals("/u/mDarken", redditContacts.get(1).getTarget());

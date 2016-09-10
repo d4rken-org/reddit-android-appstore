@@ -1,13 +1,11 @@
 package subreddit.android.appstore.screens.details;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +41,8 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
 
     private PopupMenu downloadPopup, contactPopup;
 
-    private ArrayList<Download> downloads = new ArrayList<>();
-    private ArrayList<Contact> contacts = new ArrayList<>();
+    ArrayList<Download> downloads = new ArrayList<>();
+    ArrayList<Contact> contacts = new ArrayList<>();
     @Inject
     PresenterFactory<AppDetailsContract.Presenter> presenterFactory;
     private Unbinder unbinder;
@@ -66,14 +64,15 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.details_download: {
-                if (downloads.size()<2) {
+                if (downloads.size() < 2) {
                     openDownload(downloads.get(0));
                 } else {
                     downloadPopup.show();
                 }
                 break;
-            }case R.id.details_contact: {
-                if (contacts.size()<2) {
+            }
+            case R.id.details_contact: {
+                if (contacts.size() < 2) {
                     openContact(contacts.get(0));
                 } else {
                     contactPopup.show();
@@ -82,43 +81,18 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         }
     }
 
-    private void openDownload(Download d) {
-        switch (d.getType()) {
-            case GPLAY: {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(d.getTarget())));
-                break;
-            }
-            case WEBSITE: {
-                //TODO: WEBSITE
-                break;
-            }
-            case FDROID: {
-                //TODO: FDROID
-            }
-        }
+    void openDownload(Download d) {
+        startActivity(new Intent(Intent.ACTION_VIEW, d.getDownloadUri()));
     }
 
-    private void openContact(Contact c) {
+    void openContact(Contact c) {
         switch (c.getType()) {
-            case MAIL: {
-                startActivity(new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto",c.getTarget(), null)));
+            case EMAIL:
+                startActivity(new Intent(Intent.ACTION_SENDTO, c.getContactUri()));
                 break;
-            }
-            case WEBSITE: {
-                //TODO: WEBSITE
+            default:
+                startActivity(new Intent(Intent.ACTION_VIEW, c.getContactUri()));
                 break;
-            }
-            case INSTAGRAM: {
-                //TODO: INSTAGRAM
-                break;
-            }
-            case REDDIT: {
-                //TODO: REDDIT
-                break;
-            }
-            case TWITTER: {
-                //TODO: TWITTER
-            }
         }
     }
 
@@ -135,15 +109,15 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         super.onViewCreated(view, savedInstanceState);
         contactButton.setOnClickListener(this);
         downloadButton.setOnClickListener(this);
-        downloadPopup = new PopupMenu(getContext(),downloadButton);
-        contactPopup = new PopupMenu(getContext(),contactButton);
+        downloadPopup = new PopupMenu(getContext(), downloadButton);
+        contactPopup = new PopupMenu(getContext(), contactButton);
         downloadPopup.inflate(R.menu.placeholder_popup_download);
         contactPopup.inflate(R.menu.placeholder_popup_contact);
 
         downloadPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                openDownload(downloads.get(menuItem.getOrder()));
+                openDownload(downloads.get(menuItem.getItemId()));
                 return true;
             }
         });
@@ -151,7 +125,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         contactPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                openContact(contacts.get(menuItem.getOrder()));
+                openContact(contacts.get(menuItem.getItemId()));
                 return true;
             }
         });
@@ -196,39 +170,32 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         for (Download d : downloads) {
             switch (d.getType()) {
                 case GPLAY: {
-                    downloadPopup.getMenu().add(R.string.gplay);
+                    downloadPopup.getMenu().add(Menu.NONE, downloads.indexOf(d), Menu.NONE, R.string.gplay);
                     break;
                 }
                 case FDROID: {
-                    downloadPopup.getMenu().add(R.string.fdroid);
+                    downloadPopup.getMenu().add(Menu.NONE, downloads.indexOf(d), Menu.NONE, R.string.fdroid);
                     break;
                 }
                 case WEBSITE: {
-                    downloadPopup.getMenu().add(R.string.website);
+                    downloadPopup.getMenu().add(Menu.NONE, downloads.indexOf(d), Menu.NONE, R.string.website);
                 }
             }
         }
 
         for (Contact c : contacts) {
             switch (c.getType()) {
-                case MAIL: {
-                    contactPopup.getMenu().add(R.string.mail);
+                case EMAIL: {
+                    contactPopup.getMenu().add(Menu.NONE, contacts.indexOf(c), Menu.NONE, R.string.mail);
                     break;
                 }
                 case WEBSITE: {
-                    contactPopup.getMenu().add(R.string.website);
+                    contactPopup.getMenu().add(Menu.NONE, contacts.indexOf(c), Menu.NONE, R.string.website);
                     break;
                 }
-                case REDDIT: {
-                    contactPopup.getMenu().add(R.string.reddit);
+                case REDDIT_USERNAME: {
+                    contactPopup.getMenu().add(Menu.NONE, contacts.indexOf(c), Menu.NONE, R.string.reddit);
                     break;
-                }
-                case TWITTER: {
-                    contactPopup.getMenu().add(R.string.twitter);
-                    break;
-                }
-                case INSTAGRAM: {
-                    contactPopup.getMenu().add(R.string.instagram);
                 }
             }
 

@@ -32,6 +32,7 @@ public class NameColumnParser implements AppParser {
                 downloadType = Download.Type.GPLAY;
             } else {
                 downloadType = Download.Type.UNKNOWN;
+                Timber.tag(TAG).w("Unknown download url: %s", downloadUrl);
             }
         } else {
             appName = rawNameString;

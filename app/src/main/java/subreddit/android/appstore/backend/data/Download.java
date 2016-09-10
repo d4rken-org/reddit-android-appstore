@@ -1,6 +1,10 @@
 package subreddit.android.appstore.backend.data;
 
 
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 public class Download {
 
     public enum Type {
@@ -15,11 +19,21 @@ public class Download {
         this.target = target;
     }
 
+    @NonNull
     public Type getType() {
         return type;
     }
 
+    @NonNull
     public String getTarget() {
         return target;
+    }
+
+    /**
+     * @return can return NULL if type is UNKNOWN
+     */
+    @Nullable
+    public Uri getDownloadUri() {
+        return Uri.parse(target);
     }
 }
