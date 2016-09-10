@@ -45,6 +45,9 @@ public class GPlayScraper implements TargetScraper {
                     public ScrapeResult apply(Response response) throws Exception {
                         Collection<String> urls = new ArrayList<String>();
                         String body = response.body().string();
+                        int iconStart = body.indexOf("<img class=\"cover-image\"");
+                        int iconEnd = body.indexOf("\" alt=\"Cover art\"",iconStart);
+                        String icon = body.substring(body.indexOf("lh",iconStart),iconEnd);
                         while (body.contains("<img class=\"screenshot\"")) {
                             int start = body.indexOf("<img class=\"screenshot\"");
                             int end = body.indexOf("itemprop=\"screenshot\"",start);
@@ -55,7 +58,7 @@ public class GPlayScraper implements TargetScraper {
                             body = body.substring(end,body.length());
                             urls.add(workingString);
                         }
-                        return new GPlayResult(urls);
+                        return new GPlayResult(urls,icon);
                     }
                 });
 

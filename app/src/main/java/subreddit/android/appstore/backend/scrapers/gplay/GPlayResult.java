@@ -9,15 +9,17 @@ import subreddit.android.appstore.backend.ScrapeResult;
 
 public class GPlayResult implements ScrapeResult {
     private Collection<String> urls;
+    private String icon;
 
-    GPlayResult(Collection<String> urls) {
+    GPlayResult(Collection<String> urls, String icon) {
         this.urls=urls;
+        this.icon=icon;
     }
 
     @Nullable
     @Override
     public String getIconUrl() {
-        return null;
+        return icon;
     }
 
     @Override
