@@ -1,5 +1,7 @@
 package subreddit.android.appstore.backend.parser;
 
+import android.text.Html;
+
 import java.util.Map;
 
 import subreddit.android.appstore.AppStoreApp;
@@ -12,6 +14,7 @@ public class DescriptionColumnParser implements AppParser {
     public void parse(AppInfo appInfo, Map<Column, String> rawColumns) {
         final String rawDescriptionString = rawColumns.get(Column.DESCRIPTION);
         // TODO we need to deal with markdown in the descriptions
-        appInfo.setDescription(rawDescriptionString);
+        //noinspection deprecation
+        appInfo.setDescription(Html.fromHtml(rawDescriptionString).toString());
     }
 }
