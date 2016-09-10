@@ -13,7 +13,7 @@ import timber.log.Timber;
 public class ContactColumnParser implements AppParser {
     static final String TAG = AppStoreApp.LOGPREFIX + "ContactColumnParser";
     final static Pattern EMAIL_PATTERN = Pattern.compile("(\\b[\\w._%+-]+@[\\w.-]+\\.[\\w]{2,}\\b)");
-    final static Pattern REDDIT_PATTERN = Pattern.compile("(/u/[\\w]+?\\b)");
+    final static Pattern REDDIT_PATTERN = Pattern.compile("(/u/[\\-_\\w]+\\b)");
     final static Pattern WEBSITE_MATCHER = Pattern.compile("(?:\\[.+\\])\\((http.?://.+)\\)");
 
     @Override

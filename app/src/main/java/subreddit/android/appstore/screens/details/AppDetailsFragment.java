@@ -86,14 +86,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     }
 
     void openContact(Contact c) {
-        switch (c.getType()) {
-            case EMAIL:
-                startActivity(new Intent(Intent.ACTION_SENDTO, c.getContactUri()));
-                break;
-            default:
-                startActivity(new Intent(Intent.ACTION_VIEW, c.getContactUri()));
-                break;
-        }
+        startActivity(c.getContactIntent(getContext()));
     }
 
     @Nullable
