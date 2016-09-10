@@ -1,5 +1,7 @@
 package subreddit.android.appstore.backend.parser;
 
+import android.text.Html;
+
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,7 +42,7 @@ public class NameColumnParser implements AppParser {
             downloadType = Download.Type.UNKNOWN;
             Timber.tag(TAG).w("parseNameField(%s) failed", rawNameString);
         }
-        appInfo.setAppName(appName);
+        appInfo.setAppName(Html.fromHtml(appName).toString());
         appInfo.addDownload(new Download(downloadType, downloadUrl));
     }
 }
