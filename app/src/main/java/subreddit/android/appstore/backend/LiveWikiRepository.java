@@ -73,6 +73,13 @@ public class LiveWikiRepository implements WikiRepository {
                         Timber.tag(TAG).d("Parsed %d items in %dms", infos.size(), (timeStop - timeStart));
                         return infos;
                     }
+                })
+                .onErrorReturn(new Function<Throwable, Collection<AppInfo>>() {
+                    @Override
+                    public Collection<AppInfo> apply(Throwable throwable) throws Exception {
+                        Timber.tag(TAG).e("Error while fetching wiki repository");
+                        return new ArrayList<AppInfo>();
+                    }
                 });
     }
 }

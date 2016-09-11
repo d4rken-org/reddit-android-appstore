@@ -15,6 +15,8 @@ public interface AppListContract {
         void showLoadingScreen();
 
         void updateTagCount(TagMap tagMap);
+
+        void showError();
     }
 
     interface Presenter extends BasePresenter<View> {

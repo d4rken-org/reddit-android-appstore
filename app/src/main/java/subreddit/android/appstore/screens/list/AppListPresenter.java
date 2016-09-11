@@ -1,6 +1,7 @@
 package subreddit.android.appstore.screens.list;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,6 +15,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.AppStoreApp;
+import subreddit.android.appstore.R;
 import subreddit.android.appstore.backend.WikiRepository;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.screens.navigation.CategoryFilter;
@@ -39,7 +41,7 @@ public class AppListPresenter implements AppListContract.Presenter {
     }
 
     @Override
-    public void onAttachView(AppListContract.View view) {
+    public void onAttachView(final AppListContract.View view) {
         this.view = view;
         view.showLoadingScreen();
         Observable<List<AppInfo>> filteredData = repository.getAppList()
@@ -82,6 +84,16 @@ public class AppListPresenter implements AppListContract.Presenter {
                     public void accept(TagMap tagMap) throws Exception {
                         Timber.tag(TAG).d("updateTagCount(%s)", tagMap);
                         AppListPresenter.this.view.updateTagCount(tagMap);
+                    }
+                });
+        filteredData
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<AppInfo>>() {
+                    @Override
+                    public void accept(List<AppInfo> appInfos) throws Exception {
+                        if (appInfos.size()<1) {
+                            view.showError();
+                        }
                     }
                 });
     }
