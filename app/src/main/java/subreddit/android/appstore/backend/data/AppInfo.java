@@ -104,5 +104,10 @@ public class AppInfo implements Comparable<AppInfo> {
     public int compareTo(@NonNull AppInfo appInfo) {
         return appName.compareTo(appInfo.appName);
     }
+
+    @Override
+    public String toString() {
+        return getAppName();
+    }
 }
 
