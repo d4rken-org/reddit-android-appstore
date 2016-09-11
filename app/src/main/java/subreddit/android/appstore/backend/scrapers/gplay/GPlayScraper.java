@@ -54,6 +54,8 @@ public class GPlayScraper implements Scraper {
                         int iconStart = body.indexOf("<img class=\"cover-image\"");
                         int iconEnd = body.indexOf("\" alt=\"Cover art\"", iconStart);
                         String icon = body.substring(body.indexOf("lh", iconStart), iconEnd);
+                        if (!icon.startsWith("http://")) icon = "http://" + icon;
+
                         while (body.contains("<img class=\"screenshot\"")) {
                             int start = body.indexOf("<img class=\"screenshot\"");
                             int end = body.indexOf("itemprop=\"screenshot\"", start);
@@ -62,8 +64,10 @@ public class GPlayScraper implements Scraper {
                             int subEnd = workingString.indexOf("\"", subStart);
                             workingString = workingString.substring(subStart, subEnd);
                             body = body.substring(end, body.length());
+                            if (!workingString.startsWith("http://")) workingString = "http://" + workingString;
                             urls.add(workingString);
                         }
+
                         return new GPlayResult(urls, icon);
                     }
                 });
