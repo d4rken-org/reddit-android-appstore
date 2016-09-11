@@ -11,31 +11,36 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import subreddit.android.appstore.R;
+
 public class PlaceHolderRequestListener implements RequestListener<Drawable> {
-    private final ImageView target;
+    private final ImageView imageTarget;
     private final View placeHolder;
 
-    public PlaceHolderRequestListener(ImageView target) {
-        this(target, null);
+    public PlaceHolderRequestListener(ImageView imageTarget) {
+        this(imageTarget, null);
     }
 
-    public PlaceHolderRequestListener(@NonNull ImageView target, @Nullable View placeHolder) {
-        this.target = target;
+    public PlaceHolderRequestListener(@NonNull ImageView imageTarget, @Nullable View placeHolder) {
+        this.imageTarget = imageTarget;
         this.placeHolder = placeHolder;
-        this.target.setImageBitmap(null);
-        this.target.setVisibility(View.INVISIBLE);
+        this.imageTarget.setImageBitmap(null);
+        this.imageTarget.setVisibility(View.INVISIBLE);
         if (this.placeHolder != null) this.placeHolder.setVisibility(View.VISIBLE);
     }
 
     @Override
     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
-        return false;
+        placeHolder.setVisibility(View.INVISIBLE);
+        imageTarget.setImageResource(R.drawable.ic_image_broken_black);
+        imageTarget.setVisibility(View.VISIBLE);
+        return true;
     }
 
     @Override
     public boolean onResourceReady(Drawable resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
         if (placeHolder != null) placeHolder.setVisibility(View.GONE);
-        this.target.setVisibility(View.VISIBLE);
+        this.imageTarget.setVisibility(View.VISIBLE);
         return false;
     }
 }
