@@ -9,6 +9,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.module.GlideModule;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.io.InputStream;
+
+import subreddit.android.appstore.AppStoreApp;
+
 
 public class GlideConfigModule implements GlideModule {
 
@@ -21,6 +25,12 @@ public class GlideConfigModule implements GlideModule {
 
     @Override
     public void registerComponents(Context context, Registry registry) {
-
+        registry.append(
+                IconRequest.class,
+                InputStream.class,
+                new IconRequestModelLoader.Factory(
+                        AppStoreApp.Injector.INSTANCE.getAppComponent().scraperRepository()
+                )
+        );
     }
 }

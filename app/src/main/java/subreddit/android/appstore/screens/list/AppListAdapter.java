@@ -26,6 +26,7 @@ import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.util.ui.BaseAdapter;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
+import subreddit.android.appstore.util.ui.glide.IconRequest;
 import subreddit.android.appstore.util.ui.glide.PlaceHolderRequestListener;
 
 
@@ -85,7 +86,7 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
             description.setText(item.getDescription());
 
             Glide.with(getContext())
-                    .load(R.mipmap.ic_launcher)
+                    .load(new IconRequest(item))
                     .listener(new PlaceHolderRequestListener(iconImage, iconPlaceholder))
                     .into(iconImage);
 
