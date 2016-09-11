@@ -25,9 +25,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.R;
 import subreddit.android.appstore.backend.ScrapeResult;
@@ -35,14 +34,12 @@ import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.backend.data.Contact;
 import subreddit.android.appstore.backend.data.Download;
-import subreddit.android.appstore.backend.scrapers.gplay.GPlayScraper;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
-import timber.log.Timber;
 
 
 public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract.Presenter, AppDetailsContract.View>
-        implements AppDetailsContract.View, View.OnClickListener {
+        implements AppDetailsContract.View {
     @BindView(R.id.description) TextView description;
     @BindView(R.id.tag_container) FlowLayout tagContainer;
     @BindView(R.id.details_download) Button downloadButton;
@@ -69,48 +66,6 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
                 .build().inject(this);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.details_download: {
-                if (downloads.size() < 2) {
-                    openDownload(downloads.get(0));
-                } else {
-                    downloadPopup.show();
-                }
-                break;
-            }
-            case R.id.details_contact: {
-                if (contacts.size() < 2) {
-                    openContact(contacts.get(0));
-                } else {
-                    contactPopup.show();
-                }
-            }
-        }
-    }
-
-    void openDownload(Download d) {
-        startActivity(new Intent(Intent.ACTION_VIEW, d.getDownloadUri()));
-    }
-
-    void openContact(Contact c) {
-        switch (c.getType()) {
-            case EMAIL:
-                startActivity(new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", c.getTarget(), null)));
-                break;
-            case WEBSITE:
-                // TODO do reddit apps recognize a specific message intent?
-                openInChrome(c.getTarget());
-                break;
-            case REDDIT_USERNAME:
-                openInChrome(String.format(Locale.US, "http://www.reddit.com/message/compose/?to=%s", c.getTarget()));
-                break;
-            default:
-                openInChrome(c.getTarget());
-        }
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -122,8 +77,6 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        contactButton.setOnClickListener(this);
-        downloadButton.setOnClickListener(this);
         downloadPopup = new PopupMenu(getContext(), downloadButton);
         contactPopup = new PopupMenu(getContext(), contactButton);
         downloadPopup.inflate(R.menu.placeholder_popup_download);
@@ -158,8 +111,47 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         super.onDestroyView();
     }
 
+    @OnClick(R.id.details_download)
+    void onDownloadClicked(View view) {
+        if (downloads.size() < 2) {
+            openDownload(downloads.get(0));
+        } else {
+            downloadPopup.show();
+        }
+    }
+
+    @OnClick(R.id.details_contact)
+    void onContactClicked(View view) {
+        if (contacts.size() < 2) {
+            openContact(contacts.get(0));
+        } else {
+            contactPopup.show();
+        }
+    }
+
+    void openDownload(Download d) {
+        startActivity(new Intent(Intent.ACTION_VIEW, d.getDownloadUri()));
+    }
+
+    void openContact(Contact c) {
+        switch (c.getType()) {
+            case EMAIL:
+                startActivity(new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", c.getTarget(), null)));
+                break;
+            case WEBSITE:
+                // TODO do reddit apps recognize a specific message intent?
+                openInChrome(c.getTarget());
+                break;
+            case REDDIT_USERNAME:
+                openInChrome(String.format(Locale.US, "http://www.reddit.com/message/compose/?to=%s", c.getTarget()));
+                break;
+            default:
+                openInChrome(c.getTarget());
+        }
+    }
+
     @Override
-    public void onShowDetails(AppInfo appInfo) {
+    public void displayDetails(AppInfo appInfo) {
         downloads = new ArrayList<>(appInfo.getDownloads());
         contacts = new ArrayList<>(appInfo.getContacts());
         description.setText(appInfo.getDescription());
@@ -185,36 +177,29 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         contactPopup.getMenu().clear();
         for (Download d : downloads) {
             switch (d.getType()) {
-                case GPLAY: {
+                case GPLAY:
                     downloadPopup.getMenu().add(Menu.NONE, downloads.indexOf(d), Menu.NONE, R.string.gplay);
                     break;
-                }
-                case FDROID: {
+                case FDROID:
                     downloadPopup.getMenu().add(Menu.NONE, downloads.indexOf(d), Menu.NONE, R.string.fdroid);
                     break;
-                }
-                case WEBSITE: {
+                case WEBSITE:
                     downloadPopup.getMenu().add(Menu.NONE, downloads.indexOf(d), Menu.NONE, R.string.website);
-                }
+                    break;
             }
         }
-
         for (Contact c : contacts) {
             switch (c.getType()) {
-                case EMAIL: {
+                case EMAIL:
                     contactPopup.getMenu().add(Menu.NONE, contacts.indexOf(c), Menu.NONE, R.string.mail);
                     break;
-                }
-                case WEBSITE: {
+                case WEBSITE:
                     contactPopup.getMenu().add(Menu.NONE, contacts.indexOf(c), Menu.NONE, R.string.website);
                     break;
-                }
-                case REDDIT_USERNAME: {
+                case REDDIT_USERNAME:
                     contactPopup.getMenu().add(Menu.NONE, contacts.indexOf(c), Menu.NONE, R.string.reddit);
                     break;
-                }
             }
-
         }
     }
 
@@ -224,6 +209,11 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         builder.setSecondaryToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
+    }
+
+    @Override
+    public void displayScreenshots(ScrapeResult scrapeResult) {
+        // TODO use scrapeResult.getScreenshotUrls() to load images via glide into a pager
     }
 
     @Override

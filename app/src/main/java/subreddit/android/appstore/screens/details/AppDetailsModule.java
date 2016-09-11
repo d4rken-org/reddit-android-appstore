@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import dagger.Module;
 import dagger.Provides;
+import subreddit.android.appstore.backend.Scraper;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.util.dagger.FragmentScope;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
@@ -25,11 +26,11 @@ public class AppDetailsModule {
 
     @Provides
     @FragmentScope
-    public PresenterFactory<AppDetailsContract.Presenter> providePresenterFactory(final AppInfo appInfo) {
+    public PresenterFactory<AppDetailsContract.Presenter> providePresenterFactory(final Scraper scraper, final AppInfo appInfo) {
         return new PresenterFactory<AppDetailsContract.Presenter>() {
             @Override
             public AppDetailsContract.Presenter create() {
-                return new AppDetailsPresenter(appInfo);
+                return new AppDetailsPresenter(scraper, appInfo);
             }
 
             @Override
