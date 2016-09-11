@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -69,6 +70,21 @@ public class GPlayScraper implements Scraper {
                         }
 
                         return new GPlayResult(urls, icon);
+                    }
+                })
+                .toList()
+                .map(new Function<List<ScrapeResult>, ScrapeResult>() {
+                    @Override
+                    public ScrapeResult apply(List<ScrapeResult> scrapeResults) throws Exception {
+                        String iconUrl = null;
+                        Collection<String> screenshotUrls = new ArrayList<>();
+                        for (ScrapeResult scrapeResult : scrapeResults) {
+                            if (scrapeResult.getIconUrl() != null && iconUrl == null) {
+                                iconUrl = scrapeResult.getIconUrl();
+                            }
+                            screenshotUrls.addAll(scrapeResult.getScreenshotUrls());
+                        }
+                        return new GPlayResult(screenshotUrls, iconUrl);
                     }
                 });
 
