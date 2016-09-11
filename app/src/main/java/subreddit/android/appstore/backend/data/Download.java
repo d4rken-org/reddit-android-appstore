@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.Locale;
+
 public class Download {
 
     public enum Type {
@@ -35,5 +37,10 @@ public class Download {
     @Nullable
     public Uri getDownloadUri() {
         return Uri.parse(target);
+    }
+
+    @Override
+    public String toString() {
+        return String.format(Locale.US, "Download(type=%s, target=%s)", type, target);
     }
 }

@@ -11,7 +11,6 @@ import com.bumptech.glide.load.model.ModelLoaderFactory;
 import com.bumptech.glide.load.model.MultiModelLoaderFactory;
 import com.bumptech.glide.signature.ObjectKey;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import io.reactivex.Observer;
@@ -64,27 +63,28 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
                             Request request = new Request.Builder().url(scrapeResult.getIconUrl()).build();
                             return client.newCall(request).execute().body().byteStream();
                         }
-                    }).subscribe(new Observer<InputStream>() {
-                @Override
-                public void onSubscribe(Disposable d) {
-                    scraperSubscription = d;
-                }
+                    })
+                    .subscribe(new Observer<InputStream>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                            scraperSubscription = d;
+                        }
 
-                @Override
-                public void onNext(InputStream value) {
-                    callback.onDataReady(value);
-                }
+                        @Override
+                        public void onNext(InputStream value) {
+                            callback.onDataReady(value);
+                        }
 
-                @Override
-                public void onError(Throwable e) {
-                    callback.onLoadFailed(new IOException(e));
-                }
+                        @Override
+                        public void onError(Throwable e) {
+                            callback.onLoadFailed(new Exception(e));
+                        }
 
-                @Override
-                public void onComplete() {
+                        @Override
+                        public void onComplete() {
 
-                }
-            });
+                        }
+                    });
         }
 
         @Override

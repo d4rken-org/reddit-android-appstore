@@ -1,6 +1,8 @@
 package subreddit.android.appstore.util.ui.glide;
 
 
+import java.util.Locale;
+
 import subreddit.android.appstore.backend.data.AppInfo;
 
 public class IconRequest {
@@ -10,5 +12,10 @@ public class IconRequest {
 
     public AppInfo getAppInfo() {
         return appInfo;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(Locale.US, "IconRequest(appInfo=%s)", appInfo);
     }
 }

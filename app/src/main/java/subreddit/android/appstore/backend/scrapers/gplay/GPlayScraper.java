@@ -15,6 +15,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import subreddit.android.appstore.AppStoreApp;
+import subreddit.android.appstore.backend.DeadLinkException;
 import subreddit.android.appstore.backend.ScrapeResult;
 import subreddit.android.appstore.backend.Scraper;
 import subreddit.android.appstore.backend.data.AppInfo;
@@ -50,6 +51,8 @@ public class GPlayScraper implements Scraper {
                 .map(new Function<Response, ScrapeResult>() {
                     @Override
                     public ScrapeResult apply(Response response) throws Exception {
+                        if (response.code() == 404) throw new DeadLinkException(response.request().url().toString());
+
                         Collection<String> urls = new ArrayList<>();
                         String body = response.body().string();
                         int iconStart = body.indexOf("<img class=\"cover-image\"");

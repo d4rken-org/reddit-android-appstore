@@ -23,8 +23,9 @@ public class LiveScraper implements Scraper {
                 case GPLAY:
                     return gPlayScraper.scrape(appToScrape);
                 default:
+                    Timber.tag(TAG).d("No scraper available for type %s", download.getType());
             }
         }
-        return Observable.empty();
+        return Observable.error(new UnsupportedScrapeTargetException(appToScrape));
     }
 }
