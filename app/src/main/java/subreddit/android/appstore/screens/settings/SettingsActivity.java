@@ -38,14 +38,14 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         finish();
     }
 
-    public static class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
+    public static class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
             findPreference("about").setOnPreferenceClickListener(this);
-            findPreference("night_mode").setOnPreferenceClickListener(this);
+            findPreference("theme").setOnPreferenceChangeListener(this);
         }
 
         @Override
@@ -54,26 +54,24 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         }
 
         @Override
-        public boolean onPreferenceClick(Preference preference) {
-            switch (preference.getKey()) {
-                case "about": {
-                    startActivity(new Intent(getActivity(), AboutActivity.class));
-                    break;
-                }
-                case "night_mode": {
-                    new AlertDialog.Builder(getActivity())
-                            .setMessage(R.string.restart)
-                            .setNegativeButton(R.string.later, null)
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    ((AppStoreApp) getActivity().getApplication()).restart();
-                                }
-                            })
-                            .show();
-                }
-            }
+        public boolean onPreferenceChange(Preference preference, Object o) {
+            new AlertDialog.Builder(getActivity())
+                    .setMessage(R.string.restart)
+                    .setNegativeButton(R.string.later, null)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            ((AppStoreApp) getActivity().getApplication()).restart();
+                        }
+                    })
+                    .show();
 
+            return true;
+        }
+
+        @Override
+        public boolean onPreferenceClick(Preference preference) {
+            startActivity(new Intent(getActivity(), AboutActivity.class));
             return true;
         }
     }
