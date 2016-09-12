@@ -116,7 +116,7 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
 
     // Glide
-    compile 'com.github.bumptech.glide:glide:4.0.0-SNAPSHOT'
+    compile 'com.github.bumptech.glide:glide:4.0.0-20160905.222409-202'
 
     // Flow layout for tags
     compile 'com.wefika:flowlayout:0.4.0'
