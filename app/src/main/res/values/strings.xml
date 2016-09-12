@@ -35,7 +35,7 @@
     <string-array name="themes">
         <item>Light</item>
         <item>Dark</item>
-        <item>AMMOLED</item>
+        <item>AMOLED</item>
     </string-array>
     <string-array name="themesValues">
         <item>0</item>
