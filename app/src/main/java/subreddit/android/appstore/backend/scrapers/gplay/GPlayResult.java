@@ -4,20 +4,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.Collection;
+import java.util.Locale;
 
+import subreddit.android.appstore.backend.scrapers.BaseScrapeResult;
 import subreddit.android.appstore.backend.scrapers.ImgSize;
-import subreddit.android.appstore.backend.scrapers.ScrapeResult;
 
 
-public class GPlayResult implements ScrapeResult {
-    private Collection<String> urls;
-    private String iconUrl;
+public class GPlayResult extends BaseScrapeResult {
 
-    GPlayResult(Collection<String> urls, String iconUrl) {
-        this.urls = urls;
-        this.iconUrl = iconUrl;
+    public GPlayResult(String iconUrl, Collection<String> screenshotUrls) {
+        super(iconUrl, screenshotUrls);
     }
-
 
     @Nullable
     @Override
@@ -31,6 +28,11 @@ public class GPlayResult implements ScrapeResult {
 
     @Override
     public Collection<String> getScreenshotUrls() {
-        return urls;
+        return screenshotUrls;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(Locale.US, "GPlayResult(iconUrl=%s, screenshotUrls=%s", iconUrl, screenshotUrls);
     }
 }

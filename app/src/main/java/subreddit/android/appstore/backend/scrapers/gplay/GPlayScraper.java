@@ -19,11 +19,11 @@ import subreddit.android.appstore.backend.DeadLinkException;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.Download;
 import subreddit.android.appstore.backend.scrapers.ImgSize;
+import subreddit.android.appstore.backend.scrapers.MediaScraper;
 import subreddit.android.appstore.backend.scrapers.ScrapeResult;
-import subreddit.android.appstore.backend.scrapers.Scraper;
 import timber.log.Timber;
 
-public class GPlayScraper implements Scraper {
+public class GPlayScraper implements MediaScraper {
     static final String TAG = AppStoreApp.LOGPREFIX + "GPlayScraper";
     final OkHttpClient client = new OkHttpClient();
 
@@ -82,7 +82,7 @@ public class GPlayScraper implements Scraper {
                             urls.add(screenUrl);
                         }
 
-                        return new GPlayResult(urls, iconUrl);
+                        return new GPlayResult(iconUrl, urls);
                     }
                 })
                 .toList()
@@ -97,7 +97,7 @@ public class GPlayScraper implements Scraper {
                             }
                             screenshotUrls.addAll(scrapeResult.getScreenshotUrls());
                         }
-                        return new GPlayResult(screenshotUrls, iconUrl);
+                        return new GPlayResult(iconUrl, screenshotUrls);
                     }
                 });
 

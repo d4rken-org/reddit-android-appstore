@@ -6,7 +6,6 @@ import android.preference.PreferenceManager;
 
 import dagger.Module;
 import dagger.Provides;
-import subreddit.android.appstore.util.dagger.ApplicationContext;
 import subreddit.android.appstore.util.dagger.ApplicationScope;
 
 
@@ -18,7 +17,6 @@ public class AndroidModule {
 
     @Provides
     @ApplicationScope
-    @ApplicationContext
     Context provideContext() {
         return app.getApplicationContext();
     }

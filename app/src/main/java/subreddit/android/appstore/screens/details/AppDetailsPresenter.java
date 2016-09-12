@@ -8,19 +8,19 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.data.AppInfo;
+import subreddit.android.appstore.backend.scrapers.MediaScraper;
 import subreddit.android.appstore.backend.scrapers.ScrapeResult;
-import subreddit.android.appstore.backend.scrapers.Scraper;
 
 
 public class AppDetailsPresenter implements AppDetailsContract.Presenter {
     static final String TAG = AppStoreApp.LOGPREFIX + "AppDetailsPresenter";
     AppDetailsContract.View view;
-    private final Scraper scraper;
+    private final MediaScraper mediaScraper;
     private AppInfo appInfoItem;
     private Disposable disposable;
 
-    public AppDetailsPresenter(Scraper scraper, AppInfo appInfoItem) {
-        this.scraper = scraper;
+    public AppDetailsPresenter(MediaScraper mediaScraper, AppInfo appInfoItem) {
+        this.mediaScraper = mediaScraper;
         this.appInfoItem = appInfoItem;
     }
 
@@ -34,7 +34,7 @@ public class AppDetailsPresenter implements AppDetailsContract.Presenter {
         this.view = view;
         if (appInfoItem == null) view.closeDetails();
         else view.displayDetails(appInfoItem);
-        disposable = scraper.get(appInfoItem)
+        disposable = mediaScraper.get(appInfoItem)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ScrapeResult>() {

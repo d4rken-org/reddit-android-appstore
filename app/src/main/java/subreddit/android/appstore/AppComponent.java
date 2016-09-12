@@ -3,7 +3,7 @@ package subreddit.android.appstore;
 import dagger.Component;
 import subreddit.android.appstore.backend.ScraperModule;
 import subreddit.android.appstore.backend.WikiRepositoryModule;
-import subreddit.android.appstore.backend.scrapers.Scraper;
+import subreddit.android.appstore.backend.scrapers.MediaScraper;
 import subreddit.android.appstore.backend.wiki.WikiRepository;
 import subreddit.android.appstore.util.dagger.ApplicationScope;
 
@@ -17,5 +17,5 @@ import subreddit.android.appstore.util.dagger.ApplicationScope;
 public interface AppComponent {
     WikiRepository wikiRepository();
 
-    Scraper scraperRepository();
+    MediaScraper mediaScraper();
 }

@@ -5,28 +5,44 @@ import android.support.annotation.NonNull;
 import android.support.v4.util.LruCache;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.UnsupportedScrapeTargetException;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.Download;
+import subreddit.android.appstore.backend.scrapers.caching.ScrapeDiskCache;
 import subreddit.android.appstore.backend.scrapers.gplay.GPlayScraper;
 import timber.log.Timber;
 
-public class LiveScraper implements Scraper {
+public class LiveMediaScraper implements MediaScraper {
     static final String TAG = AppStoreApp.LOGPREFIX + "LiveScraper";
-    final LruCache<AppInfo, Observable<ScrapeResult>> scrapeCache = new LruCache<>(1000);
+    final LruCache<AppInfo, Observable<ScrapeResult>> scrapeCache = new LruCache<>(1);
+    final ScrapeDiskCache scrapeDiskCache;
     final GPlayScraper gPlayScraper = new GPlayScraper();
+
+    public LiveMediaScraper(ScrapeDiskCache scrapeDiskCache) {
+        this.scrapeDiskCache = scrapeDiskCache;
+    }
 
     @NonNull
     @Override
-    public Observable<ScrapeResult> get(@NonNull AppInfo appToScrape) {
+    public Observable<ScrapeResult> get(@NonNull final AppInfo appToScrape) {
         synchronized (scrapeCache) {
-            Observable<ScrapeResult> scrapeResult = scrapeCache.get(appToScrape);
-            if (scrapeResult == null) {
-                scrapeResult = doScrape(appToScrape).cache();
-                scrapeCache.put(appToScrape, scrapeResult);
+            Observable<ScrapeResult> scrapeResultObserver = scrapeCache.get(appToScrape);
+            if (scrapeResultObserver == null) {
+                scrapeResultObserver = scrapeDiskCache.get(appToScrape)
+                        .switchIfEmpty(
+                                doScrape(appToScrape).doOnNext(new Consumer<ScrapeResult>() {
+                                    @Override
+                                    public void accept(ScrapeResult scrapeResult) throws Exception {
+                                        scrapeDiskCache.put(appToScrape, scrapeResult);
+                                    }
+                                })
+                        )
+                        .cache();
+                scrapeCache.put(appToScrape, scrapeResultObserver);
             } else Timber.tag(TAG).d("Using cached result for %s", appToScrape);
-            return scrapeResult;
+            return scrapeResultObserver;
         }
     }
 

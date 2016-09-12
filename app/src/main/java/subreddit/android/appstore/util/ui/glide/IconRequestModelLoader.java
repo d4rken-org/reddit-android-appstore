@@ -22,22 +22,22 @@ import io.reactivex.functions.Function;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import subreddit.android.appstore.backend.scrapers.ImgSize;
+import subreddit.android.appstore.backend.scrapers.MediaScraper;
 import subreddit.android.appstore.backend.scrapers.ScrapeResult;
-import subreddit.android.appstore.backend.scrapers.Scraper;
 
 
 public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStream> {
-    private final Scraper scraper;
+    private final MediaScraper mediaScraper;
 
-    IconRequestModelLoader(Scraper scraper) {
-        this.scraper = scraper;
+    IconRequestModelLoader(MediaScraper mediaScraper) {
+        this.mediaScraper = mediaScraper;
     }
 
     @Nullable
     @Override
     public LoadData<InputStream> buildLoadData(IconRequest iconRequest, int width, int height, Options options) {
         IconRequestKey requestKey = new IconRequestKey(iconRequest, width, height, options);
-        return new LoadData<>(requestKey, new ScrapeResultFetcher(scraper, iconRequest, width, height, options));
+        return new LoadData<>(requestKey, new ScrapeResultFetcher(mediaScraper, iconRequest, width, height, options));
     }
 
     static class IconRequestKey implements Key {
@@ -93,15 +93,15 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
     }
 
     private static class ScrapeResultFetcher implements DataFetcher<InputStream> {
-        private final Scraper scraper;
+        private final MediaScraper mediaScraper;
         final IconRequest iconRequest;
         final int width;
         final int height;
         private final Options options;
         Disposable scraperSubscription;
 
-        ScrapeResultFetcher(Scraper scraper, IconRequest iconRequest, int width, int height, Options options) {
-            this.scraper = scraper;
+        ScrapeResultFetcher(MediaScraper mediaScraper, IconRequest iconRequest, int width, int height, Options options) {
+            this.mediaScraper = mediaScraper;
             this.iconRequest = iconRequest;
             this.width = width;
             this.height = height;
@@ -110,7 +110,7 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
 
         @Override
         public void loadData(Priority priority, final DataCallback<? super InputStream> callback) {
-            scraper.get(iconRequest.getAppInfo())
+            mediaScraper.get(iconRequest.getAppInfo())
                     .map(new Function<ScrapeResult, InputStream>() {
                         @Override
                         public InputStream apply(ScrapeResult scrapeResult) throws Exception {
@@ -168,15 +168,15 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
     }
 
     public static class Factory implements ModelLoaderFactory<IconRequest, InputStream> {
-        private final Scraper scraper;
+        private final MediaScraper mediaScraper;
 
-        public Factory(Scraper scraper) {
-            this.scraper = scraper;
+        public Factory(MediaScraper mediaScraper) {
+            this.mediaScraper = mediaScraper;
         }
 
         @Override
         public ModelLoader<IconRequest, InputStream> build(MultiModelLoaderFactory multiFactory) {
-            return new IconRequestModelLoader(scraper);
+            return new IconRequestModelLoader(mediaScraper);
         }
 
         @Override
