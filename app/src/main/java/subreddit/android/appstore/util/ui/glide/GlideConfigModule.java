@@ -15,7 +15,7 @@ public class GlideConfigModule implements GlideModule {
 
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
-
+//        builder.setDefaultRequestOptions(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE));
     }
 
     @Override

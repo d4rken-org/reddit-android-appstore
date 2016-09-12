@@ -29,7 +29,7 @@ public class GPlayScraper implements Scraper {
 
     @NonNull
     @Override
-    public Observable<ScrapeResult> scrape(@NonNull final AppInfo appToScrape) {
+    public Observable<ScrapeResult> get(@NonNull final AppInfo appToScrape) {
         return Observable
                 .create(new ObservableOnSubscribe<String>() {
                     @Override

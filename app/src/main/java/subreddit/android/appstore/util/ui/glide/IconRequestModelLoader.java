@@ -110,7 +110,7 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
 
         @Override
         public void loadData(Priority priority, final DataCallback<? super InputStream> callback) {
-            scraper.scrape(iconRequest.getAppInfo())
+            scraper.get(iconRequest.getAppInfo())
                     .map(new Function<ScrapeResult, InputStream>() {
                         @Override
                         public InputStream apply(ScrapeResult scrapeResult) throws Exception {

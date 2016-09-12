@@ -7,5 +7,5 @@ import subreddit.android.appstore.backend.data.AppInfo;
 
 public interface Scraper {
     @NonNull
-    Observable<ScrapeResult> scrape(@NonNull AppInfo appToScrape);
+    Observable<ScrapeResult> get(@NonNull AppInfo appToScrape);
 }

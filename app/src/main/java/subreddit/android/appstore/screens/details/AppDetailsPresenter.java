@@ -34,7 +34,7 @@ public class AppDetailsPresenter implements AppDetailsContract.Presenter {
         this.view = view;
         if (appInfoItem == null) view.closeDetails();
         else view.displayDetails(appInfoItem);
-        disposable = scraper.scrape(appInfoItem)
+        disposable = scraper.get(appInfoItem)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ScrapeResult>() {
