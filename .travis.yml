@@ -1,0 +1,16 @@
+language: android
+android:
+  components:
+    - platform-tools
+    - tools
+
+    - build-tools
+
+    - android-24
+
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+
+    - sys-img-armeabi-v7a-android-24
+    - sys-img-x86-android-24
