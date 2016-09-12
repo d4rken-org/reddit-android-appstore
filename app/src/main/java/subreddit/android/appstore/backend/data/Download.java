@@ -43,4 +43,21 @@ public class Download {
     public String toString() {
         return String.format(Locale.US, "Download(type=%s, target=%s)", type, target);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Download download = (Download) o;
+
+        return type == download.type && target.equals(download.target);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = type.hashCode();
+        result = 31 * result + target.hashCode();
+        return result;
+    }
 }

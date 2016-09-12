@@ -32,7 +32,7 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
     @Nullable
     @Override
     public LoadData<InputStream> buildLoadData(IconRequest iconRequest, int width, int height, Options options) {
-        return new LoadData<>(new ObjectKey(iconRequest.getAppInfo()), new ScrapeResultFetcher(scraper, iconRequest));
+        return new LoadData<>(new ObjectKey(iconRequest), new ScrapeResultFetcher(scraper, iconRequest));
     }
 
     @Override

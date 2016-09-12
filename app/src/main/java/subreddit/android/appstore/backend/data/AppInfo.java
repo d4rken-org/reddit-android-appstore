@@ -109,5 +109,22 @@ public class AppInfo implements Comparable<AppInfo> {
     public String toString() {
         return getAppName();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AppInfo appInfo = (AppInfo) o;
+
+        return downloads.equals(appInfo.downloads) && appName.equals(appInfo.appName);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = downloads.hashCode();
+        result = 31 * result + appName.hashCode();
+        return result;
+    }
 }
 

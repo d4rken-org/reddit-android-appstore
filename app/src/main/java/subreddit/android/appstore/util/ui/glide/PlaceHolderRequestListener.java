@@ -32,7 +32,7 @@ public class PlaceHolderRequestListener implements RequestListener<Drawable> {
     @Override
     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
         placeHolder.setVisibility(View.INVISIBLE);
-        imageTarget.setImageResource(R.drawable.ic_image_broken_black);
+        imageTarget.setImageResource(R.drawable.ic_image_broken);
         imageTarget.setVisibility(View.VISIBLE);
         return true;
     }

@@ -15,6 +15,22 @@ public class IconRequest {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        IconRequest that = (IconRequest) o;
+
+        return appInfo.equals(that.appInfo);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return appInfo.hashCode();
+    }
+
+    @Override
     public String toString() {
         return String.format(Locale.US, "IconRequest(appInfo=%s)", appInfo);
     }
