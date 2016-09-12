@@ -17,7 +17,7 @@
     </style>
 
     <style name="AppTheme.Black" parent="AppTheme.Dark">
-        <item name="android:colorBackground">#000</item>
+        <item name="android:colorBackground">#FF000000</item>
     </style>
 
     <style name="DefaultListItemContainer">
