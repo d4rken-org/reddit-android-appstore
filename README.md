@@ -1,5 +1,6 @@
 # /r/Android App Store
 [![Project License](https://img.shields.io/badge/license-Apache--2.0-blue.svg?style=flat-square)](LICENSE)
+[![Build Status](https://travis-ci.org/d4rken/reddit-android-appstore.svg?branch=dev)](https://travis-ci.org/d4rken/reddit-android-appstore)
 
 App inspired by [this reddit post](https://redd.it/50rafp)
 
