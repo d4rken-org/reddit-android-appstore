@@ -7,15 +7,19 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.wefika.flowlayout.FlowLayout;
 
 import java.util.ArrayList;
@@ -34,8 +38,11 @@ import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.backend.data.Contact;
 import subreddit.android.appstore.backend.data.Download;
+import subreddit.android.appstore.util.Preconditions;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
+import subreddit.android.appstore.util.ui.glide.IconRequest;
+import subreddit.android.appstore.util.ui.glide.PlaceHolderRequestListener;
 
 
 public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract.Presenter, AppDetailsContract.View>
@@ -44,6 +51,9 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     @BindView(R.id.tag_container) FlowLayout tagContainer;
     @BindView(R.id.details_download) Button downloadButton;
     @BindView(R.id.details_contact) Button contactButton;
+    @BindView(R.id.icon_image) ImageView iconImage;
+    @BindView(R.id.icon_placeholder) View iconPlaceholder;
+    @BindView(R.id.appname) TextView appName;
 
     private PopupMenu downloadPopup, contactPopup;
 
@@ -152,6 +162,11 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
 
     @Override
     public void displayDetails(AppInfo appInfo) {
+        Glide.with(this)
+                .load(new IconRequest(appInfo))
+                .listener(new PlaceHolderRequestListener(iconImage, iconPlaceholder))
+                .into(iconImage);
+        appName.setText(appInfo.getAppName());
         downloads = new ArrayList<>(appInfo.getDownloads());
         contacts = new ArrayList<>(appInfo.getContacts());
         description.setText(appInfo.getDescription());
@@ -165,11 +180,10 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
             tagContainer.addView(tv);
         }
         tagContainer.setVisibility(appInfo.getTags().isEmpty() ? View.GONE : View.VISIBLE);
-
-        getActivity().setTitle(appInfo.getAppName());
-
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        Preconditions.checkNotNull(actionBar);
+        actionBar.setSubtitle(appInfo.getAppName());
         createMenus();
-
     }
 
     private void createMenus() {

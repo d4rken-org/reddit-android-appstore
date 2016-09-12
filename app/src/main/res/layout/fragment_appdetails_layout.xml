@@ -6,6 +6,44 @@
               android:orientation="vertical"
               android:padding="16dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/icon_frame"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top">
+
+            <ImageView
+                android:id="@+id/icon_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:contentDescription="App icon"
+                android:visibility="invisible"/>
+
+            <ProgressBar
+                android:id="@+id/icon_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:visibility="visible"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/appname"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingStart="16dp"
+            tools:text="Lorem ipsum"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/description"
         style="@style/TextAppearance.AppCompat.Body1"
@@ -27,24 +65,26 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:gravity="left|center_vertical"
-            android:layout_alignParentLeft="true"
             android:id="@+id/details_contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:background="?attr/selectableItemBackground"
-            android:textColor="@color/colorAccent"
-            android:text="@string/button_contact"/>
+            android:gravity="start|center_vertical"
+            android:text="@string/button_contact"
+            android:textColor="@color/colorAccent"/>
 
         <Button
-            android:gravity="right|center_vertical"
-            android:layout_alignParentRight="true"
             android:id="@+id/details_download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:background="?attr/selectableItemBackground"
-            android:textColor="@color/colorAccent"
-            android:text="@string/button_download"/>
+            android:gravity="start|center_vertical"
+            android:text="@string/button_download"
+            android:textColor="@color/colorAccent"/>
 
     </RelativeLayout>
 </LinearLayout>
