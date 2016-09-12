@@ -159,4 +159,5 @@ dependencies {
 
     //License dialog
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.1'
+
 }
