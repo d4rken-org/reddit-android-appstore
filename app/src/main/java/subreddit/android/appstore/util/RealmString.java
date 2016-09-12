@@ -1,4 +1,4 @@
-package subreddit.android.appstore.backend.scrapers.caching;
+package subreddit.android.appstore.util;
 
 import java.util.ArrayList;
 import java.util.Collection;

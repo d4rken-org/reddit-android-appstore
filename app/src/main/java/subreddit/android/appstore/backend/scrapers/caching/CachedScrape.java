@@ -11,6 +11,7 @@ import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.scrapers.BaseScrapeResult;
 import subreddit.android.appstore.backend.scrapers.ImgSize;
 import subreddit.android.appstore.backend.scrapers.ScrapeResult;
+import subreddit.android.appstore.util.RealmString;
 
 public class CachedScrape extends RealmObject {
     public CachedScrape() {

@@ -8,7 +8,6 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Function;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.scrapers.ScrapeResult;
@@ -18,8 +17,6 @@ public class ScrapeDiskCache {
     static final String TAG = AppStoreApp.LOGPREFIX + "ScrapeDiskCache";
 
     public ScrapeDiskCache(Context context) {
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder(context, context.getCacheDir()).build();
-        Realm.setDefaultConfiguration(realmConfig);
     }
 
     public void put(AppInfo appInfo, ScrapeResult scrapeResult) {

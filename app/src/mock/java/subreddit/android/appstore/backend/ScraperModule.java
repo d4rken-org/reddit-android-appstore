@@ -2,7 +2,7 @@ package subreddit.android.appstore.backend;
 
 import dagger.Module;
 import dagger.Provides;
-import subreddit.android.appstore.backend.scrapers.Scraper;
+import subreddit.android.appstore.backend.scrapers.MediaScraper;
 import subreddit.android.appstore.util.dagger.ApplicationScope;
 
 
@@ -10,7 +10,7 @@ import subreddit.android.appstore.util.dagger.ApplicationScope;
 public class ScraperModule {
     @Provides
     @ApplicationScope
-    Scraper provideScraper() {
+    MediaScraper provideMediaScraper() {
         return new FakeScraper();
     }
 }

@@ -16,6 +16,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.data.AppInfo;
+import subreddit.android.appstore.backend.wiki.caching.WikiDiskCache;
 import subreddit.android.appstore.backend.wiki.parser.BodyParser;
 import timber.log.Timber;
 
@@ -24,14 +25,32 @@ public class LiveWikiRepository implements WikiRepository {
     static final String TAG = AppStoreApp.LOGPREFIX + "LiveWikiRepository";
     static final String TARGET_URL = "https://www.reddit.com/r/Android/wiki/apps";
     final OkHttpClient client = new OkHttpClient();
-
+    final WikiDiskCache wikiDiskCache;
     ReplaySubject<Collection<AppInfo>> dataReplayer;
+
+    public LiveWikiRepository(WikiDiskCache wikiDiskCache) {
+        this.wikiDiskCache = wikiDiskCache;
+    }
 
     @Override
     public synchronized Observable<Collection<AppInfo>> getAppList() {
         if (dataReplayer == null) {
             dataReplayer = ReplaySubject.createWithSize(1);
-            refresh();
+            wikiDiskCache.getAll()
+                    .switchIfEmpty(
+                            loadData().doOnNext(new Consumer<Collection<AppInfo>>() {
+                                @Override
+                                public void accept(Collection<AppInfo> appInfos) throws Exception {
+                                    wikiDiskCache.putAll(appInfos);
+                                }
+                            })
+                    )
+                    .subscribe(new Consumer<Collection<AppInfo>>() {
+                        @Override
+                        public void accept(Collection<AppInfo> appInfos) throws Exception {
+                            dataReplayer.onNext(appInfos);
+                        }
+                    });
         }
         return dataReplayer;
     }
@@ -77,7 +96,7 @@ public class LiveWikiRepository implements WikiRepository {
                 .onErrorReturn(new Function<Throwable, Collection<AppInfo>>() {
                     @Override
                     public Collection<AppInfo> apply(Throwable throwable) throws Exception {
-                        Timber.tag(TAG).e("Error while fetching wiki repository");
+                        Timber.tag(TAG).e(throwable, "Error while fetching wiki repository");
                         return new ArrayList<>();
                     }
                 });

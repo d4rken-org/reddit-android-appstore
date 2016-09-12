@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
@@ -83,15 +82,13 @@ public class AppInfo implements Comparable<AppInfo> {
         this.downloads.add(download);
     }
 
-    public String toJson() {
-        Gson gson = new GsonBuilder().create();
+    public String toJson(Gson gson) {
         return gson.toJson(this);
     }
 
     @Nullable
-    public static AppInfo fromJson(String jsonString) {
+    public static AppInfo fromJson(Gson gson, String jsonString) {
         if (jsonString == null) return null;
-        Gson gson = new GsonBuilder().create();
         try {
             return gson.fromJson(jsonString, AppInfo.class);
         } catch (JsonSyntaxException e) {

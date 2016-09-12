@@ -23,6 +23,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.futuremind.recyclerviewfastscroll.FastScroller;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.Collection;
 import java.util.List;
@@ -198,7 +200,8 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     @Override
     public boolean onItemClick(View view, int position, long itemId) {
         Intent intent = new Intent(getActivity(), AppDetailsActivity.class);
-        intent.putExtra(AppDetailsActivity.ARG_KEY, appListAdapter.getItem(position).toJson());
+        Gson gson = new GsonBuilder().create();
+        intent.putExtra(AppDetailsActivity.ARG_KEY, appListAdapter.getItem(position).toJson(gson));
         startActivity(intent);
         return true;
     }

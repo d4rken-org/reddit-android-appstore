@@ -1,14 +1,17 @@
 package subreddit.android.appstore.backend;
 
 
+import android.support.annotation.NonNull;
+
 import io.reactivex.Observable;
 import subreddit.android.appstore.backend.data.AppInfo;
+import subreddit.android.appstore.backend.scrapers.MediaScraper;
 import subreddit.android.appstore.backend.scrapers.ScrapeResult;
-import subreddit.android.appstore.backend.scrapers.Scraper;
 
-public class FakeScraper implements Scraper {
+public class FakeScraper implements MediaScraper {
+    @NonNull
     @Override
-    public Observable<ScrapeResult> get(AppInfo appToScrape) {
+    public Observable<ScrapeResult> get(@NonNull AppInfo appToScrape) {
         return Observable.empty();
     }
 }

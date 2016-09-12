@@ -24,7 +24,7 @@ public class GlideConfigModule implements GlideModule {
                 IconRequest.class,
                 InputStream.class,
                 new IconRequestModelLoader.Factory(
-                        AppStoreApp.Injector.INSTANCE.getAppComponent().scraperRepository()
+                        AppStoreApp.Injector.INSTANCE.getAppComponent().mediaScraper()
                 )
         );
     }

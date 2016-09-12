@@ -2,9 +2,9 @@ package subreddit.android.appstore.screens.details;
 
 import android.os.Bundle;
 
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.data.AppInfo;
@@ -17,7 +17,7 @@ public class AppDetailsPresenter implements AppDetailsContract.Presenter {
     AppDetailsContract.View view;
     private final MediaScraper mediaScraper;
     private AppInfo appInfoItem;
-    private Disposable disposable;
+    Disposable disposable;
 
     public AppDetailsPresenter(MediaScraper mediaScraper, AppInfo appInfoItem) {
         this.mediaScraper = mediaScraper;
@@ -34,13 +34,28 @@ public class AppDetailsPresenter implements AppDetailsContract.Presenter {
         this.view = view;
         if (appInfoItem == null) view.closeDetails();
         else view.displayDetails(appInfoItem);
-        disposable = mediaScraper.get(appInfoItem)
+        mediaScraper.get(appInfoItem)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<ScrapeResult>() {
+                .subscribe(new Observer<ScrapeResult>() {
                     @Override
-                    public void accept(ScrapeResult scrapeResult) throws Exception {
+                    public void onSubscribe(Disposable d) {
+                        disposable = d;
+                    }
+
+                    @Override
+                    public void onNext(ScrapeResult scrapeResult) {
                         AppDetailsPresenter.this.view.displayScreenshots(scrapeResult);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // TODO
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
 

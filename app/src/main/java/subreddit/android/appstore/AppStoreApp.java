@@ -7,13 +7,15 @@ import android.preference.PreferenceManager;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import timber.log.Timber;
 
 
 public class AppStoreApp extends Application {
     public static final String LOGPREFIX = "RAS:";
     private static RefWatcher refWatcher;
-    private int theme=0;
+    private int theme = 0;
 
     public static RefWatcher getRefWatcher() {
         return refWatcher;
@@ -25,7 +27,7 @@ public class AppStoreApp extends Application {
         if (BuildConfig.DEBUG) Timber.plant(new Timber.DebugTree());
         refWatcher = LeakCanary.install(this);
         Injector.INSTANCE.init(this);
-        theme = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("theme","0"));
+        theme = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("theme", "0"));
     }
 
     public int getSetTheme() {
@@ -41,7 +43,7 @@ public class AppStoreApp extends Application {
     }
 
     public void restart() {
-        theme = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("theme","0"));
+        theme = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("theme", "0"));
         Intent i = getBaseContext().getPackageManager()
                 .getLaunchIntentForPackage(getBaseContext().getPackageName());
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -56,6 +58,10 @@ public class AppStoreApp extends Application {
         }
 
         void init(AppStoreApp app) {
+            RealmConfiguration realmConfig = new RealmConfiguration.Builder(app, app.getCacheDir())
+                    .deleteRealmIfMigrationNeeded()
+                    .build();
+            Realm.setDefaultConfiguration(realmConfig);
             appComponent = DaggerAppComponent.builder()
                     .androidModule(new AndroidModule(app))
                     .build();

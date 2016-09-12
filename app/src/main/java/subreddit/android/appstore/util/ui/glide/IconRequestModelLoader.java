@@ -136,7 +136,7 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
 
                         @Override
                         public void onError(Throwable e) {
-                            callback.onLoadFailed(new Exception(e));
+                            callback.onDataReady(null);
                         }
 
                         @Override
