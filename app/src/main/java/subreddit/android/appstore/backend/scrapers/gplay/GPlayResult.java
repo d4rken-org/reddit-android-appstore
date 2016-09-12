@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 
 import java.util.Collection;
 
-import subreddit.android.appstore.backend.ImgSize;
-import subreddit.android.appstore.backend.ScrapeResult;
+import subreddit.android.appstore.backend.scrapers.ImgSize;
+import subreddit.android.appstore.backend.scrapers.ScrapeResult;
 
 
 public class GPlayResult implements ScrapeResult {

@@ -7,9 +7,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.AppStoreApp;
-import subreddit.android.appstore.backend.ScrapeResult;
-import subreddit.android.appstore.backend.Scraper;
 import subreddit.android.appstore.backend.data.AppInfo;
+import subreddit.android.appstore.backend.scrapers.ScrapeResult;
+import subreddit.android.appstore.backend.scrapers.Scraper;
 
 
 public class AppDetailsPresenter implements AppDetailsContract.Presenter {

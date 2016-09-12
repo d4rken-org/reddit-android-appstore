@@ -1,4 +1,4 @@
-package subreddit.android.appstore.backend;
+package subreddit.android.appstore.backend.wiki;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.data.AppInfo;
-import subreddit.android.appstore.backend.parser.BodyParser;
+import subreddit.android.appstore.backend.wiki.parser.BodyParser;
 import timber.log.Timber;
 
 
@@ -78,7 +78,7 @@ public class LiveWikiRepository implements WikiRepository {
                     @Override
                     public Collection<AppInfo> apply(Throwable throwable) throws Exception {
                         Timber.tag(TAG).e("Error while fetching wiki repository");
-                        return new ArrayList<AppInfo>();
+                        return new ArrayList<>();
                     }
                 });
     }

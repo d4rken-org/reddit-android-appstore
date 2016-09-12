@@ -4,8 +4,8 @@ import android.app.Activity;
 
 import dagger.Module;
 import dagger.Provides;
-import subreddit.android.appstore.backend.Scraper;
 import subreddit.android.appstore.backend.data.AppInfo;
+import subreddit.android.appstore.backend.scrapers.Scraper;
 import subreddit.android.appstore.util.dagger.FragmentScope;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
 

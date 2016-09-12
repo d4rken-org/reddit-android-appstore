@@ -10,8 +10,8 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.AppStoreApp;
-import subreddit.android.appstore.backend.WikiRepository;
 import subreddit.android.appstore.backend.data.AppInfo;
+import subreddit.android.appstore.backend.wiki.WikiRepository;
 import timber.log.Timber;
 
 

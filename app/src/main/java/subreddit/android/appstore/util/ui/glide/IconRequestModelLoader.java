@@ -21,9 +21,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import subreddit.android.appstore.backend.ImgSize;
-import subreddit.android.appstore.backend.ScrapeResult;
-import subreddit.android.appstore.backend.Scraper;
+import subreddit.android.appstore.backend.scrapers.ImgSize;
+import subreddit.android.appstore.backend.scrapers.ScrapeResult;
+import subreddit.android.appstore.backend.scrapers.Scraper;
 
 
 public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStream> {

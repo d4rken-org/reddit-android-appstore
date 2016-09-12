@@ -16,11 +16,11 @@ import okhttp3.Request;
 import okhttp3.Response;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.DeadLinkException;
-import subreddit.android.appstore.backend.ImgSize;
-import subreddit.android.appstore.backend.ScrapeResult;
-import subreddit.android.appstore.backend.Scraper;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.Download;
+import subreddit.android.appstore.backend.scrapers.ImgSize;
+import subreddit.android.appstore.backend.scrapers.ScrapeResult;
+import subreddit.android.appstore.backend.scrapers.Scraper;
 import timber.log.Timber;
 
 public class GPlayScraper implements Scraper {

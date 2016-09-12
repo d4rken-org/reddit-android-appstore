@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import dagger.Module;
 import dagger.Provides;
-import subreddit.android.appstore.backend.WikiRepository;
+import subreddit.android.appstore.backend.wiki.WikiRepository;
 import subreddit.android.appstore.screens.navigation.CategoryFilter;
 import subreddit.android.appstore.util.dagger.FragmentScope;
 import subreddit.android.appstore.util.mvp.PresenterFactory;

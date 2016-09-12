@@ -1,4 +1,4 @@
-package subreddit.android.appstore.backend;
+package subreddit.android.appstore.backend.scrapers;
 
 
 import android.support.annotation.NonNull;
@@ -6,6 +6,7 @@ import android.support.v4.util.LruCache;
 
 import io.reactivex.Observable;
 import subreddit.android.appstore.AppStoreApp;
+import subreddit.android.appstore.backend.UnsupportedScrapeTargetException;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.Download;
 import subreddit.android.appstore.backend.scrapers.gplay.GPlayScraper;

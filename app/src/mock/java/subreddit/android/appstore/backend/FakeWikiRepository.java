@@ -12,6 +12,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.ReplaySubject;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
+import subreddit.android.appstore.backend.wiki.WikiRepository;
 
 
 public class FakeWikiRepository implements WikiRepository {

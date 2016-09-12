@@ -1,4 +1,4 @@
-package subreddit.android.appstore.backend.parser;
+package subreddit.android.appstore.backend.wiki.parser;
 
 import java.util.Map;
 import java.util.regex.Matcher;
