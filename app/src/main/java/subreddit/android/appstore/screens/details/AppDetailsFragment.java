@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -46,7 +47,7 @@ import subreddit.android.appstore.util.ui.glide.PlaceHolderRequestListener;
 
 
 public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract.Presenter, AppDetailsContract.View>
-        implements AppDetailsContract.View {
+        implements AppDetailsContract.View, ScreenshotsAdapter.ScreenshotClickedListener {
     @BindView(R.id.description) TextView description;
     @BindView(R.id.tag_container) FlowLayout tagContainer;
     @BindView(R.id.details_download) Button downloadButton;
@@ -54,8 +55,10 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     @BindView(R.id.icon_image) ImageView iconImage;
     @BindView(R.id.icon_placeholder) View iconPlaceholder;
     @BindView(R.id.appname) TextView appName;
+    @BindView(R.id.screenshot_pager) ViewPager screenshotPager;
 
     private PopupMenu downloadPopup, contactPopup;
+    private ScreenshotsAdapter screenshotsAdapter;
 
     ArrayList<Download> downloads = new ArrayList<>();
     ArrayList<Contact> contacts = new ArrayList<>();
@@ -87,6 +90,9 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        screenshotsAdapter = new ScreenshotsAdapter(getContext());
+        screenshotPager.setAdapter(screenshotsAdapter);
+        screenshotsAdapter.setScreenshotClickedListener(this);
         downloadPopup = new PopupMenu(getContext(), downloadButton);
         contactPopup = new PopupMenu(getContext(), contactButton);
         downloadPopup.inflate(R.menu.placeholder_popup_download);
@@ -184,6 +190,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         Preconditions.checkNotNull(actionBar);
         actionBar.setSubtitle(appInfo.getAppName());
         createMenus();
+
     }
 
     private void createMenus() {
@@ -227,7 +234,12 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
 
     @Override
     public void displayScreenshots(ScrapeResult scrapeResult) {
-        // TODO use scrapeResult.getScreenshotUrls() to load images via glide into a pager
+        screenshotsAdapter.update(new ArrayList<String>(scrapeResult.getScreenshotUrls()));
+    }
+
+    @Override
+    public void onScreenshotClicked(String url) {
+        new ScreenshotDialog(getContext(), url).show();
     }
 
     @Override
