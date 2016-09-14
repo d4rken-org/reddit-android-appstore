@@ -4,7 +4,7 @@
 
 App inspired by [this reddit post](https://redd.it/50rafp)
 
-Simply pulls the curated app list from the [/r/Android wiki](https://www.reddit.com/r/android/wiki/apps) and displays.
+Pulls the curated app list from the [/r/Android wiki](https://www.reddit.com/r/android/wiki/apps) and displays.
 
 ## How to Contribute
 * Make sure there is an issue for what you are working on __(create one if necessary)__
