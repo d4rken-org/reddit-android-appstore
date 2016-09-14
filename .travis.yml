@@ -14,4 +14,4 @@ android:
     - extra-android-m2repository
 
 script:
- - ./gradlew gradlew test
+ - ./gradlew clean assemble test
