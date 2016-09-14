@@ -6,7 +6,11 @@ import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
 
 
-public class DeviceColumnParser implements AppParser {
+public class DeviceColumnParser extends BaseParser {
+
+    public DeviceColumnParser(EncodingFixer encodingFixer) {
+        super(encodingFixer);
+    }
 
     @Override
     public void parse(AppInfo appInfo, Map<Column, String> rawColumns) {

@@ -6,7 +6,11 @@ import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
 
 
-public class PriceColumnParser implements AppParser {
+public class PriceColumnParser extends BaseParser {
+
+    public PriceColumnParser(EncodingFixer encodingFixer) {
+        super(encodingFixer);
+    }
 
     @Override
     public void parse(AppInfo appInfo, Map<Column, String> rawColumns) {

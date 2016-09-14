@@ -94,7 +94,7 @@ tasks.withType(Test) {
     systemProperty "robolectric.logging", "stdout"
 }
 ext {
-    supportLibVersion = '24.2.0'
+    supportLibVersion = '24.2.1'
 }
 //noinspection GroovyAssignabilityCheck
 configurations.all {
@@ -119,7 +119,7 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
 
     // Glide
-    compile 'com.github.bumptech.glide:glide:4.0.0-20160905.222409-202'
+    compile 'com.github.bumptech.glide:glide:4.0.0-SNAPSHOT'
 
     // Flow layout for tags
     compile 'com.wefika:flowlayout:0.4.0'
@@ -153,7 +153,7 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2'
 
     //Resolve conflicts with depdencies
-    androidTestCompile 'com.android.support:support-annotations:24.2.0'
+    androidTestCompile "com.android.support:support-annotations:${supportLibVersion}"
 
     //Leakcanary
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
@@ -162,5 +162,4 @@ dependencies {
 
     //License dialog
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.1'
-
 }
