@@ -13,7 +13,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.wiki.WikiRepository;
 import subreddit.android.appstore.screens.navigation.CategoryFilter;
@@ -21,7 +20,6 @@ import timber.log.Timber;
 
 
 public class AppListPresenter implements AppListContract.Presenter {
-    static final String TAG = AppStoreApp.LOGPREFIX + "AppListPresenter";
     final WikiRepository repository;
     final CategoryFilter categoryFilter;
     private Disposable listUpdater;
@@ -64,7 +62,7 @@ public class AppListPresenter implements AppListContract.Presenter {
                 .subscribe(new Consumer<List<AppInfo>>() {
                     @Override
                     public void accept(List<AppInfo> appInfos) throws Exception {
-                        Timber.tag(TAG).d("showAppList(%s items)", appInfos.size());
+                        Timber.d("showAppList(%s items)", appInfos.size());
                         AppListPresenter.this.view.showAppList(appInfos);
                     }
                 });
@@ -80,7 +78,7 @@ public class AppListPresenter implements AppListContract.Presenter {
                 .subscribe(new Consumer<TagMap>() {
                     @Override
                     public void accept(TagMap tagMap) throws Exception {
-                        Timber.tag(TAG).d("updateTagCount(%s)", tagMap);
+                        Timber.d("updateTagCount(%s)", tagMap);
                         AppListPresenter.this.view.updateTagCount(tagMap);
                     }
                 });

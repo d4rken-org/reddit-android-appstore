@@ -13,7 +13,6 @@ import subreddit.android.appstore.backend.scrapers.ScrapeResult;
 
 
 public class AppDetailsPresenter implements AppDetailsContract.Presenter {
-    static final String TAG = AppStoreApp.LOGPREFIX + "AppDetailsPresenter";
     AppDetailsContract.View view;
     private final MediaScraper mediaScraper;
     private AppInfo appInfoItem;

@@ -4,14 +4,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.Contact;
 import timber.log.Timber;
 
 
 public class ContactColumnParser implements AppParser {
-    static final String TAG = AppStoreApp.LOGPREFIX + "ContactColumnParser";
     final static Pattern EMAIL_PATTERN = Pattern.compile("(\\b[\\w._%+-]+@[\\w.-]+\\.[\\w]{2,}\\b)");
     final static Pattern REDDIT_PATTERN = Pattern.compile("(/u/[\\-_\\w]+\\b)");
     final static Pattern WEBSITE_MATCHER = Pattern.compile("(?:\\[.+\\])\\((http.?://.+)\\)");
@@ -35,7 +33,7 @@ public class ContactColumnParser implements AppParser {
             appInfo.getContacts().add(contact);
         }
         if (appInfo.getContacts().isEmpty()) {
-            Timber.tag(TAG).w("No contacts parsed from %s", raw);
+            Timber.w("No contacts parsed from %s", raw);
             appInfo.getContacts().add(new Contact(Contact.Type.UNKNOWN, raw));
         }
     }

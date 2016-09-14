@@ -11,11 +11,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import okhttp3.ResponseBody;
-import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.data.AppInfo;
 
 public class BodyParser {
-    private static final String TAG = AppStoreApp.LOGPREFIX + "BodyParser";
     private static final Pattern PRIMARY_CATEGORY_PATTERN = Pattern.compile("^(?:#(?!#+)\\s?)(.+?)$");
     private final List<AppParser> appParsers = new ArrayList<>();
 

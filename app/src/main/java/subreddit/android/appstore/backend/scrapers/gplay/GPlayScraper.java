@@ -14,7 +14,6 @@ import io.reactivex.functions.Function;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.DeadLinkException;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.Download;
@@ -24,7 +23,6 @@ import subreddit.android.appstore.backend.scrapers.ScrapeResult;
 import timber.log.Timber;
 
 public class GPlayScraper implements MediaScraper {
-    static final String TAG = AppStoreApp.LOGPREFIX + "GPlayScraper";
     final OkHttpClient client = new OkHttpClient();
 
     @NonNull
@@ -36,7 +34,7 @@ public class GPlayScraper implements MediaScraper {
                     public void subscribe(ObservableEmitter<String> e) throws Exception {
                         for (Download d : appToScrape.getDownloads()) {
                             if (d.getType() == Download.Type.GPLAY) {
-                                Timber.tag(TAG).d("Scraping %s", d.getTarget());
+                                Timber.d("Scraping %s", d.getTarget());
                                 e.onNext(d.getTarget());
                             }
                         }
@@ -59,7 +57,7 @@ public class GPlayScraper implements MediaScraper {
                         int iconStart = body.indexOf("<img class=\"cover-image\"");
                         int iconEnd = body.indexOf("\" alt=\"Cover art\"", iconStart);
                         String iconUrl = body.substring(body.indexOf("lh", iconStart), iconEnd);
-                        Timber.tag(TAG).v("%s | icon url: %s", appToScrape, iconUrl);
+                        Timber.v("%s | icon url: %s", appToScrape, iconUrl);
 
                         // Strip size parameter we generate these
                         iconUrl = iconUrl.replaceAll("=(w|h)\\d+", "");
@@ -73,7 +71,7 @@ public class GPlayScraper implements MediaScraper {
                             int subEnd = screenUrl.indexOf("\"", subStart);
                             screenUrl = screenUrl.substring(subStart, subEnd);
                             body = body.substring(end, body.length());
-                            Timber.tag(TAG).v("%s | screenshot url: %s", appToScrape, screenUrl);
+                            Timber.v("%s | screenshot url: %s", appToScrape, screenUrl);
 
                             // Strip size parameter we generate these
                             screenUrl = screenUrl.replaceAll("=(w|h)\\d+", "");
