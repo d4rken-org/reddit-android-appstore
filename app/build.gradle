@@ -162,8 +162,4 @@ dependencies {
 
     //License dialog
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.1'
-
-    // Robolectric
-    testCompile 'org.robolectric:robolectric:3.1.2'
-
 }
