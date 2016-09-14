@@ -10,13 +10,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
-import subreddit.android.appstore.AppStoreApp;
 import timber.log.Timber;
 
 
 public class AppInfo implements Comparable<AppInfo> {
-    final static String TAG = AppStoreApp.LOGPREFIX + "AppInfo";
-
     final Collection<AppTags> appTagsCollection = new LinkedHashSet<>();
     final Collection<Contact> contacts = new ArrayList<>();
     final Collection<Download> downloads = new ArrayList<>();
@@ -92,7 +89,7 @@ public class AppInfo implements Comparable<AppInfo> {
         try {
             return gson.fromJson(jsonString, AppInfo.class);
         } catch (JsonSyntaxException e) {
-            Timber.tag(TAG).e(e, "Failed to create AppInfo from: %s", jsonString);
+            Timber.e(e, "Failed to create AppInfo from: %s", jsonString);
             return null;
         }
     }

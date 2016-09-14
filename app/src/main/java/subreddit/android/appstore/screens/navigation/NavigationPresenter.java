@@ -9,14 +9,12 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.wiki.WikiRepository;
 import timber.log.Timber;
 
 
 public class NavigationPresenter implements NavigationContract.Presenter {
-    static final String TAG = AppStoreApp.LOGPREFIX + "NavigationPresenter";
     final WikiRepository repository;
 
     NavigationContract.View view;
@@ -49,7 +47,7 @@ public class NavigationPresenter implements NavigationContract.Presenter {
                 .subscribe(new Consumer<NavigationData>() {
                     @Override
                     public void accept(NavigationData navigationData) throws Exception {
-                        Timber.tag(TAG).d("showNavigationItems(%s)", navigationData);
+                        Timber.d("showNavigationItems(%s)", navigationData);
                         NavigationPresenter.this.view.showNavigationItems(navigationData, currentCategoryFilter);
                     }
                 });

@@ -14,7 +14,6 @@ import io.reactivex.subjects.ReplaySubject;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.wiki.caching.WikiDiskCache;
 import subreddit.android.appstore.backend.wiki.parser.BodyParser;
@@ -22,7 +21,6 @@ import timber.log.Timber;
 
 
 public class LiveWikiRepository implements WikiRepository {
-    static final String TAG = AppStoreApp.LOGPREFIX + "LiveWikiRepository";
     static final String TARGET_URL = "https://www.reddit.com/r/Android/wiki/apps";
     final OkHttpClient client = new OkHttpClient();
     final WikiDiskCache wikiDiskCache;
@@ -84,19 +82,19 @@ public class LiveWikiRepository implements WikiRepository {
                 .map(new Function<Response, Collection<AppInfo>>() {
                     @Override
                     public Collection<AppInfo> apply(Response response) throws Exception {
-                        Timber.tag(TAG).d(response.toString());
+                        Timber.d(response.toString());
                         long timeStart = System.currentTimeMillis();
                         Collection<AppInfo> infos = new ArrayList<>();
                         infos.addAll(new BodyParser().parseBody(response.body()));
                         long timeStop = System.currentTimeMillis();
-                        Timber.tag(TAG).d("Parsed %d items in %dms", infos.size(), (timeStop - timeStart));
+                        Timber.d("Parsed %d items in %dms", infos.size(), (timeStop - timeStart));
                         return infos;
                     }
                 })
                 .onErrorReturn(new Function<Throwable, Collection<AppInfo>>() {
                     @Override
                     public Collection<AppInfo> apply(Throwable throwable) throws Exception {
-                        Timber.tag(TAG).e(throwable, "Error while fetching wiki repository");
+                        Timber.e(throwable, "Error while fetching wiki repository");
                         return new ArrayList<>();
                     }
                 });

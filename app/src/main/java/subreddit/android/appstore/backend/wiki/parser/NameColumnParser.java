@@ -6,14 +6,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.Download;
 import timber.log.Timber;
 
 
 public class NameColumnParser implements AppParser {
-    static final String TAG = AppStoreApp.LOGPREFIX + "NameColumnparser";
     static final Pattern NAME_PATTERN = Pattern.compile("^(?:\\[(.+)\\]\\((.+)\\))$");
 
     @Override
@@ -34,13 +32,13 @@ public class NameColumnParser implements AppParser {
                 downloadType = Download.Type.GPLAY;
             } else {
                 downloadType = Download.Type.UNKNOWN;
-                Timber.tag(TAG).w("Unknown download url: %s", downloadUrl);
+                Timber.w("Unknown download url: %s", downloadUrl);
             }
         } else {
             appName = rawNameString;
             downloadUrl = rawNameString;
             downloadType = Download.Type.UNKNOWN;
-            Timber.tag(TAG).w("parseNameField(%s) failed", rawNameString);
+            Timber.w("parseNameField(%s) failed", rawNameString);
         }
         appInfo.setAppName(Html.fromHtml(appName).toString());
         appInfo.addDownload(new Download(downloadType, downloadUrl));

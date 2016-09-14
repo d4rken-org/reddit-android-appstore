@@ -4,11 +4,9 @@ import android.text.Html;
 
 import java.util.Map;
 
-import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.data.AppInfo;
 
 public class DescriptionColumnParser implements AppParser {
-    static final String TAG = AppStoreApp.LOGPREFIX + "DescriptionColumnParser";
 
     @Override
     public void parse(AppInfo appInfo, Map<Column, String> rawColumns) {

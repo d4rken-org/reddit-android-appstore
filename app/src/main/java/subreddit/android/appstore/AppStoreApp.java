@@ -24,7 +24,15 @@ public class AppStoreApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (BuildConfig.DEBUG) Timber.plant(new Timber.DebugTree());
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree() {
+                @Override
+                protected void log(final int priority, final String tag, final String message,
+                                   final Throwable t) {
+                    super.log(priority, LOGPREFIX + tag, message, t);
+                }
+            });
+        }
         refWatcher = LeakCanary.install(this);
         Injector.INSTANCE.init(this);
         theme = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("theme", "0"));

@@ -2,13 +2,11 @@ package subreddit.android.appstore.backend.wiki.parser;
 
 import java.util.Map;
 
-import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
 
 
 public class DeviceColumnParser implements AppParser {
-    static final String TAG = AppStoreApp.LOGPREFIX + "DeviceColumnParser";
 
     @Override
     public void parse(AppInfo appInfo, Map<Column, String> rawColumns) {

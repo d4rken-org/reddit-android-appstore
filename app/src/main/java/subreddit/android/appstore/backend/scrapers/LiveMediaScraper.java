@@ -6,7 +6,6 @@ import android.support.v4.util.LruCache;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
-import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.UnsupportedScrapeTargetException;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.Download;
@@ -15,7 +14,6 @@ import subreddit.android.appstore.backend.scrapers.gplay.GPlayScraper;
 import timber.log.Timber;
 
 public class LiveMediaScraper implements MediaScraper {
-    static final String TAG = AppStoreApp.LOGPREFIX + "LiveScraper";
     final LruCache<AppInfo, Observable<ScrapeResult>> scrapeCache = new LruCache<>(1);
     final ScrapeDiskCache scrapeDiskCache;
     final GPlayScraper gPlayScraper = new GPlayScraper();
@@ -41,19 +39,19 @@ public class LiveMediaScraper implements MediaScraper {
                         )
                         .cache();
                 scrapeCache.put(appToScrape, scrapeResultObserver);
-            } else Timber.tag(TAG).d("Using cached result for %s", appToScrape);
+            } else Timber.d("Using cached result for %s", appToScrape);
             return scrapeResultObserver;
         }
     }
 
     private Observable<ScrapeResult> doScrape(@NonNull AppInfo appToScrape) {
-        Timber.tag(TAG).d("Scraping %s", appToScrape.toString());
+        Timber.d("Scraping %s", appToScrape.toString());
         for (Download download : appToScrape.getDownloads()) {
             switch (download.getType()) {
                 case GPLAY:
                     return gPlayScraper.get(appToScrape);
                 default:
-                    Timber.tag(TAG).d("No scraper available for type %s", download.getType());
+                    Timber.d("No scraper available for type %s", download.getType());
             }
         }
         return Observable.error(new UnsupportedScrapeTargetException(appToScrape));
