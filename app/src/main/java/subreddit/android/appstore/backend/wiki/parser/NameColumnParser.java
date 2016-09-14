@@ -1,7 +1,5 @@
 package subreddit.android.appstore.backend.wiki.parser;
 
-import android.text.Html;
-
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,8 +9,12 @@ import subreddit.android.appstore.backend.data.Download;
 import timber.log.Timber;
 
 
-public class NameColumnParser implements AppParser {
+public class NameColumnParser extends BaseParser {
     static final Pattern NAME_PATTERN = Pattern.compile("^(?:\\[(.+)\\]\\((.+)\\))$");
+
+    public NameColumnParser(EncodingFixer encodingFixer) {
+        super(encodingFixer);
+    }
 
     @Override
     public void parse(AppInfo appInfo, Map<Column, String> rawColumns) {
@@ -40,7 +42,7 @@ public class NameColumnParser implements AppParser {
             downloadType = Download.Type.UNKNOWN;
             Timber.w("parseNameField(%s) failed", rawNameString);
         }
-        appInfo.setAppName(Html.fromHtml(appName).toString());
+        appInfo.setAppName(fixEncoding(appName));
         appInfo.addDownload(new Download(downloadType, downloadUrl));
     }
 }

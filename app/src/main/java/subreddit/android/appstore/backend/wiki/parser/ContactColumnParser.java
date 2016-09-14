@@ -9,10 +9,14 @@ import subreddit.android.appstore.backend.data.Contact;
 import timber.log.Timber;
 
 
-public class ContactColumnParser implements AppParser {
+public class ContactColumnParser extends BaseParser {
     final static Pattern EMAIL_PATTERN = Pattern.compile("(\\b[\\w._%+-]+@[\\w.-]+\\.[\\w]{2,}\\b)");
     final static Pattern REDDIT_PATTERN = Pattern.compile("(/u/[\\-_\\w]+\\b)");
     final static Pattern WEBSITE_MATCHER = Pattern.compile("(?:\\[.+\\])\\((http.?://.+)\\)");
+
+    public ContactColumnParser(EncodingFixer encodingFixer) {
+        super(encodingFixer);
+    }
 
     @Override
     public void parse(AppInfo appInfo, Map<Column, String> rawColumns) {

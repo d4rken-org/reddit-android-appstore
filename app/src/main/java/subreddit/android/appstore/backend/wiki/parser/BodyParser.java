@@ -17,13 +17,13 @@ public class BodyParser {
     private static final Pattern PRIMARY_CATEGORY_PATTERN = Pattern.compile("^(?:#(?!#+)\\s?)(.+?)$");
     private final List<AppParser> appParsers = new ArrayList<>();
 
-    public BodyParser() {
-        appParsers.add(new CategoryParser());
-        appParsers.add(new NameColumnParser());
-        appParsers.add(new PriceColumnParser());
-        appParsers.add(new DeviceColumnParser());
-        appParsers.add(new DescriptionColumnParser());
-        appParsers.add(new ContactColumnParser());
+    public BodyParser(EncodingFixer encodingFixer) {
+        appParsers.add(new CategoryParser(encodingFixer));
+        appParsers.add(new NameColumnParser(encodingFixer));
+        appParsers.add(new PriceColumnParser(encodingFixer));
+        appParsers.add(new DeviceColumnParser(encodingFixer));
+        appParsers.add(new DescriptionColumnParser(encodingFixer));
+        appParsers.add(new ContactColumnParser(encodingFixer));
     }
 
     public Collection<AppInfo> parseBody(ResponseBody responseBody) throws IOException {

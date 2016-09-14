@@ -17,6 +17,7 @@ import okhttp3.Response;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.wiki.caching.WikiDiskCache;
 import subreddit.android.appstore.backend.wiki.parser.BodyParser;
+import subreddit.android.appstore.backend.wiki.parser.EncodingFixer;
 import timber.log.Timber;
 
 
@@ -85,7 +86,7 @@ public class LiveWikiRepository implements WikiRepository {
                         Timber.d(response.toString());
                         long timeStart = System.currentTimeMillis();
                         Collection<AppInfo> infos = new ArrayList<>();
-                        infos.addAll(new BodyParser().parseBody(response.body()));
+                        infos.addAll(new BodyParser(new EncodingFixer()).parseBody(response.body()));
                         long timeStop = System.currentTimeMillis();
                         Timber.d("Parsed %d items in %dms", infos.size(), (timeStop - timeStart));
                         return infos;
