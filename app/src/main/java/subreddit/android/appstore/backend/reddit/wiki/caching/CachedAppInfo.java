@@ -1,4 +1,4 @@
-package subreddit.android.appstore.backend.wiki.caching;
+package subreddit.android.appstore.backend.reddit.wiki.caching;
 
 import com.google.gson.Gson;
 

@@ -1,4 +1,4 @@
-package subreddit.android.appstore.backend.wiki;
+package subreddit.android.appstore.backend;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,7 +12,7 @@ public class DeviceIdentifier {
 
     public DeviceIdentifier(Context context) {this.context = context;}
 
-    String getUUID() {
+    public String getUUID() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String uuid = prefs.getString(PREF_KEY, null);
         if (uuid == null) {

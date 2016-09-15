@@ -1,33 +1,61 @@
-package subreddit.android.appstore.backend.wiki;
+package subreddit.android.appstore.backend.reddit.wiki;
+
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.ReplaySubject;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Query;
+import subreddit.android.appstore.BuildConfig;
+import subreddit.android.appstore.backend.UserAgentInterceptor;
 import subreddit.android.appstore.backend.data.AppInfo;
-import subreddit.android.appstore.backend.wiki.caching.WikiDiskCache;
-import subreddit.android.appstore.backend.wiki.parser.BodyParser;
-import subreddit.android.appstore.backend.wiki.parser.EncodingFixer;
+import subreddit.android.appstore.backend.reddit.Token;
+import subreddit.android.appstore.backend.reddit.TokenRepository;
+import subreddit.android.appstore.backend.reddit.wiki.caching.WikiDiskCache;
+import subreddit.android.appstore.backend.reddit.wiki.parser.BodyParser;
+import subreddit.android.appstore.backend.reddit.wiki.parser.EncodingFixer;
 import timber.log.Timber;
 
 
 public class LiveWikiRepository implements WikiRepository {
-    static final String TARGET_URL = "https://www.reddit.com/r/Android/wiki/apps";
+    static final String BASEURL = " https://oauth.reddit.com/";
     final OkHttpClient client = new OkHttpClient();
     final WikiDiskCache wikiDiskCache;
-    final TokenSource tokenSource;
+    final TokenRepository tokenRepository;
+    final WikiApi wikiApi;
     ReplaySubject<Collection<AppInfo>> dataReplayer;
 
-    public LiveWikiRepository(TokenSource tokenSource, WikiDiskCache wikiDiskCache) {
-        this.tokenSource = tokenSource;
+    public LiveWikiRepository(TokenRepository tokenRepository, WikiDiskCache wikiDiskCache, UserAgentInterceptor userAgent) {
+        this.tokenRepository = tokenRepository;
         this.wikiDiskCache = wikiDiskCache;
+
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.addInterceptor(interceptor);
+        }
+        builder.addInterceptor(userAgent);
+        OkHttpClient client = builder.build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(BASEURL)
+                .build();
+        wikiApi = retrofit.create(WikiApi.class);
     }
 
     @Override
@@ -64,21 +92,21 @@ public class LiveWikiRepository implements WikiRepository {
     }
 
     private Observable<Collection<AppInfo>> loadData() {
-        return tokenSource.getToken()
+        return tokenRepository.getUserlessAuthToken()
                 .subscribeOn(Schedulers.io())
-                .map(new Function<String, Response>() {
+                .flatMap(new Function<Token, ObservableSource<WikiPageResponse>>() {
                     @Override
-                    public Response apply(String token) throws Exception {
-                        return client.newCall(new Request.Builder().url(TARGET_URL).build()).execute();
+                    public ObservableSource<WikiPageResponse> apply(Token token) throws Exception {
+                        return wikiApi.getWikiPage(token.getAuthorizationString(), "apps");
                     }
                 })
-                .map(new Function<Response, Collection<AppInfo>>() {
+                .map(new Function<WikiPageResponse, Collection<AppInfo>>() {
                     @Override
-                    public Collection<AppInfo> apply(Response response) throws Exception {
+                    public Collection<AppInfo> apply(WikiPageResponse response) throws Exception {
                         Timber.d(response.toString());
                         long timeStart = System.currentTimeMillis();
                         Collection<AppInfo> infos = new ArrayList<>();
-                        infos.addAll(new BodyParser(new EncodingFixer()).parseBody(response.body()));
+                        infos.addAll(new BodyParser(new EncodingFixer()).parseBody(response.data.content_md));
                         long timeStop = System.currentTimeMillis();
                         Timber.d("Parsed %d items in %dms", infos.size(), (timeStop - timeStart));
                         return infos;
@@ -91,5 +119,20 @@ public class LiveWikiRepository implements WikiRepository {
                         return new ArrayList<>();
                     }
                 });
+    }
+
+    interface WikiApi {
+        @GET("r/Android/wiki/page")
+        Observable<WikiPageResponse> getWikiPage(@Header("Authorization") String authentication, @Query("page") String page);
+    }
+
+    static class WikiPageResponse {
+        String kind;
+        Data data;
+
+        static class Data {
+            long revision_date;
+            String content_md;
+        }
     }
 }

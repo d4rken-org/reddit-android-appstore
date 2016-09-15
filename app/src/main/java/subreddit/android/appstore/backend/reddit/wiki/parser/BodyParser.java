@@ -1,4 +1,4 @@
-package subreddit.android.appstore.backend.wiki.parser;
+package subreddit.android.appstore.backend.reddit.wiki.parser;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,9 +32,7 @@ public class BodyParser {
 
     public Collection<AppInfo> parseBody(String bodyString) {
         Collection<AppInfo> parsedOutput = new ArrayList<>();
-        int start = bodyString.indexOf("<textarea readonly class=\"source\"");
-        int stop = bodyString.lastIndexOf("</textarea>");
-        List<String> lines = Arrays.asList(bodyString.substring(start, stop).split("\n"));
+        List<String> lines = Arrays.asList(bodyString.split("\n"));
 
         int lastPrimaryBlock = -1;
         String lastPrimaryCategory = null;

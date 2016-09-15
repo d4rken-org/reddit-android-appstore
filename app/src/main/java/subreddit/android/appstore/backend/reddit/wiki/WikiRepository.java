@@ -1,4 +1,4 @@
-package subreddit.android.appstore.backend.wiki;
+package subreddit.android.appstore.backend.reddit.wiki;
 
 import java.util.Collection;
 
