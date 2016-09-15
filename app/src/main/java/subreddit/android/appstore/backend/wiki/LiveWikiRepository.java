@@ -1,12 +1,9 @@
 package subreddit.android.appstore.backend.wiki;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -25,9 +22,11 @@ public class LiveWikiRepository implements WikiRepository {
     static final String TARGET_URL = "https://www.reddit.com/r/Android/wiki/apps";
     final OkHttpClient client = new OkHttpClient();
     final WikiDiskCache wikiDiskCache;
+    final TokenSource tokenSource;
     ReplaySubject<Collection<AppInfo>> dataReplayer;
 
-    public LiveWikiRepository(WikiDiskCache wikiDiskCache) {
+    public LiveWikiRepository(TokenSource tokenSource, WikiDiskCache wikiDiskCache) {
+        this.tokenSource = tokenSource;
         this.wikiDiskCache = wikiDiskCache;
     }
 
@@ -65,21 +64,14 @@ public class LiveWikiRepository implements WikiRepository {
     }
 
     private Observable<Collection<AppInfo>> loadData() {
-        return Observable
-                .create(new ObservableOnSubscribe<Response>() {
+        return tokenSource.getToken()
+                .subscribeOn(Schedulers.io())
+                .map(new Function<String, Response>() {
                     @Override
-                    public void subscribe(ObservableEmitter<Response> emitter) throws Exception {
-                        try {
-                            Response response = client.newCall(new Request.Builder().url(TARGET_URL).build()).execute();
-                            emitter.onNext(response);
-                            emitter.onComplete();
-                            if (!response.isSuccessful()) emitter.onError(new Exception("error"));
-                        } catch (IOException e) {
-                            emitter.onError(e);
-                        }
+                    public Response apply(String token) throws Exception {
+                        return client.newCall(new Request.Builder().url(TARGET_URL).build()).execute();
                     }
                 })
-                .subscribeOn(Schedulers.io())
                 .map(new Function<Response, Collection<AppInfo>>() {
                     @Override
                     public Collection<AppInfo> apply(Response response) throws Exception {
