@@ -14,7 +14,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.backend.data.AppInfo;
-import subreddit.android.appstore.backend.wiki.WikiRepository;
+import subreddit.android.appstore.backend.reddit.wiki.WikiRepository;
 import subreddit.android.appstore.screens.navigation.CategoryFilter;
 import timber.log.Timber;
 

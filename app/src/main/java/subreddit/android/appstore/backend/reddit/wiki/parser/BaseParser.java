@@ -1,4 +1,4 @@
-package subreddit.android.appstore.backend.wiki.parser;
+package subreddit.android.appstore.backend.reddit.wiki.parser;
 
 public abstract class BaseParser implements AppParser {
     final EncodingFixer encodingFixer;
