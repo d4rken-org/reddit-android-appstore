@@ -10,8 +10,7 @@ import subreddit.android.appstore.R;
 import subreddit.android.appstore.util.ui.BaseActivity;
 
 
-public class AppDetailsActivity extends BaseActivity implements View.OnClickListener {
-    @BindView(R.id.details_toolbar) Toolbar toolbar;
+public class AppDetailsActivity extends BaseActivity {
     public static final String ARG_KEY = "appInfo";
 
     @Override
@@ -19,19 +18,11 @@ public class AppDetailsActivity extends BaseActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appdetails_layout);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
-        toolbar.setNavigationOnClickListener(this);
         if (savedInstanceState == null) {
             AppDetailsFragment fragment = AppDetailsFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.contentFrame, fragment)
                     .commit();
         }
-    }
-
-    @Override
-    public void onClick(View view) {
-        finish();
     }
 }

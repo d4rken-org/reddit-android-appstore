@@ -1,29 +1,29 @@
 package subreddit.android.appstore.screens.details;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.wefika.flowlayout.FlowLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -39,7 +39,6 @@ import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.backend.data.Contact;
 import subreddit.android.appstore.backend.data.Download;
 import subreddit.android.appstore.backend.scrapers.ScrapeResult;
-import subreddit.android.appstore.util.Preconditions;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
 import subreddit.android.appstore.util.ui.glide.IconRequest;
@@ -47,21 +46,23 @@ import subreddit.android.appstore.util.ui.glide.PlaceHolderRequestListener;
 
 
 public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract.Presenter, AppDetailsContract.View>
-        implements AppDetailsContract.View, ScreenshotsAdapter.ScreenshotClickedListener {
+        implements AppDetailsContract.View, ScreenshotsAdapter.ScreenshotClickedListener, View.OnClickListener, Toolbar.OnMenuItemClickListener {
     @BindView(R.id.description) TextView description;
     @BindView(R.id.tag_container) FlowLayout tagContainer;
-    @BindView(R.id.details_download) Button downloadButton;
-    @BindView(R.id.details_contact) Button contactButton;
+    @BindView(R.id.download_fab) FloatingActionButton downloadButton;
+    @BindView(R.id.details_toolbar) Toolbar toolbar;
     @BindView(R.id.icon_image) ImageView iconImage;
     @BindView(R.id.icon_placeholder) View iconPlaceholder;
     @BindView(R.id.appname) TextView appName;
     @BindView(R.id.screenshot_pager) ViewPager screenshotPager;
 
-    private PopupMenu downloadPopup, contactPopup;
+    private List<String> contactItems = new ArrayList<String>();
+    private List<String> downloadItems = new ArrayList<String>();
     private ScreenshotsAdapter screenshotsAdapter;
 
-    ArrayList<Download> downloads = new ArrayList<>();
-    ArrayList<Contact> contacts = new ArrayList<>();
+    private ArrayList<Download> downloads = new ArrayList<>();
+    private ArrayList<Contact> contacts = new ArrayList<>();
+
     @Inject
     PresenterFactory<AppDetailsContract.Presenter> presenterFactory;
     private Unbinder unbinder;
@@ -79,6 +80,17 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
                 .build().inject(this);
     }
 
+    @Override
+    public void onClick(View view) {
+        getActivity().finish();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        onContactClicked();
+        return false;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -90,29 +102,13 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
+        toolbar.setNavigationOnClickListener(this);
+        toolbar.inflateMenu(R.menu.appdetails_fragment);
+        toolbar.setOnMenuItemClickListener(this);
         screenshotsAdapter = new ScreenshotsAdapter(getContext());
         screenshotPager.setAdapter(screenshotsAdapter);
         screenshotsAdapter.setScreenshotClickedListener(this);
-        downloadPopup = new PopupMenu(getContext(), downloadButton);
-        contactPopup = new PopupMenu(getContext(), contactButton);
-        downloadPopup.inflate(R.menu.placeholder_popup_download);
-        contactPopup.inflate(R.menu.placeholder_popup_contact);
-
-        downloadPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                openDownload(downloads.get(menuItem.getItemId()));
-                return true;
-            }
-        });
-
-        contactPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                openContact(contacts.get(menuItem.getItemId()));
-                return true;
-            }
-        });
     }
 
     @NonNull
@@ -127,21 +123,34 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         super.onDestroyView();
     }
 
-    @OnClick(R.id.details_download)
+    @OnClick(R.id.download_fab)
     void onDownloadClicked(View view) {
         if (downloads.size() < 2) {
             openDownload(downloads.get(0));
         } else {
-            downloadPopup.show();
+            new AlertDialog.Builder(getContext())
+                    .setItems(downloadItems.toArray(new CharSequence[downloadItems.size()]), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            openDownload(downloads.get(i));
+                        }
+                    })
+                    .show();
         }
     }
 
-    @OnClick(R.id.details_contact)
-    void onContactClicked(View view) {
+    void onContactClicked() {
         if (contacts.size() < 2) {
             openContact(contacts.get(0));
         } else {
-            contactPopup.show();
+            new AlertDialog.Builder(getContext())
+                    .setItems(contactItems.toArray(new CharSequence[contactItems.size()]), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            openContact(contacts.get(i));
+                        }
+                    })
+                    .show();
         }
     }
 
@@ -186,39 +195,37 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
             tagContainer.addView(tv);
         }
         tagContainer.setVisibility(appInfo.getTags().isEmpty() ? View.GONE : View.VISIBLE);
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        Preconditions.checkNotNull(actionBar);
-        actionBar.setSubtitle(appInfo.getAppName());
+        toolbar.setSubtitle(appInfo.getAppName());
         createMenus();
 
     }
 
     private void createMenus() {
-        downloadPopup.getMenu().clear();
-        contactPopup.getMenu().clear();
+        downloadItems.clear();
+        contactItems.clear();
         for (Download d : downloads) {
             switch (d.getType()) {
                 case GPLAY:
-                    downloadPopup.getMenu().add(Menu.NONE, downloads.indexOf(d), Menu.NONE, R.string.gplay);
+                    downloadItems.add(getResources().getString(R.string.gplay));
                     break;
                 case FDROID:
-                    downloadPopup.getMenu().add(Menu.NONE, downloads.indexOf(d), Menu.NONE, R.string.fdroid);
+                    downloadItems.add(getResources().getString(R.string.fdroid));
                     break;
                 case WEBSITE:
-                    downloadPopup.getMenu().add(Menu.NONE, downloads.indexOf(d), Menu.NONE, R.string.website);
+                    downloadItems.add(getResources().getString(R.string.website) + ": " + d.getTarget());
                     break;
             }
         }
         for (Contact c : contacts) {
             switch (c.getType()) {
                 case EMAIL:
-                    contactPopup.getMenu().add(Menu.NONE, contacts.indexOf(c), Menu.NONE, R.string.mail);
+                    contactItems.add(getResources().getString(R.string.mail) + ": " + c.getTarget());
                     break;
                 case WEBSITE:
-                    contactPopup.getMenu().add(Menu.NONE, contacts.indexOf(c), Menu.NONE, R.string.website);
+                    contactItems.add(getResources().getString(R.string.website) + ": " + c.getTarget());
                     break;
                 case REDDIT_USERNAME:
-                    contactPopup.getMenu().add(Menu.NONE, contacts.indexOf(c), Menu.NONE, R.string.reddit);
+                    contactItems.add(getResources().getString(R.string.reddit) + ": " + c.getTarget());
                     break;
             }
         }

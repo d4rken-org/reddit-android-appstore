@@ -2,13 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_download"
-        android:icon="@drawable/ic_file_download_white_24dp"
-        android:title="@string/button_download"
-        app:showAsAction="ifRoom"/>
-    <item
         android:id="@+id/menu_contact"
         android:icon="@drawable/ic_email_white_24dp"
         android:title="@string/button_contact"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 </menu>
