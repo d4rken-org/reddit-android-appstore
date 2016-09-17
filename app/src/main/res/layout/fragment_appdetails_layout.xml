@@ -18,26 +18,33 @@
             android:theme="@style/AppTheme.Dark"
             app:title="@string/screen_details"/>
 
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v4.widget.NestedScrollView>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="16dp">
 
                 <FrameLayout
                     android:id="@+id/icon_frame"
                     android:layout_width="40dp"
-                    android:visibility="gone"
                     android:layout_height="40dp"
                     android:layout_gravity="top"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp">
+                    android:layout_marginRight="16dp"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/icon_image"
@@ -55,20 +62,38 @@
                         android:visibility="visible"/>
                 </FrameLayout>
 
-                <TextView
-                    android:id="@+id/appname"
-                    style="@style/TextAppearance.AppCompat.Title"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="Lorem ipsum"/>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title_primary"
+                        style="@style/TextAppearance.AppCompat.Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Lorem ipsum"/>
+
+                    <TextView
+                        android:id="@+id/title_secondary"
+                        style="@style/TextAppearance.AppCompat.Caption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Lorem ipsum"/>
+                </LinearLayout>
             </LinearLayout>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/screenshot_pager"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
 
             <TextView
                 android:id="@+id/description"
                 style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:padding="16dp"
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."/>
 
             <com.wefika.flowlayout.FlowLayout
@@ -76,17 +101,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|start"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"/>
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/screenshot_pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="16dp"/>
-
+                android:orientation="horizontal"
+                android:paddingEnd="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingStart="16dp"/>
         </LinearLayout>
-
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

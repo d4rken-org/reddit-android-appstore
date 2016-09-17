@@ -13,13 +13,15 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
 import subreddit.android.appstore.R;
+import subreddit.android.appstore.util.ui.glide.PlaceHolderRequestListener;
 
 public class ScreenshotsAdapter extends PagerAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
-    private List<String> urls = new ArrayList<>();
-    private ScreenshotClickedListener l;
+    List<String> urls = new ArrayList<>();
+    ScreenshotClickedListener l;
 
     public ScreenshotsAdapter(Context context) {
         this.context = context;
@@ -27,7 +29,7 @@ public class ScreenshotsAdapter extends PagerAdapter {
     }
 
     public void update(List<String> urls) {
-        this.urls=urls;
+        this.urls = urls;
         notifyDataSetChanged();
     }
 
@@ -45,15 +47,17 @@ public class ScreenshotsAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         View itemView = layoutInflater.inflate(R.layout.adapter_gallery_image, container, false);
 
-        ImageView imageView = (ImageView) itemView.findViewById(R.id.gallery_image);
-        Glide.with(context).load(urls.get(position)).into(imageView);
+        ImageView galleryImage = ButterKnife.findById(itemView, R.id.gallery_image);
+        View galleryPlaceholder = ButterKnife.findById(itemView, R.id.gallery_placeholder);
+        Glide.with(context)
+                .load(urls.get(position))
+                .listener(new PlaceHolderRequestListener(galleryImage, galleryPlaceholder))
+                .into(galleryImage);
 
-        imageView.setOnClickListener(new View.OnClickListener() {
+        galleryImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (l!=null) {
-                    l.onScreenshotClicked(urls.get(position));
-                }
+                if (l != null) l.onScreenshotClicked(urls.get(position));
             }
         });
 
@@ -67,8 +71,13 @@ public class ScreenshotsAdapter extends PagerAdapter {
         container.removeView((FrameLayout) object);
     }
 
+    @Override
+    public float getPageWidth(int position) {
+        return super.getPageWidth(position) / 3;
+    }
+
     public void setScreenshotClickedListener(ScreenshotClickedListener l) {
-        this.l=l;
+        this.l = l;
     }
 
     interface ScreenshotClickedListener {

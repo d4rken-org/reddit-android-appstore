@@ -54,7 +54,8 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     @BindView(R.id.icon_frame) View iconFrame;
     @BindView(R.id.icon_image) ImageView iconImage;
     @BindView(R.id.icon_placeholder) View iconPlaceholder;
-    @BindView(R.id.appname) TextView appName;
+    @BindView(R.id.title_primary) TextView primaryTitle;
+    @BindView(R.id.title_secondary) TextView secondaryTitle;
     @BindView(R.id.screenshot_pager) ViewPager screenshotPager;
 
     private List<String> contactItems = new ArrayList<>();
@@ -109,6 +110,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         toolbar.setOnMenuItemClickListener(this);
         screenshotsAdapter = new ScreenshotsAdapter(getContext());
         screenshotPager.setAdapter(screenshotsAdapter);
+        screenshotPager.setOffscreenPageLimit(3);
         screenshotsAdapter.setScreenshotClickedListener(this);
     }
 
@@ -182,7 +184,8 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
             getActivity().finish();
             return;
         }
-        appName.setText(appInfo.getAppName());
+        primaryTitle.setText(appInfo.getAppName());
+        secondaryTitle.setText(appInfo.getSecondaryCategory());
         downloads = new ArrayList<>(appInfo.getDownloads());
         contacts = new ArrayList<>(appInfo.getContacts());
         description.setText(appInfo.getDescription());
