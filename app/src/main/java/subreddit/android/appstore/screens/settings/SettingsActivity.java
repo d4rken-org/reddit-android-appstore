@@ -16,6 +16,7 @@ import subreddit.android.appstore.R;
 import subreddit.android.appstore.util.ui.BaseActivity;
 
 public class SettingsActivity extends BaseActivity implements View.OnClickListener {
+    public static final String PREF_KEY_LOAD_MEDIA = "core.data.loadmedia";
     @BindView(R.id.settings_toolbar) Toolbar mToolbar;
 
     @Override

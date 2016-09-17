@@ -1,5 +1,7 @@
 package subreddit.android.appstore;
 
+import android.content.SharedPreferences;
+
 import dagger.Component;
 import subreddit.android.appstore.backend.ScraperModule;
 import subreddit.android.appstore.backend.WikiRepositoryModule;
@@ -15,6 +17,8 @@ import subreddit.android.appstore.util.dagger.ApplicationScope;
         ScraperModule.class
 })
 public interface AppComponent {
+    SharedPreferences providePreferences();
+
     WikiRepository wikiRepository();
 
     MediaScraper mediaScraper();

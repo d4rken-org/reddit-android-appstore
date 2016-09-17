@@ -51,17 +51,18 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     @BindView(R.id.tag_container) FlowLayout tagContainer;
     @BindView(R.id.download_fab) FloatingActionButton downloadButton;
     @BindView(R.id.details_toolbar) Toolbar toolbar;
+    @BindView(R.id.icon_frame) View iconFrame;
     @BindView(R.id.icon_image) ImageView iconImage;
     @BindView(R.id.icon_placeholder) View iconPlaceholder;
     @BindView(R.id.appname) TextView appName;
     @BindView(R.id.screenshot_pager) ViewPager screenshotPager;
 
-    private List<String> contactItems = new ArrayList<String>();
-    private List<String> downloadItems = new ArrayList<String>();
+    private List<String> contactItems = new ArrayList<>();
+    private List<String> downloadItems = new ArrayList<>();
     private ScreenshotsAdapter screenshotsAdapter;
 
-    private ArrayList<Download> downloads = new ArrayList<>();
-    private ArrayList<Contact> contacts = new ArrayList<>();
+    ArrayList<Download> downloads = new ArrayList<>();
+    ArrayList<Contact> contacts = new ArrayList<>();
 
     @Inject
     PresenterFactory<AppDetailsContract.Presenter> presenterFactory;
@@ -176,11 +177,11 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     }
 
     @Override
-    public void displayDetails(AppInfo appInfo) {
-        Glide.with(this)
-                .load(new IconRequest(appInfo))
-                .listener(new PlaceHolderRequestListener(iconImage, iconPlaceholder))
-                .into(iconImage);
+    public void displayDetails(@Nullable AppInfo appInfo) {
+        if (appInfo == null) {
+            getActivity().finish();
+            return;
+        }
         appName.setText(appInfo.getAppName());
         downloads = new ArrayList<>(appInfo.getDownloads());
         contacts = new ArrayList<>(appInfo.getContacts());
@@ -240,17 +241,26 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     }
 
     @Override
-    public void displayScreenshots(ScrapeResult scrapeResult) {
-        screenshotsAdapter.update(new ArrayList<String>(scrapeResult.getScreenshotUrls()));
+    public void displayScreenshots(@Nullable ScrapeResult scrapeResult) {
+        if (scrapeResult != null) {
+            screenshotPager.setVisibility(View.VISIBLE);
+            screenshotsAdapter.update(new ArrayList<>(scrapeResult.getScreenshotUrls()));
+        } else screenshotPager.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void displayIcon(@Nullable AppInfo appInfo) {
+        if (appInfo != null) {
+            iconFrame.setVisibility(View.VISIBLE);
+            Glide.with(this)
+                    .load(new IconRequest(appInfo))
+                    .listener(new PlaceHolderRequestListener(iconImage, iconPlaceholder))
+                    .into(iconImage);
+        } else iconFrame.setVisibility(View.GONE);
     }
 
     @Override
     public void onScreenshotClicked(String url) {
         new ScreenshotDialog(getContext(), url).show();
-    }
-
-    @Override
-    public void closeDetails() {
-        getActivity().finish();
     }
 }

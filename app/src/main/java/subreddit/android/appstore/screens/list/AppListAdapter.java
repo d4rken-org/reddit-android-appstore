@@ -1,5 +1,6 @@
 package subreddit.android.appstore.screens.list;
 
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import butterknife.ButterKnife;
 import subreddit.android.appstore.R;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
+import subreddit.android.appstore.screens.settings.SettingsActivity;
 import subreddit.android.appstore.util.ui.BaseAdapter;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
 import subreddit.android.appstore.util.ui.glide.IconRequest;
@@ -73,6 +75,7 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
         @BindView(R.id.appname) TextView appName;
         @BindView(R.id.description) TextView description;
         @BindView(R.id.tag_container) FlowLayout tagContainer;
+        @BindView(R.id.icon_frame) View iconFrame;
         @BindView(R.id.icon_image) ImageView iconImage;
         @BindView(R.id.icon_placeholder) View iconPlaceholder;
 
@@ -84,11 +87,13 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
         public void bind(AppInfo item) {
             appName.setText(item.getAppName());
             description.setText(item.getDescription());
-
-            Glide.with(getContext())
-                    .load(new IconRequest(item))
-                    .listener(new PlaceHolderRequestListener(iconImage, iconPlaceholder))
-                    .into(iconImage);
+            if (PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(SettingsActivity.PREF_KEY_LOAD_MEDIA, true)) {
+                iconFrame.setVisibility(View.VISIBLE);
+                Glide.with(getContext())
+                        .load(new IconRequest(item))
+                        .listener(new PlaceHolderRequestListener(iconImage, iconPlaceholder))
+                        .into(iconImage);
+            } else iconFrame.setVisibility(View.GONE);
 
             tagContainer.removeAllViews();
             for (AppTags appTags : item.getTags()) {

@@ -23,7 +23,7 @@ public class AndroidModule {
 
     @Provides
     @ApplicationScope
-    SharedPreferences providePreferences(Context context) {
+    public SharedPreferences providePreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 

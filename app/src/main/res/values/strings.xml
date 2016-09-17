@@ -28,6 +28,9 @@
     <string name="later">Later</string>
     <string name="app_category_everything">Everything</string>
     <string name="error">Error fetching repository</string>
+    <string name="data_options">Data options</string>
+    <string name="data_option_loadmedia_title"><![CDATA[Icons & screenshots]]></string>
+    <string name="data_option_loadmedia_summary">Load app icons and screenshots</string>
     <plurals name="x_items">
         <item quantity="one">%s item</item>
         <item quantity="other">%s items</item>

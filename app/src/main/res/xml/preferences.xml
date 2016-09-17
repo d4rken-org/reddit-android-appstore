@@ -11,6 +11,14 @@
             android:key="theme"/>
     </PreferenceCategory>
     <PreferenceCategory
+        android:title="@string/data_options">
+        <CheckBoxPreference
+            android:key="core.data.loadmedia"
+            android:title="@string/data_option_loadmedia_title"
+            android:checked="true"
+            android:summary="@string/data_option_loadmedia_summary"/>
+    </PreferenceCategory>
+    <PreferenceCategory
         android:title="@string/more" >
         <Preference android:title="@string/button_about"
             android:key="about"/>
