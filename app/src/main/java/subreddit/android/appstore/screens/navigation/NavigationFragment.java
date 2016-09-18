@@ -1,10 +1,14 @@
 package subreddit.android.appstore.screens.navigation;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +23,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.BuildConfig;
@@ -34,6 +39,7 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     @BindView(R.id.footer_nav) NavigationView navFooter;
     @BindView(R.id.header_version_text) TextView versionText;
     @BindView(R.id.navigationview) NavigationView navigationView;
+    @BindView(R.id.update_text) View updateText;
     OnCategorySelectedListener onCategorySelectedListener;
 
 
@@ -85,6 +91,32 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     public void onDestroyView() {
         if (unbinder != null) unbinder.unbind();
         super.onDestroyView();
+    }
+
+    @Override
+    public void showUpdateSnackbar() {
+        Snackbar
+                .make(navigationView,R.string.update,Snackbar.LENGTH_LONG)
+                .setAction(R.string.update_confirm, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        openUpdatePage();
+                    }
+                }).show();
+    }
+
+    @Override
+    public void enableUpdateAvailableText() {
+        updateText.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.update_download)
+    private void openUpdatePage() {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+        builder.setSecondaryToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(getActivity(), Uri.parse("https://github.com/d4rken/reddit-android-appstore/releases"));
     }
 
     @Override

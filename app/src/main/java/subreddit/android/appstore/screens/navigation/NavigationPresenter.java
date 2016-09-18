@@ -53,6 +53,14 @@ public class NavigationPresenter implements NavigationContract.Presenter {
                 });
     }
 
+    public void showUpdateSnackbar() {
+        view.showUpdateSnackbar();
+    }
+
+    public void enableUpdateAvailable() {
+        view.enableUpdateAvailableText();
+    }
+
     @Override
     public void onDetachView() {
         categoryUpdater.dispose();

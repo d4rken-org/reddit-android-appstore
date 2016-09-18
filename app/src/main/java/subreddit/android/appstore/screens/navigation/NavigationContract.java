@@ -10,6 +10,10 @@ public interface NavigationContract {
         void showNavigationItems(NavigationData navigationData, CategoryFilter selectedFilter);
 
         void selectFilter(CategoryFilter filter);
+
+        void showUpdateSnackbar();
+
+        void enableUpdateAvailableText();
     }
 
     interface Presenter extends BasePresenter<View> {
