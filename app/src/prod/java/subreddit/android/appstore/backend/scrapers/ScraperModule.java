@@ -1,11 +1,9 @@
-package subreddit.android.appstore.backend;
+package subreddit.android.appstore.backend.scrapers;
 
 import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
-import subreddit.android.appstore.backend.scrapers.LiveMediaScraper;
-import subreddit.android.appstore.backend.scrapers.MediaScraper;
 import subreddit.android.appstore.backend.scrapers.caching.ScrapeDiskCache;
 import subreddit.android.appstore.util.dagger.ApplicationScope;
 

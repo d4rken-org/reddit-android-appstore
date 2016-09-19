@@ -1,18 +1,14 @@
-package subreddit.android.appstore.backend;
+package subreddit.android.appstore.backend.reddit.wiki;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.ReplaySubject;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
-import subreddit.android.appstore.backend.reddit.wiki.WikiRepository;
 
 
 public class FakeWikiRepository implements WikiRepository {

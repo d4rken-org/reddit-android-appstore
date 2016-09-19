@@ -1,8 +1,7 @@
-package subreddit.android.appstore.backend;
+package subreddit.android.appstore.backend.reddit.wiki;
 
 import dagger.Module;
 import dagger.Provides;
-import subreddit.android.appstore.backend.reddit.wiki.WikiRepository;
 import subreddit.android.appstore.util.dagger.ApplicationScope;
 
 

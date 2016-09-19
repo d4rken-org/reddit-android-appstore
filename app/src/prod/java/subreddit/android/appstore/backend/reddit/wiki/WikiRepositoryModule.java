@@ -1,12 +1,12 @@
-package subreddit.android.appstore.backend;
+package subreddit.android.appstore.backend.reddit.wiki;
 
 import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
+import subreddit.android.appstore.backend.DeviceIdentifier;
+import subreddit.android.appstore.backend.UserAgentInterceptor;
 import subreddit.android.appstore.backend.reddit.TokenRepository;
-import subreddit.android.appstore.backend.reddit.wiki.LiveWikiRepository;
-import subreddit.android.appstore.backend.reddit.wiki.WikiRepository;
 import subreddit.android.appstore.backend.reddit.wiki.caching.WikiDiskCache;
 import subreddit.android.appstore.util.dagger.ApplicationScope;
 
