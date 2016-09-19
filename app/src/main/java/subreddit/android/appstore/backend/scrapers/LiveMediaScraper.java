@@ -30,12 +30,7 @@ public class LiveMediaScraper implements MediaScraper {
             if (scrapeResultObserver == null) {
                 scrapeResultObserver = scrapeDiskCache.get(appToScrape)
                         .switchIfEmpty(
-                                doScrape(appToScrape).doOnNext(new Consumer<ScrapeResult>() {
-                                    @Override
-                                    public void accept(ScrapeResult scrapeResult) throws Exception {
-                                        scrapeDiskCache.put(appToScrape, scrapeResult);
-                                    }
-                                })
+                                doScrape(appToScrape).doOnNext(scrapeResult -> scrapeDiskCache.put(appToScrape, scrapeResult))
                         )
                         .cache();
                 scrapeCache.put(appToScrape, scrapeResultObserver);

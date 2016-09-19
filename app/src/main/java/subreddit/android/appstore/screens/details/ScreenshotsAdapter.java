@@ -54,11 +54,8 @@ public class ScreenshotsAdapter extends PagerAdapter {
                 .listener(new PlaceHolderRequestListener(galleryImage, galleryPlaceholder))
                 .into(galleryImage);
 
-        galleryImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (l != null) l.onScreenshotClicked(urls.get(position));
-            }
+        galleryImage.setOnClickListener(view -> {
+            if (l != null) l.onScreenshotClicked(urls.get(position));
         });
 
         container.addView(itemView);

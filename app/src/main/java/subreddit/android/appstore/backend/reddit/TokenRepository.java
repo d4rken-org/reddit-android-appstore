@@ -70,14 +70,11 @@ public class TokenRepository {
     }
 
     public Observable<Token> getUserlessAuthToken() {
-        return Observable.create(
-                new ObservableOnSubscribe<Token>() {
-                    @Override
-                    public void subscribe(ObservableEmitter<Token> e) throws Exception {
-                        Token token = getToken();
-                        if (token != null) e.onNext(token);
-                        e.onComplete();
-                    }
+        return Observable.<Token>create(
+                emitter -> {
+                    Token token = getToken();
+                    if (token != null) emitter.onNext(token);
+                    emitter.onComplete();
                 })
                 .switchIfEmpty(tokenApi.getUserlessAuthToken
                         (
@@ -87,12 +84,7 @@ public class TokenRepository {
                                 "wikiread"
                         )
                         .subscribeOn(Schedulers.io())
-                        .doOnNext(new Consumer<Token>() {
-                            @Override
-                            public void accept(Token token) throws Exception {
-                                storeToken(token);
-                            }
-                        }));
+                        .doOnNext(this::storeToken));
     }
 
     @Nullable

@@ -63,61 +63,33 @@ public class LiveWikiRepository implements WikiRepository {
         if (dataReplayer == null) {
             dataReplayer = ReplaySubject.createWithSize(1);
             wikiDiskCache.getAll()
-                    .switchIfEmpty(
-                            loadData().doOnNext(new Consumer<Collection<AppInfo>>() {
-                                @Override
-                                public void accept(Collection<AppInfo> appInfos) throws Exception {
-                                    wikiDiskCache.putAll(appInfos);
-                                }
-                            })
-                    )
-                    .subscribe(new Consumer<Collection<AppInfo>>() {
-                        @Override
-                        public void accept(Collection<AppInfo> appInfos) throws Exception {
-                            dataReplayer.onNext(appInfos);
-                        }
-                    });
+                    .switchIfEmpty(loadData().doOnNext(wikiDiskCache::putAll))
+                    .subscribe(appInfos -> dataReplayer.onNext(appInfos));
         }
         return dataReplayer;
     }
 
     @Override
     public void refresh() {
-        loadData().subscribe(new Consumer<Collection<AppInfo>>() {
-            @Override
-            public void accept(Collection<AppInfo> appInfos) throws Exception {
-                dataReplayer.onNext(appInfos);
-            }
-        });
+        loadData().subscribe(appInfos -> dataReplayer.onNext(appInfos));
     }
 
     private Observable<Collection<AppInfo>> loadData() {
         return tokenRepository.getUserlessAuthToken()
                 .subscribeOn(Schedulers.io())
-                .flatMap(new Function<Token, ObservableSource<WikiPageResponse>>() {
-                    @Override
-                    public ObservableSource<WikiPageResponse> apply(Token token) throws Exception {
-                        return wikiApi.getWikiPage(token.getAuthorizationString(), "apps");
-                    }
+                .flatMap(token -> wikiApi.getWikiPage(token.getAuthorizationString(), "apps"))
+                .map(response -> {
+                    Timber.d(response.toString());
+                    long timeStart = System.currentTimeMillis();
+                    Collection<AppInfo> infos = new ArrayList<>();
+                    infos.addAll(new BodyParser(new EncodingFixer()).parseBody(response.data.content_md));
+                    long timeStop = System.currentTimeMillis();
+                    Timber.d("Parsed %d items in %dms", infos.size(), (timeStop - timeStart));
+                    return infos;
                 })
-                .map(new Function<WikiPageResponse, Collection<AppInfo>>() {
-                    @Override
-                    public Collection<AppInfo> apply(WikiPageResponse response) throws Exception {
-                        Timber.d(response.toString());
-                        long timeStart = System.currentTimeMillis();
-                        Collection<AppInfo> infos = new ArrayList<>();
-                        infos.addAll(new BodyParser(new EncodingFixer()).parseBody(response.data.content_md));
-                        long timeStop = System.currentTimeMillis();
-                        Timber.d("Parsed %d items in %dms", infos.size(), (timeStop - timeStart));
-                        return infos;
-                    }
-                })
-                .onErrorReturn(new Function<Throwable, Collection<AppInfo>>() {
-                    @Override
-                    public Collection<AppInfo> apply(Throwable throwable) throws Exception {
-                        Timber.e(throwable, "Error while fetching wiki repository");
-                        return new ArrayList<>();
-                    }
+                .onErrorReturn(throwable -> {
+                    Timber.e(throwable, "Error while fetching wiki repository");
+                    return new ArrayList<>();
                 });
     }
 

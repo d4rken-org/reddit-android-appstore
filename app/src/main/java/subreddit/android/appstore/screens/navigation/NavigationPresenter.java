@@ -35,21 +35,15 @@ public class NavigationPresenter implements NavigationContract.Presenter {
         this.view = view;
         categoryUpdater = repository.getAppList()
                 .observeOn(Schedulers.computation())
-                .map(new Function<Collection<AppInfo>, NavigationData>() {
-                    @Override
-                    public NavigationData apply(Collection<AppInfo> appInfos) throws Exception {
-                        NavigationData navData = new NavigationData();
-                        for (AppInfo appInfo : appInfos) navData.addApp(appInfo);
-                        return navData;
-                    }
+                .map(appInfos -> {
+                    NavigationData navData = new NavigationData();
+                    for (AppInfo appInfo : appInfos) navData.addApp(appInfo);
+                    return navData;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<NavigationData>() {
-                    @Override
-                    public void accept(NavigationData navigationData) throws Exception {
-                        Timber.d("showNavigationItems(%s)", navigationData);
-                        NavigationPresenter.this.view.showNavigationItems(navigationData, currentCategoryFilter);
-                    }
+                .subscribe(navigationData -> {
+                    Timber.d("showNavigationItems(%s)", navigationData);
+                    NavigationPresenter.this.view.showNavigationItems(navigationData, currentCategoryFilter);
                 });
     }
 

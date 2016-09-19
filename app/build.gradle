@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'realm-android'
+apply plugin: 'me.tatarka.retrolambda'
 
 def gitSha() {
     def p = 'git rev-parse --short HEAD'.execute([], project.rootDir)
@@ -87,6 +88,11 @@ android {
             outputs.upToDateWhen { false }
             showStandardStreams = true
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 

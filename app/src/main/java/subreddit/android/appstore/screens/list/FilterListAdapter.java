@@ -30,39 +30,36 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
     }
 
     public FilterListAdapter(final FilterListener filterListener) {
-        setItemClickListener(new BaseViewHolder.ClickListener() {
-            @Override
-            public boolean onItemClick(View view, int position, long itemId) {
-                //If selected tag is FREE, make sure paid is removed from selectedItems before it is added
-                if (data.get(position) == AppTags.FREE) {
-                    //Find 'PAID' in selectedItems and remove it
-                    for (int i = 0; i < selectedItems.size(); i++) {
-                        int key = selectedItems.keyAt(i);
-                        if (data.get(key) == AppTags.PAID) {
-                            selectedItems.delete(key);
-                            notifyDataSetChanged();
-                        }
-                    }
-                } else if (data.get(position) == AppTags.PAID) {
-                    //Find 'FREE' in selectedItems and remove it
-                    for (int i = 0; i < selectedItems.size(); i++) {
-                        int key = selectedItems.keyAt(i);
-                        if (data.get(key) == AppTags.FREE) {
-                            selectedItems.delete(key);
-                            notifyDataSetChanged();
-                        }
-                    }
-                }
-                selectedItems.put(position, !selectedItems.get(position));
-                notifyItemChanged(position);
-                Collection<AppTags> activeAppTagses = new ArrayList<>();
+        setItemClickListener((view, position, itemId) -> {
+            //If selected tag is FREE, make sure paid is removed from selectedItems before it is added
+            if (data.get(position) == AppTags.FREE) {
+                //Find 'PAID' in selectedItems and remove it
                 for (int i = 0; i < selectedItems.size(); i++) {
                     int key = selectedItems.keyAt(i);
-                    if (selectedItems.get(key)) activeAppTagses.add(data.get(key));
+                    if (data.get(key) == AppTags.PAID) {
+                        selectedItems.delete(key);
+                        notifyDataSetChanged();
+                    }
                 }
-                filterListener.onNewFilterTags(activeAppTagses);
-                return false;
+            } else if (data.get(position) == AppTags.PAID) {
+                //Find 'FREE' in selectedItems and remove it
+                for (int i = 0; i < selectedItems.size(); i++) {
+                    int key = selectedItems.keyAt(i);
+                    if (data.get(key) == AppTags.FREE) {
+                        selectedItems.delete(key);
+                        notifyDataSetChanged();
+                    }
+                }
             }
+            selectedItems.put(position, !selectedItems.get(position));
+            notifyItemChanged(position);
+            Collection<AppTags> activeAppTagses = new ArrayList<>();
+            for (int i = 0; i < selectedItems.size(); i++) {
+                int key = selectedItems.keyAt(i);
+                if (selectedItems.get(key)) activeAppTagses.add(data.get(key));
+            }
+            filterListener.onNewFilterTags(activeAppTagses);
+            return false;
         });
     }
 

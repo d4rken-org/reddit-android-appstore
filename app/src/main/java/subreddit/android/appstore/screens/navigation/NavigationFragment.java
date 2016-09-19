@@ -77,12 +77,9 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         versionText.setText(getResources().getString(R.string.version) + " " + BuildConfig.VERSION_NAME);
-        navFooter.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return false;
-            }
+        navFooter.setNavigationItemSelectedListener(item -> {
+            startActivity(new Intent(getActivity(), SettingsActivity.class));
+            return false;
         });
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -97,12 +94,7 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     public void showUpdateSnackbar() {
         Snackbar
                 .make(navigationView,R.string.update,Snackbar.LENGTH_LONG)
-                .setAction(R.string.update_confirm, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        openUpdatePage();
-                    }
-                }).show();
+                .setAction(R.string.update_confirm, view -> openUpdatePage()).show();
     }
 
     @Override
@@ -111,7 +103,7 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     }
 
     @OnClick(R.id.update_download)
-    private void openUpdatePage() {
+    void openUpdatePage() {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.setToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
         builder.setSecondaryToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));

@@ -59,12 +59,9 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             new AlertDialog.Builder(getActivity())
                     .setMessage(R.string.restart)
                     .setNegativeButton(R.string.later, null)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            ((AppStoreApp) getActivity().getApplication()).restart();
-                        }
-                    })
+                    .setPositiveButton(
+                            android.R.string.ok,
+                            (dialogInterface, i) -> ((AppStoreApp) getActivity().getApplication()).restart())
                     .show();
 
             return true;
