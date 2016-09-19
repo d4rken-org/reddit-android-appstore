@@ -132,12 +132,9 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
             openDownload(downloads.get(0));
         } else {
             new AlertDialog.Builder(getContext())
-                    .setItems(downloadItems.toArray(new CharSequence[downloadItems.size()]), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            openDownload(downloads.get(i));
-                        }
-                    })
+                    .setItems(
+                            downloadItems.toArray(new CharSequence[downloadItems.size()]),
+                            (dialogInterface, i) -> openDownload(downloads.get(i)))
                     .show();
         }
     }
@@ -147,12 +144,9 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
             openContact(contacts.get(0));
         } else {
             new AlertDialog.Builder(getContext())
-                    .setItems(contactItems.toArray(new CharSequence[contactItems.size()]), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            openContact(contacts.get(i));
-                        }
-                    })
+                    .setItems(
+                            contactItems.toArray(new CharSequence[contactItems.size()]),
+                            (dialogInterface, i) -> openContact(contacts.get(i)))
                     .show();
         }
     }

@@ -43,28 +43,20 @@ public class WikiDiskCache {
     public Observable<Collection<AppInfo>> getAll() {
         Timber.d("Getting all cached AppInfos");
         // TODO invalidate old data at some point?
-        return Observable.create(
-                new ObservableOnSubscribe<RealmResults<CachedAppInfo>>() {
-                    @Override
-                    public void subscribe(ObservableEmitter<RealmResults<CachedAppInfo>> e) throws Exception {
-                        Realm realm = Realm.getDefaultInstance();
-                        RealmResults<CachedAppInfo> realmResults = realm.where(CachedAppInfo.class).findAll();
-                        if (!realmResults.isEmpty()) e.onNext(realmResults);
-                        else Timber.d("No AppInfos cached");
-                        e.onComplete();
-                    }
+        return Observable.<RealmResults<CachedAppInfo>>create(
+                emitter -> {
+                    Realm realm = Realm.getDefaultInstance();
+                    RealmResults<CachedAppInfo> realmResults = realm.where(CachedAppInfo.class).findAll();
+                    if (!realmResults.isEmpty()) emitter.onNext(realmResults);
+                    else Timber.d("No AppInfos cached");
+                    emitter.onComplete();
                 })
                 .subscribeOn(Schedulers.io())
-                .map(new Function<RealmResults<CachedAppInfo>, Collection<AppInfo>>() {
-                    @Override
-                    public Collection<AppInfo> apply(RealmResults<CachedAppInfo> cachedAppInfos) throws Exception {
-                        Collection<AppInfo> appInfos = new ArrayList<>();
-                        Timber.d("Returned %d AppInfos from cache", cachedAppInfos.size());
-                        for (CachedAppInfo cachedAppInfo : cachedAppInfos) appInfos.add(cachedAppInfo.toAppInfo(gson));
-                        return appInfos;
-                    }
+                .map(cachedAppInfos -> {
+                    Collection<AppInfo> appInfos = new ArrayList<>();
+                    Timber.d("Returned %d AppInfos from cache", cachedAppInfos.size());
+                    for (CachedAppInfo cachedAppInfo : cachedAppInfos) appInfos.add(cachedAppInfo.toAppInfo(gson));
+                    return appInfos;
                 });
     }
-
-
 }

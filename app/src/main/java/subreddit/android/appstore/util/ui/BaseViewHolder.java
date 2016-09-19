@@ -44,13 +44,10 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     public View.OnLongClickListener buildWrapperForAdapterLongClickListener() {
-        return new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (longClickListener == null) return false;
-                if (getAdapterPosition() == RecyclerView.NO_POSITION) return true;
-                return longClickListener.onItemLongClick(itemView, getAdapterPosition(), getItemId());
-            }
+        return v -> {
+            if (longClickListener == null) return false;
+            if (getAdapterPosition() == RecyclerView.NO_POSITION) return true;
+            return longClickListener.onItemLongClick(itemView, getAdapterPosition(), getItemId());
         };
     }
 
