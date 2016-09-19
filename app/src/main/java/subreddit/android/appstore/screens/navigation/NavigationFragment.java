@@ -23,11 +23,11 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.BuildConfig;
 import subreddit.android.appstore.R;
+import subreddit.android.appstore.backend.github.SelfUpdater;
 import subreddit.android.appstore.screens.settings.SettingsActivity;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
@@ -39,7 +39,7 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     @BindView(R.id.footer_nav) NavigationView navFooter;
     @BindView(R.id.header_version_text) TextView versionText;
     @BindView(R.id.navigationview) NavigationView navigationView;
-    @BindView(R.id.update_text) View updateText;
+    @BindView(R.id.update_banner) View updateBanner;
     OnCategorySelectedListener onCategorySelectedListener;
 
 
@@ -91,24 +91,26 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     }
 
     @Override
-    public void showUpdateSnackbar() {
+    public void showUpdateSnackbar(SelfUpdater.Release release) {
+        if (release == null) return;
         Snackbar
-                .make(navigationView,R.string.update,Snackbar.LENGTH_LONG)
-                .setAction(R.string.update_confirm, view -> openUpdatePage()).show();
+                .make(navigationView, R.string.update, Snackbar.LENGTH_LONG)
+                .setAction(R.string.update_confirm, view -> getPresenter().downloadUpdate(release)).show();
     }
 
     @Override
-    public void enableUpdateAvailableText() {
-        updateText.setVisibility(View.VISIBLE);
+    public void enableUpdateAvailableText(SelfUpdater.Release release) {
+        updateBanner.setVisibility(release != null ? View.VISIBLE : View.GONE);
+        updateBanner.setOnClickListener(v -> getPresenter().downloadUpdate(release));
     }
 
-    @OnClick(R.id.update_download)
-    void openUpdatePage() {
+    @Override
+    public void showDownload(String url) {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.setToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
         builder.setSecondaryToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
         CustomTabsIntent customTabsIntent = builder.build();
-        customTabsIntent.launchUrl(getActivity(), Uri.parse("https://github.com/d4rken/reddit-android-appstore/releases"));
+        customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
     }
 
     @Override
