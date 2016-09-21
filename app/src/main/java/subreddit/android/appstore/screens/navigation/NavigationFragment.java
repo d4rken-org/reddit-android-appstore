@@ -100,8 +100,10 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
 
     @Override
     public void enableUpdateAvailableText(SelfUpdater.Release release) {
-        updateBanner.setVisibility(release != null ? View.VISIBLE : View.GONE);
-        updateBanner.setOnClickListener(v -> getPresenter().downloadUpdate(release));
+        if (release != null) {
+            updateBanner.setVisibility(View.VISIBLE);
+            updateBanner.setOnClickListener(v -> getPresenter().downloadUpdate(release));
+        }
     }
 
     @Override

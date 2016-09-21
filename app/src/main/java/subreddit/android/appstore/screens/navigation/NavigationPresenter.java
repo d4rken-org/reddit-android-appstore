@@ -63,7 +63,7 @@ public class NavigationPresenter implements NavigationContract.Presenter {
                     @Override
                     public void onNext(SelfUpdater.Release release) {
                         NavigationPresenter.this.release = release;
-                        if (VersionHelper.versionCompare(release.tagName, BuildConfig.VERSION_NAME) > 0) {
+                        if (VersionHelper.versionCompare(BuildConfig.VERSION_NAME, release.tagName) < 0) {
                             Timber.d("Update available, current: %s, new: %s", BuildConfig.VERSION_NAME, release.tagName);
                             view.showUpdateSnackbar(release);
                             view.enableUpdateAvailableText(release);

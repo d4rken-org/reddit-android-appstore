@@ -18,7 +18,7 @@ public class VersionHelper {
      * The result is zero if the strings are _numerically_ equal.
      * @note It does not work if "1.10" is supposed to be equal to "1.10.0".
      */
-    public static int versionCompare(String newVersion, String current) {
+    public static int versionCompare(String current, String newVersion) {
         if (current.startsWith("v")) current = current.substring(1);
         if (current.contains("-")) current = current.substring(0, current.indexOf("-"));
         if (newVersion.startsWith("v")) newVersion = newVersion.substring(1);
