@@ -89,7 +89,15 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        onContactClicked();
+        switch (item.getItemId()) {
+            case R.id.menu_contact: {
+                onContactClicked();
+                break;
+            }
+            case R.id.menu_flag: {
+                new AppDetailsFlagDialog(getContext(),toolbar.getSubtitle().toString()).show();
+            }
+        }
         return false;
     }
 

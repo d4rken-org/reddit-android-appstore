@@ -16,6 +16,7 @@
             android:key="core.data.loadmedia"
             android:title="@string/data_option_loadmedia_title"
             android:checked="true"
+            android:defaultValue="true"
             android:summary="@string/data_option_loadmedia_summary"/>
     </android.support.v7.preference.PreferenceCategory>
     <android.support.v7.preference.PreferenceCategory
