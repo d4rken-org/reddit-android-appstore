@@ -19,10 +19,9 @@ public class ScreenshotDialog extends Dialog implements View.OnClickListener {
     private final int currentImage;
     @BindView(R.id.screenshot_dialog_pager) ViewPager viewPager;
     @BindView(R.id.screenshot_dialog_toolbar) Toolbar toolbar;
-    @BindView(R.id.screenshot_dialog_page_indicator) TextView pageIndicator;
 
     public ScreenshotDialog(Context context, List<String> urls, int currentImage) {
-        super(context, android.R.style.Theme_Black_NoTitleBar);
+        super(context, R.style.AppTheme_Black);
         this.currentImage = currentImage;
         this.urls = urls;
     }
@@ -34,6 +33,7 @@ public class ScreenshotDialog extends Dialog implements View.OnClickListener {
         ButterKnife.bind(this);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
         toolbar.setNavigationOnClickListener(this);
+        toolbar.setTitle(R.string.screenshots);
 
         ScreenshotsAdapter screenshotsAdapter = new ScreenshotsAdapter(getContext(), 1);
         screenshotsAdapter.update(urls);
@@ -59,7 +59,7 @@ public class ScreenshotDialog extends Dialog implements View.OnClickListener {
     }
 
     private void updatePageIndicator(int position) {
-        pageIndicator.setText(String.format("%s/%s", position + 1, urls.size()));
+        toolbar.setSubtitle(String.format("%s/%s", position + 1, urls.size()));
     }
 
     @Override
