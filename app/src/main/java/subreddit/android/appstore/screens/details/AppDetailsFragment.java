@@ -1,6 +1,5 @@
 package subreddit.android.appstore.screens.details;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -60,6 +59,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
 
     private List<String> contactItems = new ArrayList<>();
     private List<String> downloadItems = new ArrayList<>();
+    private List<String> screenshotUrls = new ArrayList<>();
     private ScreenshotsAdapter screenshotsAdapter;
 
     ArrayList<Download> downloads = new ArrayList<>();
@@ -116,7 +116,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         toolbar.setNavigationOnClickListener(this);
         toolbar.inflateMenu(R.menu.appdetails_fragment);
         toolbar.setOnMenuItemClickListener(this);
-        screenshotsAdapter = new ScreenshotsAdapter(getContext());
+        screenshotsAdapter = new ScreenshotsAdapter(getContext(), 3);
         screenshotPager.setAdapter(screenshotsAdapter);
         screenshotPager.setOffscreenPageLimit(3);
         screenshotsAdapter.setScreenshotClickedListener(this);
@@ -248,8 +248,9 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     @Override
     public void displayScreenshots(@Nullable ScrapeResult scrapeResult) {
         if (scrapeResult != null) {
+            this.screenshotUrls = new ArrayList<>(scrapeResult.getScreenshotUrls());
             screenshotPager.setVisibility(View.VISIBLE);
-            screenshotsAdapter.update(new ArrayList<>(scrapeResult.getScreenshotUrls()));
+            screenshotsAdapter.update(screenshotUrls);
         } else screenshotPager.setVisibility(View.GONE);
     }
 
@@ -266,6 +267,6 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
 
     @Override
     public void onScreenshotClicked(String url) {
-        new ScreenshotDialog(getContext(), url).show();
+        new ScreenshotDialog(getContext(), screenshotUrls, screenshotUrls.indexOf(url)).show();
     }
 }

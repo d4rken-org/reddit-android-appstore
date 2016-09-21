@@ -3,26 +3,28 @@ package subreddit.android.appstore.screens.details;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import subreddit.android.appstore.R;
 
 public class ScreenshotDialog extends Dialog implements View.OnClickListener {
-    @BindView(R.id.dialog_image) ImageView image;
-    @BindView(R.id.dialog_toolbar) Toolbar toolbar;
-    private String url;
-    private Context context;
+    private final List<String> urls;
+    private final int currentImage;
+    @BindView(R.id.screenshot_dialog_pager) ViewPager viewPager;
+    @BindView(R.id.screenshot_dialog_toolbar) Toolbar toolbar;
+    @BindView(R.id.screenshot_dialog_page_indicator) TextView pageIndicator;
 
-    public ScreenshotDialog(Context context, String url) {
-        super(context,android.R.style.Theme_Black_NoTitleBar);
-        this.url=url;
-        this.context=context;
+    public ScreenshotDialog(Context context, List<String> urls, int currentImage) {
+        super(context, android.R.style.Theme_Black_NoTitleBar);
+        this.currentImage = currentImage;
+        this.urls = urls;
     }
 
     @Override
@@ -32,7 +34,32 @@ public class ScreenshotDialog extends Dialog implements View.OnClickListener {
         ButterKnife.bind(this);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
         toolbar.setNavigationOnClickListener(this);
-        Glide.with(context).load(url).into(image);
+
+        ScreenshotsAdapter screenshotsAdapter = new ScreenshotsAdapter(getContext(), 1);
+        screenshotsAdapter.update(urls);
+        viewPager.setAdapter(screenshotsAdapter);
+        viewPager.setCurrentItem(currentImage, false);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                updatePageIndicator(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        updatePageIndicator(currentImage);
+    }
+
+    private void updatePageIndicator(int position) {
+        pageIndicator.setText(String.format("%s/%s", position + 1, urls.size()));
     }
 
     @Override
