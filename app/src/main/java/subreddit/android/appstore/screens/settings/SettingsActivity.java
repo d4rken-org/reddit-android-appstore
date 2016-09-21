@@ -1,11 +1,10 @@
 package subreddit.android.appstore.screens.settings;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -30,7 +29,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
         if (savedInstanceState == null) {
             SettingsFragment fragment = new SettingsFragment();
-            getFragmentManager().beginTransaction().replace(R.id.settings_frame, fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.settings_frame, fragment).commit();
         }
     }
 
@@ -39,11 +38,10 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         finish();
     }
 
-    public static class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
+    public static class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
 
         @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             addPreferencesFromResource(R.xml.preferences);
             findPreference("about").setOnPreferenceClickListener(this);
             findPreference("theme").setOnPreferenceChangeListener(this);

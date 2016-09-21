@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
+<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <android.support.v7.preference.PreferenceCategory
         android:title="@string/appearance" >
-        <ListPreference
+        <android.support.v7.preference.ListPreference
             android:title="@string/preference_theme"
             android:summary="@string/preference_theme_desc"
             android:entries="@array/themes"
             android:entryValues="@array/themesValues"
             android:defaultValue="0"
             android:key="theme"/>
-    </PreferenceCategory>
-    <PreferenceCategory
+    </android.support.v7.preference.PreferenceCategory>
+    <android.support.v7.preference.PreferenceCategory
         android:title="@string/data_options">
-        <CheckBoxPreference
+        <android.support.v7.preference.CheckBoxPreference
             android:key="core.data.loadmedia"
             android:title="@string/data_option_loadmedia_title"
             android:checked="true"
             android:summary="@string/data_option_loadmedia_summary"/>
-    </PreferenceCategory>
-    <PreferenceCategory
+    </android.support.v7.preference.PreferenceCategory>
+    <android.support.v7.preference.PreferenceCategory
         android:title="@string/more" >
-        <Preference android:title="@string/button_about"
+        <android.support.v7.preference.Preference android:title="@string/button_about"
             android:key="about"/>
-    </PreferenceCategory>
-</PreferenceScreen>
+    </android.support.v7.preference.PreferenceCategory>
+</android.support.v7.preference.PreferenceScreen>
