@@ -18,12 +18,14 @@ import subreddit.android.appstore.R;
 import subreddit.android.appstore.util.ui.glide.PlaceHolderRequestListener;
 
 public class ScreenshotsAdapter extends PagerAdapter {
+    private final int imagesPerPage;
     private Context context;
     private LayoutInflater layoutInflater;
     List<String> urls = new ArrayList<>();
     ScreenshotClickedListener l;
 
-    public ScreenshotsAdapter(Context context) {
+    public ScreenshotsAdapter(Context context, int imagesPerPage) {
+        this.imagesPerPage = imagesPerPage;
         this.context = context;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -70,7 +72,7 @@ public class ScreenshotsAdapter extends PagerAdapter {
 
     @Override
     public float getPageWidth(int position) {
-        return super.getPageWidth(position) / 3;
+        return super.getPageWidth(position) / imagesPerPage;
     }
 
     public void setScreenshotClickedListener(ScreenshotClickedListener l) {
