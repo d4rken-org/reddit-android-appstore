@@ -1,6 +1,7 @@
 package subreddit.android.appstore.screens.details;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,11 +31,13 @@ public class AppDetailsModule {
 
     @Provides
     @FragmentScope
-    public PresenterFactory<AppDetailsContract.Presenter> providePresenterFactory(final MediaScraper mediaScraper, final AppInfo appInfo) {
+    public PresenterFactory<AppDetailsContract.Presenter> providePresenterFactory(
+            final SharedPreferences preferences, final MediaScraper mediaScraper, final AppInfo appInfo
+    ) {
         return new PresenterFactory<AppDetailsContract.Presenter>() {
             @Override
             public AppDetailsContract.Presenter create() {
-                return new AppDetailsPresenter(mediaScraper, appInfo);
+                return new AppDetailsPresenter(preferences, mediaScraper, appInfo);
             }
 
             @Override

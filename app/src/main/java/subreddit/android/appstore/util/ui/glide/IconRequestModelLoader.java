@@ -111,17 +111,14 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
         @Override
         public void loadData(Priority priority, final DataCallback<? super InputStream> callback) {
             mediaScraper.get(iconRequest.getAppInfo())
-                    .map(new Function<ScrapeResult, InputStream>() {
-                        @Override
-                        public InputStream apply(ScrapeResult scrapeResult) throws Exception {
-                            String iconUrl = scrapeResult.getIconUrl(ImgSize.px(width), ImgSize.px(height));
-                            if (iconUrl == null) {
-                                throw new IllegalArgumentException("Icon url was null for" + iconRequest.getAppInfo());
-                            }
-                            OkHttpClient client = new OkHttpClient();
-                            Request request = new Request.Builder().url(iconUrl).build();
-                            return client.newCall(request).execute().body().byteStream();
+                    .map(scrapeResult -> {
+                        String iconUrl = scrapeResult.getIconUrl(ImgSize.px(width), ImgSize.px(height));
+                        if (iconUrl == null) {
+                            throw new IllegalArgumentException("Icon url was null for" + iconRequest.getAppInfo());
                         }
+                        OkHttpClient client = new OkHttpClient();
+                        Request request = new Request.Builder().url(iconUrl).build();
+                        return client.newCall(request).execute().body().byteStream();
                     })
                     .subscribe(new Observer<InputStream>() {
                         @Override

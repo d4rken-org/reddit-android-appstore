@@ -13,15 +13,13 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.data.AppInfo;
-import subreddit.android.appstore.backend.wiki.WikiRepository;
+import subreddit.android.appstore.backend.reddit.wiki.WikiRepository;
 import subreddit.android.appstore.screens.navigation.CategoryFilter;
 import timber.log.Timber;
 
 
 public class AppListPresenter implements AppListContract.Presenter {
-    static final String TAG = AppStoreApp.LOGPREFIX + "AppListPresenter";
     final WikiRepository repository;
     final CategoryFilter categoryFilter;
     private Disposable listUpdater;
@@ -44,30 +42,26 @@ public class AppListPresenter implements AppListContract.Presenter {
         view.showLoadingScreen();
         Observable<List<AppInfo>> filteredData = repository.getAppList()
                 .observeOn(Schedulers.computation())
-                .map(new Function<Collection<AppInfo>, List<AppInfo>>() {
-                    @Override
-                    public List<AppInfo> apply(Collection<AppInfo> appInfos) throws Exception {
-                        ArrayList<AppInfo> data = new ArrayList<>(appInfos);
-                        ArrayList<AppInfo> filteredData = new ArrayList<>();
-                        for (AppInfo app : data) {
-                            if ((app.getPrimaryCategory().equals(categoryFilter.getPrimaryCategory()) || categoryFilter.getPrimaryCategory() == null) &&
-                                    (app.getSecondaryCategory().equals(categoryFilter.getSecondaryCategory()) || categoryFilter.getSecondaryCategory() == null)) {
-                                filteredData.add(app);
-                            }
+                .map(appInfos -> {
+                    ArrayList<AppInfo> data = new ArrayList<>(appInfos);
+                    List<AppInfo> filteredData1 = new ArrayList<>();
+                    for (AppInfo app : data) {
+                        if ((app.getPrimaryCategory().equals(categoryFilter.getPrimaryCategory()) || categoryFilter.getPrimaryCategory() == null) &&
+                                (app.getSecondaryCategory().equals(categoryFilter.getSecondaryCategory()) || categoryFilter.getSecondaryCategory() == null)) {
+                            filteredData1.add(app);
                         }
-                        Collections.sort(filteredData);
-                        return filteredData;
                     }
+                    Collections.sort(filteredData1);
+                    return filteredData1;
                 }).replay().refCount();
+
         listUpdater = filteredData
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<AppInfo>>() {
-                    @Override
-                    public void accept(List<AppInfo> appInfos) throws Exception {
-                        Timber.tag(TAG).d("showAppList(%s items)", appInfos.size());
-                        AppListPresenter.this.view.showAppList(appInfos);
-                    }
+                .subscribe(appInfos -> {
+                    Timber.d("showAppList(%s items)", appInfos.size());
+                    AppListPresenter.this.view.showAppList(appInfos);
                 });
+
         tagUpdater = filteredData
                 .observeOn(Schedulers.computation())
                 .map(new Function<Collection<AppInfo>, TagMap>() {
@@ -77,21 +71,16 @@ public class AppListPresenter implements AppListContract.Presenter {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<TagMap>() {
-                    @Override
-                    public void accept(TagMap tagMap) throws Exception {
-                        Timber.tag(TAG).d("updateTagCount(%s)", tagMap);
-                        AppListPresenter.this.view.updateTagCount(tagMap);
-                    }
+                .subscribe(tagMap -> {
+                    Timber.d("updateTagCount(%s)", tagMap);
+                    AppListPresenter.this.view.updateTagCount(tagMap);
                 });
+
         filteredData
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<AppInfo>>() {
-                    @Override
-                    public void accept(List<AppInfo> appInfos) throws Exception {
-                        if (appInfos.size()<1) {
-                            view.showError();
-                        }
+                .subscribe(appInfos -> {
+                    if (appInfos.size()<1) {
+                        view.showError();
                     }
                 });
     }

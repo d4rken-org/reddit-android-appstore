@@ -6,14 +6,6 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/details_toolbar"
-        android:background="@color/colorPrimary"
-        app:title="@string/screen_details"
-        android:theme="@style/AppTheme.Dark"/>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

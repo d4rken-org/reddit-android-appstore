@@ -1,3 +1,5 @@
+notifications:
+  email: false
 language: android
 jdk:
   - oraclejdk8
@@ -10,12 +12,11 @@ android:
 
     - android-24
 
-    - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
 
-    - sys-img-armeabi-v7a-android-24
-    - sys-img-x86-android-24
-
 before_install:
  - chmod +x gradlew
+
+script:
+ - ./gradlew clean assemble test

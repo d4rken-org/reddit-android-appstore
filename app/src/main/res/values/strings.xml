@@ -28,6 +28,14 @@
     <string name="later">Later</string>
     <string name="app_category_everything">Everything</string>
     <string name="error">Error fetching repository</string>
+    <string name="data_options">Data options</string>
+    <string name="data_option_loadmedia_title"><![CDATA[Icons & screenshots]]></string>
+    <string name="data_option_loadmedia_summary">Load app icons and screenshots</string>
+    <string name="update">Update available</string>
+    <string name="update_confirm">Update</string>
+    <string name="flag">Flag app</string>
+    <string name="no_message">Please enter a message</string>
+    <string name="flag_text">Please describe why you are flagging this app. You will be redirected to reddit to send a PM to the r/Android mod team</string>
     <plurals name="x_items">
         <item quantity="one">%s item</item>
         <item quantity="other">%s items</item>

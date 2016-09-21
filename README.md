@@ -1,9 +1,10 @@
 # /r/Android App Store
 [![Project License](https://img.shields.io/badge/license-Apache--2.0-blue.svg?style=flat-square)](LICENSE)
+[![Build Status](https://travis-ci.org/d4rken/reddit-android-appstore.svg?branch=dev)](https://travis-ci.org/d4rken/reddit-android-appstore)
 
 App inspired by [this reddit post](https://redd.it/50rafp)
 
-Simply pulls the curated app list from the [/r/Android wiki](https://www.reddit.com/r/android/wiki/apps) and displays.
+Pulls the curated app list from the [/r/Android wiki](https://www.reddit.com/r/android/wiki/apps) and displays.
 
 ## How to Contribute
 * Make sure there is an issue for what you are working on __(create one if necessary)__

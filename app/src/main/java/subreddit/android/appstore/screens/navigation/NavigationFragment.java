@@ -1,10 +1,14 @@
 package subreddit.android.appstore.screens.navigation;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +27,7 @@ import butterknife.Unbinder;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.BuildConfig;
 import subreddit.android.appstore.R;
+import subreddit.android.appstore.backend.github.SelfUpdater;
 import subreddit.android.appstore.screens.settings.SettingsActivity;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
@@ -34,6 +39,7 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     @BindView(R.id.footer_nav) NavigationView navFooter;
     @BindView(R.id.header_version_text) TextView versionText;
     @BindView(R.id.navigationview) NavigationView navigationView;
+    @BindView(R.id.update_banner) View updateBanner;
     OnCategorySelectedListener onCategorySelectedListener;
 
 
@@ -71,12 +77,9 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         versionText.setText(getResources().getString(R.string.version) + " " + BuildConfig.VERSION_NAME);
-        navFooter.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return false;
-            }
+        navFooter.setNavigationItemSelectedListener(item -> {
+            startActivity(new Intent(getActivity(), SettingsActivity.class));
+            return false;
         });
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -85,6 +88,31 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     public void onDestroyView() {
         if (unbinder != null) unbinder.unbind();
         super.onDestroyView();
+    }
+
+    @Override
+    public void showUpdateSnackbar(SelfUpdater.Release release) {
+        if (release == null) return;
+        Snackbar
+                .make(navigationView, R.string.update, Snackbar.LENGTH_LONG)
+                .setAction(R.string.update_confirm, view -> getPresenter().downloadUpdate(release)).show();
+    }
+
+    @Override
+    public void enableUpdateAvailableText(SelfUpdater.Release release) {
+        if (release != null) {
+            updateBanner.setVisibility(View.VISIBLE);
+            updateBanner.setOnClickListener(v -> getPresenter().downloadUpdate(release));
+        }
+    }
+
+    @Override
+    public void showDownload(String url) {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+        builder.setSecondaryToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
     }
 
     @Override
