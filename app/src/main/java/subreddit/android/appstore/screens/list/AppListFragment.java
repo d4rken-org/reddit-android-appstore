@@ -143,7 +143,6 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     @Override
     public void showAppList(List<AppInfo> appInfos) {
         appListAdapter.setData(appInfos);
-        appListAdapter.notifyDataSetChanged();
         appListAdapter.getFilter().setFilterAppTagses(appTags);
         appListAdapter.getFilter().filter(appListAdapter.getFilter().getFilterString());
         swipeRefresh.setRefreshing(false);
