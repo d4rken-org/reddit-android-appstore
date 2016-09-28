@@ -100,6 +100,7 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
         appList.setLayoutManager(new LinearLayoutManager(getContext()));
         appList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         appListAdapter = new AppListAdapter();
+        appListAdapter.setHasStableIds(true);
         appListAdapter.setItemClickListener(this);
         appList.setAdapter(appListAdapter);
 
