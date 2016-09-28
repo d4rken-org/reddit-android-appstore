@@ -53,6 +53,11 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
     }
 
     @Override
+    public long getItemId(int position) {
+        return data.get(position).getDescription().hashCode();
+    }
+
+    @Override
     public String getSectionTitle(int position) {
         return data.get(position).getAppName().substring(0, 1).toUpperCase();
     }
