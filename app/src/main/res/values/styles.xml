@@ -25,7 +25,7 @@
         <item name="tagBackgroundColor">#a5ffffff</item>
     </style>
 
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppTheme.Launcher">
         <item name="android:windowBackground">@drawable/splashscreen</item>
     </style>
 

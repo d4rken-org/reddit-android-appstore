@@ -14,15 +14,14 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:theme="@style/SplashTheme"
-            android:name=".screens.SplashActivity">
+            android:theme="@style/AppTheme.Launcher"
+            android:name=".screens.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".screens.MainActivity"/>
         <activity
             android:name=".screens.details.AppDetailsActivity"
             android:label="@string/screen_details"
