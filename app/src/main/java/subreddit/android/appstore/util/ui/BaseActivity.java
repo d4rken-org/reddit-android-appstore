@@ -11,14 +11,14 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setTheme(((AppStoreApp) getApplication()).getSetTheme());
+        super.onCreate(savedInstanceState);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
         setTheme(((AppStoreApp) getApplication()).getSetTheme());
+        super.onCreate(savedInstanceState, persistentState);
     }
 
     @Override

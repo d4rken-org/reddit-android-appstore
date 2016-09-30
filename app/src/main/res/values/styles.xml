@@ -7,6 +7,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="iconTintDefault">#80000000</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="tagBackgroundColor">#c8000000</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
@@ -15,11 +16,17 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="iconTintDefault">#FFFFFFFF</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="tagBackgroundColor">#c8ffffff</item>
     </style>
 
     <style name="AppTheme.Black" parent="AppTheme.Dark">
         <item name="android:windowBackground">@android:color/black</item>
         <item name="android:colorBackground">@android:color/black</item>
+        <item name="tagBackgroundColor">#a5ffffff</item>
+    </style>
+
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/splashscreen</item>
     </style>
 
     <style name="DefaultListItemContainer">
