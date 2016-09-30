@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginEnd="2dp"
     android:layout_marginRight="2dp"
-    android:background="?android:colorForeground"
+    android:background="?tagBackgroundColor"
     android:ellipsize="end"
     android:fontFamily="sans-serif-light"
     android:gravity="center"
@@ -16,7 +16,7 @@
     android:paddingRight="4dp"
     android:textStyle="bold"
     android:paddingTop="1dp"
-    android:singleLine="true"
+    android:maxLines="1"
     android:textAppearance="@style/TextAppearance.AppCompat.Small.Inverse"
     android:textSize="12sp"
     tools:text="PlaceHolder"/>
