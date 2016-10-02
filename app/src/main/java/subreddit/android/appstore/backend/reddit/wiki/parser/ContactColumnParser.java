@@ -24,21 +24,21 @@ public class ContactColumnParser extends BaseParser {
         Matcher emailMatcher = EMAIL_PATTERN.matcher(raw);
         while (emailMatcher.find()) {
             Contact contact = new Contact(Contact.Type.EMAIL, emailMatcher.group(1));
-            appInfo.getContacts().add(contact);
+            appInfo.addContact(contact);
         }
         Matcher redditMatcher = REDDIT_PATTERN.matcher(raw);
         while (redditMatcher.find()) {
             Contact contact = new Contact(Contact.Type.REDDIT_USERNAME, redditMatcher.group(1));
-            appInfo.getContacts().add(contact);
+            appInfo.addContact(contact);
         }
         Matcher webSiteMatcher = WEBSITE_MATCHER.matcher(raw);
         while (webSiteMatcher.find()) {
             Contact contact = new Contact(Contact.Type.WEBSITE, webSiteMatcher.group(1));
-            appInfo.getContacts().add(contact);
+            appInfo.addContact(contact);
         }
         if (appInfo.getContacts().isEmpty()) {
             Timber.w("No contacts parsed from %s", raw);
-            appInfo.getContacts().add(new Contact(Contact.Type.UNKNOWN, raw));
+            appInfo.addContact(new Contact(Contact.Type.UNKNOWN, raw));
         }
     }
 }

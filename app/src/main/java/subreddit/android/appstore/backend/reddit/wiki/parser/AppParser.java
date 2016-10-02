@@ -7,7 +7,6 @@ import subreddit.android.appstore.backend.data.AppInfo;
 
 public interface AppParser {
     enum Column {
-        PRIMARY_CATEGORY, SECONDARY_CATEGORY,
         NAME, PRICE, DEVICE, DESCRIPTION, CONTACT
     }
 

@@ -1,21 +1,24 @@
 package subreddit.android.appstore.backend.reddit.wiki.parser;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import subreddit.android.appstore.backend.data.AppInfo;
 
 
-public class CategoryParser extends BaseParser {
+public class CategoryParser {
+
+    private final EncodingFixer encodingFixer;
 
     public CategoryParser(EncodingFixer encodingFixer) {
-        super(encodingFixer);
+
+        this.encodingFixer = encodingFixer;
     }
 
-    @Override
-    public void parse(AppInfo appInfo, Map<Column, String> rawColumns) {
-        //noinspection deprecation
-        appInfo.setPrimaryCategory(fixEncoding(rawColumns.get(Column.PRIMARY_CATEGORY)));
-        //noinspection deprecation
-        appInfo.setSecondaryCategory(fixEncoding(rawColumns.get(Column.SECONDARY_CATEGORY)));
+
+    public void parse(AppInfo appInfo, List<String> rawCategories) {
+        List<String> processedCategories = new ArrayList<>();
+        for (String unprocessed : rawCategories) processedCategories.add(encodingFixer.fixHtmlEscapes(unprocessed));
+        appInfo.setCategories(processedCategories);
     }
 }

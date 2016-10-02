@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.ReplaySubject;
 import okhttp3.OkHttpClient;
@@ -21,7 +18,6 @@ import retrofit2.http.Query;
 import subreddit.android.appstore.BuildConfig;
 import subreddit.android.appstore.backend.UserAgentInterceptor;
 import subreddit.android.appstore.backend.data.AppInfo;
-import subreddit.android.appstore.backend.reddit.Token;
 import subreddit.android.appstore.backend.reddit.TokenRepository;
 import subreddit.android.appstore.backend.reddit.wiki.caching.WikiDiskCache;
 import subreddit.android.appstore.backend.reddit.wiki.parser.BodyParser;
@@ -77,7 +73,7 @@ public class LiveWikiRepository implements WikiRepository {
     private Observable<Collection<AppInfo>> loadData() {
         return tokenRepository.getUserlessAuthToken()
                 .subscribeOn(Schedulers.io())
-                .flatMap(token -> wikiApi.getWikiPage(token.getAuthorizationString(), "apps"))
+                .flatMap(token -> wikiApi.getWikiPage(token.getAuthorizationString(), "apps-test"))
                 .map(response -> {
                     Timber.d(response.toString());
                     long timeStart = System.currentTimeMillis();

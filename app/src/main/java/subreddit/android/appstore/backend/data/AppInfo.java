@@ -9,38 +9,28 @@ import com.google.gson.JsonSyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 import timber.log.Timber;
 
 
 public class AppInfo implements Comparable<AppInfo> {
-    final Collection<AppTags> appTagsCollection = new LinkedHashSet<>();
-    final Collection<Contact> contacts = new ArrayList<>();
-    final Collection<Download> downloads = new ArrayList<>();
-    String description;
-    String appName;
-    String primaryCategory;
-    String secondaryCategory;
+    private final Collection<AppTags> appTagsCollection = new LinkedHashSet<>();
+    private final Collection<Contact> contacts = new ArrayList<>();
+    private final Collection<Download> downloads = new ArrayList<>();
+    private String description;
+    private String appName;
+    private List<String> categories;
 
     public AppInfo() {
     }
 
-    @NonNull
-    public String getPrimaryCategory() {
-        return primaryCategory;
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
     }
 
-    public void setPrimaryCategory(@NonNull String primaryCategory) {
-        this.primaryCategory = primaryCategory;
-    }
-
-    @NonNull
-    public String getSecondaryCategory() {
-        return secondaryCategory;
-    }
-
-    public void setSecondaryCategory(@NonNull String secondaryCategory) {
-        this.secondaryCategory = secondaryCategory;
+    public List<String> getCategories() {
+        return categories;
     }
 
     public String getAppName() {
@@ -120,5 +110,6 @@ public class AppInfo implements Comparable<AppInfo> {
         result = 31 * result + appName.hashCode();
         return result;
     }
+
 }
 
