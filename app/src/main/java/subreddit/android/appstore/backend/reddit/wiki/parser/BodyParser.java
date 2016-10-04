@@ -33,7 +33,7 @@ public class BodyParser {
         return parsedOutput;
     }
 
-    private static final Pattern CATEGORY_PATTERN = Pattern.compile("^(#+?)\\s(.+?)$");
+    private static final Pattern CATEGORY_PATTERN = Pattern.compile("^(#+)(?:\\s*+)(.+?)$");
 
     Collection<AppInfo> parseCategoryBlocks(List<String> categories, List<String> block) {
         Collection<AppInfo> parsedOutput = new ArrayList<>();

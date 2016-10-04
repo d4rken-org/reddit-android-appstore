@@ -7,7 +7,7 @@ public class TestBody {
                     "\n" +
                     "## Category2 Entry1  \n" +
                     "\n" +
-                    "### Category3 Entry1\n" +
+                    "###Category3 Entry1\n" +
                     "Name | Price | Device | Description | Contact\n" +
                     ":-----------|:------------|:------------|:------------|:------------|  \n" +
                     "[10000000](https://play.google.com/store/apps/details?id=com.eightyeightgames.tenmillion) | Paid | Phone+Tablet | 10000000 is a Dungeon Crawling RPG Matching Game. Run the dungeon and match to handle the things you encounter | luca@eightyeightgames.com\n" +
@@ -51,7 +51,7 @@ public class TestBody {
                     "[Shattered Pixel Dungeon](https://play.google.com/store/apps/details?id=com.shatteredpixel.shatteredpixeldungeon) | Free | Phone+Tablet | Shattered Pixel Dungeon is a Roguelike RPG, with pixel art graphics and lots of variety and replayability. Every game is unique, with four different playable characters, randomized levels and enemies, and over 150 items to collect and use. The game is simple to get into, but has lots of depth. Strategy is required if you want to win! | Evan@ShatteredPixel.com\n" +
                     "[SimplePlanes](https://play.google.com/store/apps/details?id=com.jundroo.SimplePlanes) | Paid | Phone+Tablet | Snap parts together to build your airplane's body. Place engines to add thrust. Design the wings and then strap yourself into the pilot's seat and see how it flies.  | games@jundroo.com\n" +
                     "\n" +
-                    "# Category1 Entry3\n" +
+                    "#Category1 Entry3\n" +
                     "\n" +
                     "## Category2 Entry1  \n" +
                     "\n" +
@@ -68,7 +68,7 @@ public class TestBody {
                     "[The Room 1](https://play.google.com/store/apps/details?id=com.FireproofStudios.TheRoom) | Paid | Phone+Tablet | Welcome to The Room, a physical puzzler, wrapped in a mystery game, inside a beautifully tactile 3D world. | info@fireproofgames.com\n" +
                     "[The Room 2](https://play.google.com/store/apps/details?id=com.FireproofStudios.TheRoom2) | Paid | Phone+Tablet | Welcome to The Room Two, a physical puzzler, wrapped in a mystery game, inside a beautifully tactile 3D world. The much anticipated sequel to ‘The Room’, recipient of a BAFTA award, is here at last.  | info@fireproofgames.com\n" +
                     "\n" +
-                    "## Category2 Entry2  \n" +
+                    "##Category2 Entry2  \n" +
                     "\n" +
                     "### Category3 Entry1\n" +
                     "Name | Price | Device | Description | Contact\n" +
