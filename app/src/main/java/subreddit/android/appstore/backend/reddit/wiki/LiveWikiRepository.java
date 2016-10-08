@@ -73,7 +73,7 @@ public class LiveWikiRepository implements WikiRepository {
     private Observable<Collection<AppInfo>> loadData() {
         return tokenRepository.getUserlessAuthToken()
                 .subscribeOn(Schedulers.io())
-                .flatMap(token -> wikiApi.getWikiPage(token.getAuthorizationString(), "apps-test"))
+                .flatMap(token -> wikiApi.getWikiPage(token.getAuthorizationString(), "apps"))
                 .map(response -> {
                     Timber.d(response.toString());
                     long timeStart = System.currentTimeMillis();
