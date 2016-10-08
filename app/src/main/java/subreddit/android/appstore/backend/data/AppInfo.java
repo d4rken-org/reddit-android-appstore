@@ -33,6 +33,18 @@ public class AppInfo implements Comparable<AppInfo> {
         return categories;
     }
 
+    public String getPrimaryCategory() {
+        return categories.get(0);
+    }
+
+    public String getSecondaryCategory() {
+        return categories.get(1);
+    }
+
+    public String getTertiaryCategory() {
+        return categories.get(2);
+    }
+
     public String getAppName() {
         return appName;
     }

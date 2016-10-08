@@ -50,7 +50,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             contentFragment = AppListFragment.newInstance(filter);
             getSupportFragmentManager().beginTransaction().replace(R.id.contentFrame, contentFragment, filter.getFragmentTag()).commit();
         }
-        drawerLayout.closeDrawer(GravityCompat.START);
+        if (filter.getTertiaryCategory()!=null) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
         toolbar.setTitle(filter.getName(this));
     }
 }

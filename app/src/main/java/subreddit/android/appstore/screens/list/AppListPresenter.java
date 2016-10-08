@@ -45,9 +45,11 @@ public class AppListPresenter implements AppListContract.Presenter {
                 .map(appInfos -> {
                     ArrayList<AppInfo> data = new ArrayList<>(appInfos);
                     List<AppInfo> filteredData1 = new ArrayList<>();
+                    Timber.d("Filtering to %s %s %s",categoryFilter.getPrimaryCategory(), categoryFilter.getSecondaryCategory(), categoryFilter.getTertiaryCategory());
                     for (AppInfo app : data) {
                         if ((app.getPrimaryCategory().equals(categoryFilter.getPrimaryCategory()) || categoryFilter.getPrimaryCategory() == null) &&
-                                (app.getSecondaryCategory().equals(categoryFilter.getSecondaryCategory()) || categoryFilter.getSecondaryCategory() == null)) {
+                                (app.getSecondaryCategory().equals(categoryFilter.getSecondaryCategory()) || categoryFilter.getSecondaryCategory() == null) &&
+                                (app.getTertiaryCategory().equals(categoryFilter.getTertiaryCategory()) || categoryFilter.getTertiaryCategory() == null)) {
                             filteredData1.add(app);
                         }
                     }
