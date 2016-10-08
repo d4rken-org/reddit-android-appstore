@@ -2,6 +2,7 @@ package subreddit.android.appstore;
 
 import android.app.Application;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.squareup.leakcanary.LeakCanary;
@@ -33,9 +34,20 @@ public class AppStoreApp extends Application {
                 }
             });
         }
+        clearCache();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         refWatcher = LeakCanary.install(this);
         Injector.INSTANCE.init(this);
-        theme = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("theme", "0"));
+        theme = Integer.parseInt(prefs.getString("theme", "0"));
+    }
+
+    private void clearCache() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (prefs.getInt("APP_VERSION",0)<BuildConfig.VERSION_CODE) {
+            Timber.e("New release on %s, clearing cache database", BuildConfig.VERSION_NAME);
+            Realm.deleteRealm(new RealmConfiguration.Builder(this, getCacheDir()).build());
+            prefs.edit().putInt("APP_VERSION",BuildConfig.VERSION_CODE).commit();
+        }
     }
 
     public int getSetTheme() {
