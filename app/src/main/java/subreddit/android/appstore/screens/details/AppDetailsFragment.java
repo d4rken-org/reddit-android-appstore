@@ -1,5 +1,7 @@
 package subreddit.android.appstore.screens.details;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,8 +17,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.wefika.flowlayout.FlowLayout;
@@ -57,6 +61,8 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     @BindView(R.id.title_secondary) TextView secondaryTitle;
     @BindView(R.id.screenshot_pager) ViewPager screenshotPager;
 
+    private static final String REDDIT_MSG_URL_HEADER="https://www.reddit.com/message/compose/?to=/r/Android&subject=**RAS Flag Report**&message=";
+
     private List<String> contactItems = new ArrayList<>();
     private List<String> downloadItems = new ArrayList<>();
     private List<String> screenshotUrls = new ArrayList<>();
@@ -95,7 +101,23 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
                 break;
             }
             case R.id.menu_flag: {
-                new AppDetailsFlagDialog(getContext(),toolbar.getSubtitle().toString()).show();
+                EditText flagMessage = ((EditText) getActivity().getLayoutInflater().inflate(R.layout.dialog_flag, null));
+                Dialog d = new AlertDialog.Builder(getContext())
+                        .setTitle(R.string.flag)
+                        .setMessage(R.string.flag_text)
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (flagMessage.getText().toString().isEmpty()) {
+                                    Toast.makeText(getContext(), getContext().getResources().getString(R.string.no_message), Toast.LENGTH_LONG).show();
+                                } else {
+                                    openInChrome(REDDIT_MSG_URL_HEADER + "*****" + toolbar.getSubtitle() +" REPORT" + "*****" + "%0A" +(flagMessage.getText().toString().trim()));
+                                }
+                            }
+                        })
+                        .setView(flagMessage)
+                        .show();
             }
         }
         return false;
