@@ -22,8 +22,8 @@ def gitTimestamp() {
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "24.0.3"
 
     def versionMajor = 0
     def versionMinor = 7
@@ -34,7 +34,7 @@ android {
     defaultConfig {
         applicationId "subreddit.android.appstore"
         minSdkVersion 16
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
     }
@@ -100,7 +100,7 @@ tasks.withType(Test) {
     systemProperty "robolectric.logging", "stdout"
 }
 ext {
-    supportLibVersion = '24.2.1'
+    supportLibVersion = '25.1.0'
 }
 //noinspection GroovyAssignabilityCheck
 configurations.all {
@@ -129,7 +129,7 @@ dependencies {
 
     // OKHttp
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0-SNAPSHOT'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
 
     // Retrofit
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
