@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">/r/Android App store</string>
+    <string name="button_refresh">Aggiorna</string>
+    <string name="button_filter">Filtra</string>
+    <string name="button_search">Cerca</string>
+    <string name="screen_details">Dettagli</string>
+    <string name="button_contact">Contatti</string>
+    <string name="button_download">Scarica</string>
+    <string name="gplay">Google Play</string>
+    <string name="fdroid">F-Droid</string>
+    <string name="website">Sito web</string>
+    <string name="mail">E-Mail</string>
+    <string name="reddit">Reddit</string>
+    <string name="twitter">Twitter</string>
+    <string name="instagram">Instagram</string>
+    <string name="hint_type_to_filter">Digita per filtrare</string>
+    <string name="button_about">Informazioni</string>
+    <string name="text_contributors">Contributori</string>
+    <string name="licenses">Licenze</string>
+    <string name="version">Versione</string>
+    <string name="bugreport">Segnala bug</string>
+    <string name="settings">Impostazioni</string>
+    <string name="more">Più</string>
+    <string name="appearance">Aspetto</string>
+    <string name="preference_theme">Tema</string>
+    <string name="preference_theme_desc">Tema da usare</string>
+    <string name="restart">È necessario riavviare per cambiare tema</string>
+    <string name="later">Dopo</string>
+    <string name="app_category_everything">Tutto</string>
+    <string name="error">Errore nell'ottenere il repository</string>
+    <string name="data_options">Opzioni dei dati</string>
+    <string name="screenshots">Screenshot</string>
+    <string name="data_option_loadmedia_title">Icone e schermate</string>
+    <string name="data_option_loadmedia_summary">Carica icone e schermate delle app</string>
+    <string name="update">Aggiornamento disponibile</string>
+    <string name="update_confirm">Aggiornamento</string>
+    <string name="flag">Segnala app</string>
+    <string name="no_message">Inserisci un messaggio</string>
+    <string name="flag_text">Per favore descrivi perché stai segnalando quest'app. Sarai reindirizzato su Reddit per inviare un messaggio ai moderatori di /r/Android</string>
+    <plurals name="x_items">
+        <item quantity="one">%s item</item>
+        <item quantity="other">%s items</item>
+    </plurals>
+</resources>
