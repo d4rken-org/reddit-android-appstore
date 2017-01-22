@@ -27,7 +27,7 @@
     <string name="restart">È necessario riavviare per cambiare tema</string>
     <string name="later">Dopo</string>
     <string name="app_category_everything">Tutto</string>
-    <string name="error">Errore nell'ottenere il repository</string>
+    <string name="error">Errore nell\'ottenere il repository</string>
     <string name="data_options">Opzioni dei dati</string>
     <string name="screenshots">Screenshot</string>
     <string name="data_option_loadmedia_title">Icone e schermate</string>
@@ -36,7 +36,7 @@
     <string name="update_confirm">Aggiornamento</string>
     <string name="flag">Segnala app</string>
     <string name="no_message">Inserisci un messaggio</string>
-    <string name="flag_text">Per favore descrivi perché stai segnalando quest'app. Sarai reindirizzato su Reddit per inviare un messaggio ai moderatori di /r/Android</string>
+    <string name="flag_text">Per favore descrivi perché stai segnalando quest\'app. Sarai reindirizzato su Reddit per inviare un messaggio ai moderatori di /r/Android</string>
     <plurals name="x_items">
         <item quantity="one">%s item</item>
         <item quantity="other">%s items</item>
