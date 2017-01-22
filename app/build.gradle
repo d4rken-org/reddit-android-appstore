@@ -12,18 +12,9 @@ def gitSha() {
     return p.text.trim()
 }
 
-def gitTimestamp() {
-    def p = 'git log -n 1 --format=%at'.execute([], rootDir)
-    p.waitFor()
-    if (p.exitValue() != 0) {
-        throw new RuntimeException(p.errorStream.text)
-    }
-    return p.text.trim()
-}
-
 android {
     compileSdkVersion 25
-    buildToolsVersion "24.0.3"
+    buildToolsVersion "25.0.2"
 
     def versionMajor = 0
     def versionMinor = 7
