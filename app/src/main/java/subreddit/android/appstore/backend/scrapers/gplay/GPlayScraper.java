@@ -74,6 +74,7 @@ public class GPlayScraper implements MediaScraper {
                     return new GPlayResult(iconUrl, urls);
                 })
                 .toList()
+                .toObservable()
                 .map(scrapeResults -> {
                     String iconUrl = null;
                     Collection<String> screenshotUrls = new ArrayList<>();
