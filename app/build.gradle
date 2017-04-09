@@ -134,8 +134,8 @@ dependencies {
     compile 'com.wefika:flowlayout:0.4.0'
 
     // RX
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.0-RC1'
-    compile 'io.reactivex.rxjava2:rxjava:2.0.0-RC2'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.8'
 
     // Gson
     compile 'com.google.code.gson:gson:2.7'
