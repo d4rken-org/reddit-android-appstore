@@ -1,3 +1,4 @@
+[![Linux Build][travis-image]][travis-url]
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'realm-android'
@@ -30,18 +31,18 @@ android {
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
     }
     lintOptions {
-        abortOnError false
+        abortOnError true
     }
     buildTypes {
         debug {
-            minifyEnabled false
-            useProguard false
+            minifyEnabled true
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
-            minifyEnabled false
-            useProguard false
+            minifyEnabled true
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -76,7 +77,6 @@ android {
     testOptions.unitTests.all {
         testLogging {
             events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
-            outputs.upToDateWhen { false }
             showStandardStreams = true
         }
     }
