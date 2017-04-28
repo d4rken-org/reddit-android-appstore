@@ -1,3 +1,4 @@
+[![Linux Build][travis-image]][travis-url]
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'realm-android'
