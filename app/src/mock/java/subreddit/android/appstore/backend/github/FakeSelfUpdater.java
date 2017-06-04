@@ -6,6 +6,9 @@ import io.reactivex.Observable;
 public class FakeSelfUpdater implements SelfUpdater {
     @Override
     public Observable<Release> getLatestRelease() {
-        return Observable.just(new Release());
+        Release release = new Release();
+        release.releaseName = "v100.100.100";
+        release.tagName = "v100.100.100";
+        return Observable.just(release);
     }
 }

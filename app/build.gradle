@@ -154,8 +154,8 @@ dependencies {
 
     // jUnit
     testCompile 'junit:junit:4.12'
-    // Mocktio
-    testCompile 'org.mockito:mockito-core:2.0.62-beta'
+    // Mockito
+    testCompile 'org.mockito:mockito-core:2.8.9'
 
     //Intrumentation tests (UI tests)
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
