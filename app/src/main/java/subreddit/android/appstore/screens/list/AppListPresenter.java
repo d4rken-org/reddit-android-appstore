@@ -10,10 +10,10 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.backend.data.AppInfo;
+import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.backend.reddit.wiki.WikiRepository;
 import subreddit.android.appstore.screens.navigation.CategoryFilter;
 import timber.log.Timber;
@@ -45,8 +45,12 @@ public class AppListPresenter implements AppListContract.Presenter {
                 .map(appInfos -> {
                     ArrayList<AppInfo> data = new ArrayList<>(appInfos);
                     List<AppInfo> filteredData1 = new ArrayList<>();
-                    Timber.d("Filtering to %s %s %s",categoryFilter.getPrimaryCategory(), categoryFilter.getSecondaryCategory(), categoryFilter.getTertiaryCategory());
+                    Timber.d("Filtering to %s %s %s %s",categoryFilter.getPrimaryCategory(), categoryFilter.getSecondaryCategory(), categoryFilter.getTertiaryCategory(), categoryFilter.isNewlyAdded());
                     for (AppInfo app : data) {
+                        if (app.getTags().contains(AppTags.NEW) && categoryFilter.isNewlyAdded() != null) {
+                            filteredData1.add(app);
+                            continue;
+                        }
                         if ((app.getPrimaryCategory().equals(categoryFilter.getPrimaryCategory()) || categoryFilter.getPrimaryCategory() == null) &&
                                 (app.getSecondaryCategory().equals(categoryFilter.getSecondaryCategory()) || categoryFilter.getSecondaryCategory() == null) &&
                                 (app.getTertiaryCategory().equals(categoryFilter.getTertiaryCategory()) || categoryFilter.getTertiaryCategory() == null)) {

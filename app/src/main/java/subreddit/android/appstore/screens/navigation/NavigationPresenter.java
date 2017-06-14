@@ -36,6 +36,9 @@ public class NavigationPresenter implements NavigationContract.Presenter {
 
     @Override
     public void onAttachView(NavigationContract.View view) {
+
+        // TODO: Support NEW tag as primary cat
+
         this.view = view;
         categoryUpdater = repository.getAppList()
                 .observeOn(Schedulers.computation())

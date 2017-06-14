@@ -31,7 +31,6 @@ import subreddit.android.appstore.backend.github.SelfUpdater;
 import subreddit.android.appstore.screens.settings.SettingsActivity;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
-import timber.log.Timber;
 
 
 public class NavigationFragment extends BasePresenterFragment<NavigationContract.Presenter, NavigationContract.View>
@@ -152,17 +151,20 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
             int groupId = navigationData.getPrimaryCategories().indexOf(primaryFilter) + 1;
             MenuItem primaryItem = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, primaryFilter.getName(getContext()));
             menuItemCategoryFilterMap.put(primaryItem, primaryFilter);
-            for (CategoryFilter secondaryFilter : navigationData.getSecondaryCategories().get(primaryFilter)) {
-                int secondGroupId = navigationData.getSecondaryCategories().get(primaryFilter).indexOf(secondaryFilter) + 1000;
-                MenuItem secondaryItem = menu.add(groupId, Menu.NONE, Menu.NONE, "   " + secondaryFilter.getName(getContext()));
-                menuItemCategoryFilterMap.put(secondaryItem, secondaryFilter);
-                for (CategoryFilter tertiaryFilter : navigationData.getTertiaryCategories().get(secondaryFilter)) {
-                    MenuItem tertiaryItem = menu.add(secondGroupId, Menu.NONE, Menu.NONE, "      " + tertiaryFilter.getName(getContext()));
-                    menuItemCategoryFilterMap.put(tertiaryItem, tertiaryFilter);
-                    tertiaryItem.setVisible(false);
+
+                for (CategoryFilter secondaryFilter : navigationData.getSecondaryCategories().get(primaryFilter)) {
+                    int secondGroupId = navigationData.getSecondaryCategories().get(primaryFilter).indexOf(secondaryFilter) + 1000;
+                    MenuItem secondaryItem = menu.add(groupId, Menu.NONE, Menu.NONE, "   " + secondaryFilter.getName(getContext()));
+                    menuItemCategoryFilterMap.put(secondaryItem, secondaryFilter);
+                    for (CategoryFilter tertiaryFilter : navigationData.getTertiaryCategories().get(secondaryFilter)) {
+                        MenuItem tertiaryItem = menu.add(secondGroupId, Menu.NONE, Menu.NONE, "      " + tertiaryFilter.getName(getContext()));
+                        menuItemCategoryFilterMap.put(tertiaryItem, tertiaryFilter);
+                        tertiaryItem.setVisible(false);
+                    }
                 }
-            }
         }
+        MenuItem primaryItem = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, "New");
+        menuItemCategoryFilterMap.put(primaryItem, new CategoryFilter("New", "New", "New", "New"));
 
         for (int i = 0; i < navigationView.getMenu().size(); i++) {
             MenuItem item = navigationView.getMenu().getItem(i);

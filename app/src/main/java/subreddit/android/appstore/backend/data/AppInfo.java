@@ -65,6 +65,11 @@ public class AppInfo implements Comparable<AppInfo> {
         return appTagsCollection;
     }
 
+    public Collection<AppTags> addTag(AppTags tag) {
+        appTagsCollection.add(tag);
+        return appTagsCollection;
+    }
+
     public void addContact(Contact contact) {
         this.contacts.add(contact);
     }

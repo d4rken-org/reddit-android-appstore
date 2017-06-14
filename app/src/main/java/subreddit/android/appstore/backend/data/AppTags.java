@@ -5,5 +5,7 @@ public enum AppTags {
     // Price
     FREE, PAID,
     // Format
-    PHONE, TABLET, WEAR
+    PHONE, TABLET, WEAR,
+    // New to wiki
+    NEW
 }
