@@ -10,8 +10,6 @@ import java.util.Locale;
 
 public class CategoryFilter implements Parcelable {
 
-    // TODO: Support NEW tag
-
     private final String primaryCategory;
     private final String secondaryCategory;
     private final String tertiaryCategory;
