@@ -45,16 +45,6 @@ public class NavigationData {
     }
 
     public List<CategoryFilter> getPrimaryCategories() {
-
-        // how do i do this
-        /*
-        CategoryFilter newAppsCategory = new CategoryFilter("New", null, null, null);
-        if (!primaryCategories.contains(newAppsCategory)) {
-            primaryCategories.add(0, newAppsCategory);
-        }
-*/
-
-
         return primaryCategories;
     }
 
@@ -64,6 +54,10 @@ public class NavigationData {
 
     public Map<CategoryFilter, List<CategoryFilter>> getTertiaryCategories() {
         return tertiaryCategories;
+    }
+
+    public void addPrimaryCategory(CategoryFilter category) {
+        primaryCategories.add(1, category);
     }
 
     @Override

@@ -8,8 +8,6 @@ import android.support.annotation.Nullable;
 
 import java.util.Locale;
 
-import subreddit.android.appstore.R;
-
 public class CategoryFilter implements Parcelable {
 
     // TODO: Support NEW tag
@@ -120,6 +118,6 @@ public class CategoryFilter implements Parcelable {
         else if (tertiaryCategory != null) return tertiaryCategory;
         else if (secondaryCategory != null) return secondaryCategory;
         else if (primaryCategory != null) return primaryCategory;
-        else return context.getString(R.string.app_category_everything);
+        else return "All";
     }
 }
