@@ -15,6 +15,7 @@ Pulls the curated app list from the [/r/Android wiki](https://www.reddit.com/r/a
 
 ## Questions?
 [Create an issue](https://github.com/d4rken/reddit-android-appstore/issues/new)
+[Submit your App](https://androidflair.github.io/wikiapps/)
 
 ## Screenshots
 From commit [36e4daa](https://github.com/d4rken/reddit-android-appstore/commit/36e4daaa4a1f9969917c3fc3833213d68c684bf4)
