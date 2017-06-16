@@ -66,7 +66,9 @@ public class AppInfo implements Comparable<AppInfo> {
     }
 
     public Collection<AppTags> addTag(AppTags tag) {
-        appTagsCollection.add(tag);
+        if(!appTagsCollection.contains(tag)){
+            appTagsCollection.add(tag);
+        }
         return appTagsCollection;
     }
 
