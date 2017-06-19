@@ -126,7 +126,8 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
                     || filter.getSecondaryCategory() == null
                     || filter.getTertiaryCategory() == null
                     || (filter.getPrimaryCategory().equals(clickedFilter.getPrimaryCategory())) && filter.getSecondaryCategory().equals(clickedFilter.getSecondaryCategory())
-                    || filter.getPrimaryCategory().equals("New")
+                    || filter.getPrimaryCategory().equals(getContext().getString(R.string.app_category_everything))
+                    || filter.getPrimaryCategory().equals(getContext().getString(R.string.app_category_new))
             );
         }
         clickedItem.setChecked(true);
@@ -149,8 +150,9 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
         MenuItem noFilterItem = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, noFilterFilter.getName(getContext()));
         menuItemCategoryFilterMap.put(noFilterItem, noFilterFilter);
 
-        CategoryFilter newAppsFilter = new CategoryFilter("New", "New", "New", "New");
-        MenuItem newAppsItem = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, "New");
+        String n = getContext().getString(R.string.app_category_new);
+        CategoryFilter newAppsFilter = new CategoryFilter(n, n, n, n);
+        MenuItem newAppsItem = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, newAppsFilter.getName(getContext()));
         menuItemCategoryFilterMap.put(newAppsItem, newAppsFilter);
 
         for (CategoryFilter primaryFilter : navigationData.getPrimaryCategories()) {

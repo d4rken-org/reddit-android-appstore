@@ -41,4 +41,5 @@
         <item quantity="one">%s item</item>
         <item quantity="other">%s items</item>
     </plurals>
+    <string name="app_category_new">Nuovo</string>
 </resources>

@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 
 import java.util.Locale;
 
+import subreddit.android.appstore.R;
+
 public class CategoryFilter implements Parcelable {
 
     private final String primaryCategory;
@@ -112,10 +114,10 @@ public class CategoryFilter implements Parcelable {
     }
 
     public String getName(Context context) {
-        if (newlyAdded != null) return newlyAdded;
+        if (newlyAdded != null) return context.getString(R.string.app_category_new);
         else if (tertiaryCategory != null) return tertiaryCategory;
         else if (secondaryCategory != null) return secondaryCategory;
         else if (primaryCategory != null) return primaryCategory;
-        else return "All";
+        else return context.getString(R.string.app_category_everything);
     }
 }

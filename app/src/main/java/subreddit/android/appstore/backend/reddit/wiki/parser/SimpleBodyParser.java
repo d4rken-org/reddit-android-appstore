@@ -6,17 +6,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import subreddit.android.appstore.backend.data.AppInfo;
 
 public class SimpleBodyParser {
     private final List<AppParser> appParsers = new ArrayList<>();
-    private final CategoryParser categoryParser;
+    //private final CategoryParser categoryParser;
 
     public SimpleBodyParser(EncodingFixer encodingFixer) {
-        categoryParser = new CategoryParser(encodingFixer);
+        //categoryParser = new CategoryParser(encodingFixer);
         appParsers.add(new NameColumnParser(encodingFixer));
     }
 
@@ -29,15 +28,16 @@ public class SimpleBodyParser {
         return parsedOutput;
     }
 
-    private static final Pattern CATEGORY_PATTERN = Pattern.compile("^(#+)(?:\\s*+)(.+?)$");
+    //private static final Pattern CATEGORY_PATTERN = Pattern.compile("^(#+)(?:\\s*+)(.+?)$");
 
     Collection<AppInfo> parseCategoryBlocks(List<String> categories, List<String> block) {
         Collection<AppInfo> parsedOutput = new ArrayList<>();
         for (int linePos = 0; linePos < block.size(); linePos++) {
-            Matcher matcher = CATEGORY_PATTERN.matcher(block.get(linePos).trim());
-            if (matcher.matches()) {
+            //Matcher matcher = CATEGORY_PATTERN.matcher(block.get(linePos).trim());
+            //if (matcher.matches()) {
 
-            } else if (linePos == block.size() - 1) {
+            //} else
+            if (linePos == block.size() - 1) {
                 parsedOutput.addAll(parseAppBlock(categories, block));
             }
         }
@@ -70,7 +70,7 @@ public class SimpleBodyParser {
             if (split.length != 5) continue;
 
             AppInfo app = new AppInfo();
-            categoryParser.parse(app, categories);
+            //categoryParser.parse(app, categories);
             Map<AppParser.Column, String> columnMap = new HashMap<>();
             columnMap.put(AppParser.Column.NAME, split[0].trim());
 

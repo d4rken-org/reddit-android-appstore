@@ -37,4 +37,5 @@
     <string name="update_confirm">Обновить</string>
     <string name="version">Версия</string>
     <string name="website">Веб-сайт</string>
+    <string name="app_category_new">новый</string>
 </resources>
