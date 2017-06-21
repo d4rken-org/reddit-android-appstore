@@ -23,7 +23,6 @@ import subreddit.android.appstore.backend.reddit.TokenRepository;
 import subreddit.android.appstore.backend.reddit.wiki.caching.WikiDiskCache;
 import subreddit.android.appstore.backend.reddit.wiki.parser.BodyParser;
 import subreddit.android.appstore.backend.reddit.wiki.parser.EncodingFixer;
-import subreddit.android.appstore.backend.reddit.wiki.parser.SimpleBodyParser;
 import timber.log.Timber;
 
 
@@ -87,18 +86,33 @@ public class LiveWikiRepository implements WikiRepository {
                     Collection<AppInfo> infos = new ArrayList<>();
                     infos.addAll(new BodyParser(new EncodingFixer()).parseBody(response.data.content_md));
                     long timeStop = System.currentTimeMillis();
-                    Timber.d("Parsed %d items in %dms", infos.size(), (timeStop - timeStart));
+                    Timber.d("Initial parse: Parsed %d items in %dms", infos.size(), (timeStop - timeStart));
 
                     // get list of revision IDs
                     return wikiApi.getWikiRevisions(authString, "apps", String.valueOf(NUMOFREVISIONS))
                             .flatMap(idsResponse -> {
-                                ArrayList<String> revisionIds = new ArrayList<String>();
-                                for (int x = 1; x < NUMOFREVISIONS; x++) { // start at 1 to ignore current revision
-                                    String revisionId = idsResponse.data.children.get(x).id;
-                                    revisionIds.add(revisionId);
-                                }
-
-                                return newAppTagger(revisionIds, infos, 0);
+                                String revisionId = idsResponse.data.children.get(NUMOFREVISIONS - 1).id;
+                                return wikiApi.getWikiRevision(authString, "apps", revisionId)
+                                        .map(revisionResponse -> {
+                                            long newAppsTaggerTimeStart = System.currentTimeMillis();
+                                            for (AppInfo r : infos) {
+                                                String name = r.getAppName();
+                                                if (name.contains("&")) {
+                                                    int pos = name.indexOf("&") + 1;
+                                                    name = name.substring(0, pos) + "amp;" + name.substring(pos, name.length());
+                                                }
+                                                if (!(revisionResponse.data.content_md).contains(name)) {
+                                                    r.addTag(AppTags.NEW);
+                                                }
+                                            }
+                                            long newAppsTaggerTimeStop = System.currentTimeMillis();
+                                            Timber.d("Tagged all NEW items in %dms", (newAppsTaggerTimeStop - newAppsTaggerTimeStart));
+                                            return infos;
+                                        })
+                                        .onErrorReturn(throwable -> {
+                                            Timber.e(throwable, "Error while fetching wiki revision: " + revisionId);
+                                            return infos;
+                                        });
                             })
                             .onErrorReturn(throwable -> {
                                 Timber.e(throwable, "Error while checking for new apps");
@@ -109,43 +123,6 @@ public class LiveWikiRepository implements WikiRepository {
                     Timber.e(throwable, "Error while fetching wiki repository");
                     return new ArrayList<>();
                 });
-    }
-
-    // iterate through revision diffs to find which apps were added
-    private Observable<Collection<AppInfo>> newAppTagger(ArrayList<String> revisionIds, Collection<AppInfo> infos, int i) {
-        if (i < NUMOFREVISIONS-2) {
-            return wikiApi.getWikiRevision(authString, "apps", revisionIds.get(i))
-                    .flatMap(response -> {
-                        Collection<AppInfo> thisRevisionInfos = new ArrayList<>();
-                        thisRevisionInfos.addAll(new SimpleBodyParser(new EncodingFixer()).parseBody(response.data.content_md));
-                        for (AppInfo r : infos) {
-                            if (!thisRevisionInfos.contains(r)) {
-                                r.addTag(AppTags.NEW);
-                            }
-                        }
-                        return newAppTagger(revisionIds, infos, i + 1);
-                    })
-                    .onErrorReturn(throwable -> {
-                        Timber.e(throwable, "Error while fetching wiki revision");
-                        return infos;
-                    });
-        } else {
-            return wikiApi.getWikiRevision(authString, "apps", revisionIds.get(i))
-                    .map(response -> {
-                        Collection<AppInfo> thisRevisionInfos = new ArrayList<>();
-                        thisRevisionInfos.addAll(new SimpleBodyParser(new EncodingFixer()).parseBody(response.data.content_md));
-                        for (AppInfo r : infos) {
-                            if (!thisRevisionInfos.contains(r)) {
-                                r.addTag(AppTags.NEW);
-                            }
-                        }
-                        return infos;
-                    })
-                    .onErrorReturn(throwable -> {
-                        Timber.e(throwable, "Error while fetching wiki revision " + revisionIds.get(i));
-                        return infos;
-                    });
-        }
     }
 
     private String saveAuthString(String authString) {
@@ -165,15 +142,14 @@ public class LiveWikiRepository implements WikiRepository {
 
         @GET("r/Android/wiki/page&v")
         Observable<WikiPageResponse> getWikiRevision(@Header("Authorization") String authentication,
-                                                         @Query("page") String page,
-                                                         @Query("v") String id);
+                                                     @Query("page") String page,
+                                                     @Query("v") String id);
 
-        // Idea: could use this instead? not sure what it does though
         @GET("r/Android/wiki/page&v&v2")
         Observable<WikiPageResponse> getWikiRevisionDiff(@Header("Authorization") String authentication,
-                                                            @Query("page") String page,
-                                                            @Query("v") String id1,
-                                                            @Query("v2") String id2);
+                                                         @Query("page") String page,
+                                                         @Query("v") String id1,
+                                                         @Query("v2") String id2);
     }
 
     static class WikiPageResponse {
@@ -207,7 +183,6 @@ public class LiveWikiRepository implements WikiRepository {
 
         }
     }
-
 
 
 }
