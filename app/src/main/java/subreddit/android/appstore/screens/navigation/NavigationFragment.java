@@ -31,7 +31,6 @@ import subreddit.android.appstore.backend.github.SelfUpdater;
 import subreddit.android.appstore.screens.settings.SettingsActivity;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
-import timber.log.Timber;
 
 
 public class NavigationFragment extends BasePresenterFragment<NavigationContract.Presenter, NavigationContract.View>
@@ -126,7 +125,10 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
             item.setVisible(filter.getPrimaryCategory() == null
                     || filter.getSecondaryCategory() == null
                     || filter.getTertiaryCategory() == null
-                    || (filter.getPrimaryCategory().equals(clickedFilter.getPrimaryCategory())) && filter.getSecondaryCategory().equals(clickedFilter.getSecondaryCategory()));
+                    || (filter.getPrimaryCategory().equals(clickedFilter.getPrimaryCategory())) && filter.getSecondaryCategory().equals(clickedFilter.getSecondaryCategory())
+                    || filter.getPrimaryCategory().equals(getContext().getString(R.string.app_category_everything))
+                    || filter.getPrimaryCategory().equals(getContext().getString(R.string.app_category_new))
+            );
         }
         clickedItem.setChecked(true);
         getPresenter().notifySelectedFilter(clickedFilter);
@@ -148,21 +150,28 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
         MenuItem noFilterItem = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, noFilterFilter.getName(getContext()));
         menuItemCategoryFilterMap.put(noFilterItem, noFilterFilter);
 
+        String n = getContext().getString(R.string.app_category_new);
+        CategoryFilter newAppsFilter = new CategoryFilter(n, n, n, n);
+        MenuItem newAppsItem = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, newAppsFilter.getName(getContext()));
+        menuItemCategoryFilterMap.put(newAppsItem, newAppsFilter);
+
         for (CategoryFilter primaryFilter : navigationData.getPrimaryCategories()) {
-            int groupId = navigationData.getPrimaryCategories().indexOf(primaryFilter) + 1;
+            int groupId = navigationData.getPrimaryCategories().indexOf(primaryFilter) + 2;
             MenuItem primaryItem = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, primaryFilter.getName(getContext()));
             menuItemCategoryFilterMap.put(primaryItem, primaryFilter);
-            for (CategoryFilter secondaryFilter : navigationData.getSecondaryCategories().get(primaryFilter)) {
-                int secondGroupId = navigationData.getSecondaryCategories().get(primaryFilter).indexOf(secondaryFilter) + 1000;
-                MenuItem secondaryItem = menu.add(groupId, Menu.NONE, Menu.NONE, "   " + secondaryFilter.getName(getContext()));
-                menuItemCategoryFilterMap.put(secondaryItem, secondaryFilter);
-                for (CategoryFilter tertiaryFilter : navigationData.getTertiaryCategories().get(secondaryFilter)) {
-                    MenuItem tertiaryItem = menu.add(secondGroupId, Menu.NONE, Menu.NONE, "      " + tertiaryFilter.getName(getContext()));
-                    menuItemCategoryFilterMap.put(tertiaryItem, tertiaryFilter);
-                    tertiaryItem.setVisible(false);
+
+                for (CategoryFilter secondaryFilter : navigationData.getSecondaryCategories().get(primaryFilter)) {
+                    int secondGroupId = navigationData.getSecondaryCategories().get(primaryFilter).indexOf(secondaryFilter) + 1000;
+                    MenuItem secondaryItem = menu.add(groupId, Menu.NONE, Menu.NONE, "   " + secondaryFilter.getName(getContext()));
+                    menuItemCategoryFilterMap.put(secondaryItem, secondaryFilter);
+                    for (CategoryFilter tertiaryFilter : navigationData.getTertiaryCategories().get(secondaryFilter)) {
+                        MenuItem tertiaryItem = menu.add(secondGroupId, Menu.NONE, Menu.NONE, "      " + tertiaryFilter.getName(getContext()));
+                        menuItemCategoryFilterMap.put(tertiaryItem, tertiaryFilter);
+                        tertiaryItem.setVisible(false);
+                    }
                 }
-            }
         }
+
 
         for (int i = 0; i < navigationView.getMenu().size(); i++) {
             MenuItem item = navigationView.getMenu().getItem(i);

@@ -20,14 +20,14 @@ public class NavigationData {
 
     public void addApp(@NonNull AppInfo appInfo) {
         // TODO order this
-        CategoryFilter primaryFilter = new CategoryFilter(appInfo.getPrimaryCategory(), null, null);
+        CategoryFilter primaryFilter = new CategoryFilter(appInfo.getPrimaryCategory(), null, null, null);
         if (!primaryCategories.contains(primaryFilter)) {
             primaryCategories.add(primaryFilter);
         }
         
         List<CategoryFilter> secondary = secondaryCategories.get(primaryFilter);
         if (secondary == null) secondary = new ArrayList<>();
-        CategoryFilter secondaryFilter = new CategoryFilter(appInfo.getPrimaryCategory(), appInfo.getSecondaryCategory(), null);
+        CategoryFilter secondaryFilter = new CategoryFilter(appInfo.getPrimaryCategory(), appInfo.getSecondaryCategory(), null, null);
         if (!secondary.contains(secondaryFilter)) {
             secondaryCount++;
             secondary.add(secondaryFilter);
@@ -36,7 +36,7 @@ public class NavigationData {
 
         List<CategoryFilter> tertiary = tertiaryCategories.get(secondaryFilter);
         if (tertiary == null) tertiary = new ArrayList<>();
-        CategoryFilter tertiaryFilter = new CategoryFilter(appInfo.getPrimaryCategory(), appInfo.getSecondaryCategory(), appInfo.getTertiaryCategory());
+        CategoryFilter tertiaryFilter = new CategoryFilter(appInfo.getPrimaryCategory(), appInfo.getSecondaryCategory(), appInfo.getTertiaryCategory(), null);
         if (!tertiary.contains(tertiaryFilter)) {
             tertiaryCount++;
             tertiary.add(tertiaryFilter);
@@ -54,6 +54,10 @@ public class NavigationData {
 
     public Map<CategoryFilter, List<CategoryFilter>> getTertiaryCategories() {
         return tertiaryCategories;
+    }
+
+    public void addPrimaryCategory(CategoryFilter category) {
+        primaryCategories.add(1, category);
     }
 
     @Override

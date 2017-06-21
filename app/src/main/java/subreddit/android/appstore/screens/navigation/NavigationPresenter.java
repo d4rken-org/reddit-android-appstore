@@ -36,6 +36,7 @@ public class NavigationPresenter implements NavigationContract.Presenter {
 
     @Override
     public void onAttachView(NavigationContract.View view) {
+
         this.view = view;
         categoryUpdater = repository.getAppList()
                 .observeOn(Schedulers.computation())

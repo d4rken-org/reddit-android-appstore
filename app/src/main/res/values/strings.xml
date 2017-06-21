@@ -26,7 +26,8 @@
     <string name="preference_theme_desc">Theme to use</string>
     <string name="restart">A restart is required to toggle themes</string>
     <string name="later">Later</string>
-    <string name="app_category_everything">Everything</string>
+    <string name="app_category_everything">All</string>
+    <string name="app_category_new">New</string>
     <string name="error">Error fetching repository</string>
     <string name="data_options">Data options</string>
     <string name="screenshots">Screenshots</string>

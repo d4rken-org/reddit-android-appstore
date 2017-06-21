@@ -11,20 +11,24 @@ import java.util.Locale;
 import subreddit.android.appstore.R;
 
 public class CategoryFilter implements Parcelable {
+
     private final String primaryCategory;
     private final String secondaryCategory;
     private final String tertiaryCategory;
+    private final String newlyAdded;
 
     public CategoryFilter() {
         primaryCategory = null;
         secondaryCategory = null;
         tertiaryCategory = null;
+        newlyAdded = null;
     }
 
-    public CategoryFilter(@Nullable String primaryCategory, @Nullable String secondaryCategory, @Nullable String tertiaryCategory) {
+    public CategoryFilter(@Nullable String primaryCategory, @Nullable String secondaryCategory, @Nullable String tertiaryCategory, @Nullable String newlyAdded) {
         this.primaryCategory = primaryCategory;
         this.secondaryCategory = secondaryCategory;
         this.tertiaryCategory = tertiaryCategory;
+        this.newlyAdded = newlyAdded;
     }
 
     @Nullable
@@ -42,10 +46,18 @@ public class CategoryFilter implements Parcelable {
         return tertiaryCategory;
     }
 
+
+    @Nullable
+    public String isNewlyAdded() {
+        return newlyAdded;
+    }
+
+
     protected CategoryFilter(Parcel in) {
         primaryCategory = in.readString();
         secondaryCategory = in.readString();
         tertiaryCategory = in.readString();
+        newlyAdded = in.readString();
     }
 
     @Override
@@ -53,6 +65,7 @@ public class CategoryFilter implements Parcelable {
         dest.writeString(primaryCategory);
         dest.writeString(secondaryCategory);
         dest.writeString(tertiaryCategory);
+        dest.writeString(newlyAdded);
     }
 
     @Override
@@ -87,7 +100,9 @@ public class CategoryFilter implements Parcelable {
             return false;
         if (secondaryCategory==null ? that.secondaryCategory!=null : !secondaryCategory.equals(that.secondaryCategory))
             return false;
-        return tertiaryCategory==null ? that.tertiaryCategory==null : tertiaryCategory.equals(that.tertiaryCategory);
+        if (tertiaryCategory==null ? that.tertiaryCategory!=null : !tertiaryCategory.equals(that.tertiaryCategory))
+            return false;
+        return (newlyAdded==null ? that.newlyAdded==null : newlyAdded.equals(that.newlyAdded));
 
     }
 
@@ -99,7 +114,8 @@ public class CategoryFilter implements Parcelable {
     }
 
     public String getName(Context context) {
-        if (tertiaryCategory != null) return tertiaryCategory;
+        if (newlyAdded != null) return context.getString(R.string.app_category_new);
+        else if (tertiaryCategory != null) return tertiaryCategory;
         else if (secondaryCategory != null) return secondaryCategory;
         else if (primaryCategory != null) return primaryCategory;
         else return context.getString(R.string.app_category_everything);
