@@ -38,4 +38,5 @@
     <string name="version">Версия</string>
     <string name="website">Веб-сайт</string>
     <string name="app_category_new">новый</string>
+    <string name="no_email_client">Отсутствует клиент электронной почты</string>
 </resources>

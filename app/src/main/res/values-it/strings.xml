@@ -42,4 +42,5 @@
         <item quantity="other">%s items</item>
     </plurals>
     <string name="app_category_new">Nuovo</string>
+    <string name="no_email_client">Nessun client di posta elettronica disponibile</string>
 </resources>
