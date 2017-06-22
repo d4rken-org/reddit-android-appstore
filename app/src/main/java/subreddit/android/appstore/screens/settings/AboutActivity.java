@@ -22,7 +22,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.BuildConfig;
-import subreddit.android.appstore.ContributorData;
 import subreddit.android.appstore.R;
 import subreddit.android.appstore.backend.github.SelfUpdater;
 import subreddit.android.appstore.util.ui.BaseActivity;
