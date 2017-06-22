@@ -9,7 +9,7 @@ import subreddit.android.appstore.util.dagger.ApplicationScope;
 public class SelfUpdaterModule {
     @Provides
     @ApplicationScope
-    SelfUpdater provideSelfUpdater() {
+    public SelfUpdater provideSelfUpdater() {
         return new FakeSelfUpdater();
     }
 }

@@ -11,7 +11,7 @@ public class SelfUpdaterModule {
 
     @Provides
     @ApplicationScope
-    SelfUpdater provideSelfUpdater(UserAgentInterceptor userAgentInterceptor) {
+    public SelfUpdater provideSelfUpdater(UserAgentInterceptor userAgentInterceptor) {
         return new LiveSelfUpdater(userAgentInterceptor);
     }
 }

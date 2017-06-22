@@ -17,7 +17,7 @@ public class AndroidModule {
 
     @Provides
     @ApplicationScope
-    Context provideContext() {
+    public Context provideContext() {
         return app.getApplicationContext();
     }
 
