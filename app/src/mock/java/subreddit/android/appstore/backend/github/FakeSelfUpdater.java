@@ -1,7 +1,8 @@
 package subreddit.android.appstore.backend.github;
 
 
-import org.json.JSONArray;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -14,14 +15,14 @@ public class FakeSelfUpdater implements SelfUpdater {
         return Observable.just(release);
     }
 
-    public Observable<JSONArray> getContributors() {
-        JSONArray contributors = new JSONArray();
+    public Observable<List<Contributor>> getContributors() {
+        List<Contributor> contributors = new ArrayList<>();
         Contributor c1 = new Contributor();
         c1.username = "d4rken";
         Contributor c2 = new Contributor();
         c2.username = "bobheadxi";
-        contributors.put(c1);
-        contributors.put(c2);
+        contributors.add(c1);
+        contributors.add(c2);
         return Observable.just(contributors);
     }
 }

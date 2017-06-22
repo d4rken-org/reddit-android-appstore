@@ -20,12 +20,11 @@ import de.psdev.licensesdialog.model.Notice;
 import de.psdev.licensesdialog.model.Notices;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.BuildConfig;
 import subreddit.android.appstore.ContributorData;
 import subreddit.android.appstore.R;
-import subreddit.android.appstore.backend.UserAgentInterceptor;
 import subreddit.android.appstore.backend.github.SelfUpdater;
-import subreddit.android.appstore.backend.github.SelfUpdaterModule;
 import subreddit.android.appstore.util.ui.BaseActivity;
 import timber.log.Timber;
 
@@ -91,12 +90,8 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        SelfUpdaterModule s = new SelfUpdaterModule();
-        if (BuildConfig.FLAVOR.equals("mockDebug")) {
-            //selfUpdater = s.provideSelfUpdater();
-        } else {
-            selfUpdater = s.provideSelfUpdater(new UserAgentInterceptor(this));
-        }
+        selfUpdater = AppStoreApp.Injector.INSTANCE.getAppComponent().selfUpdater();
+
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
         mToolbar.setNavigationOnClickListener(this);
