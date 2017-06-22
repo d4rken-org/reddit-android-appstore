@@ -38,4 +38,5 @@
     <string name="version">Version</string>
     <string name="website">Internetseite</string>
     <string name="app_category_new">Neu</string>
+    <string name="no_email_client">Kein E-Mail-Client verfügbar</string>
 </resources>

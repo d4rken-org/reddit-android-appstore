@@ -46,6 +46,7 @@ import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
 import subreddit.android.appstore.util.ui.glide.IconRequest;
 import subreddit.android.appstore.util.ui.glide.PlaceHolderRequestListener;
+import timber.log.Timber;
 
 
 public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract.Presenter, AppDetailsContract.View>
@@ -188,7 +189,14 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     void openContact(Contact c) {
         switch (c.getType()) {
             case EMAIL:
-                startActivity(new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", c.getTarget(), null)));
+                try {
+                    startActivity(new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", c.getTarget(), null)));
+                } catch (Exception e) {
+                    Timber.e(e, "Problem launching intent for Email contact");
+                    Toast.makeText(getContext(), getContext().getResources().getString(R.string.no_email_client), Toast.LENGTH_LONG).show();
+                    //note: translations pulled straight from google translate, someone might want to double check
+                }
+
                 break;
             case WEBSITE:
                 // TODO do reddit apps recognize a specific message intent?
