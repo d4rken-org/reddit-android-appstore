@@ -1,4 +1,4 @@
-package subreddit.android.appstore;
+package subreddit.android.appstore.screens.settings;
 
 import java.util.ArrayList;
 
