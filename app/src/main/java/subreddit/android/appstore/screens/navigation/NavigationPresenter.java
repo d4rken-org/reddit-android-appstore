@@ -110,4 +110,9 @@ public class NavigationPresenter implements NavigationContract.Presenter {
         // TODO we could directory use Androids DownloadManager.class
         view.showDownload(release.assets.get(0).downloadUrl);
     }
+
+    @Override
+    public void buildChangelog(SelfUpdater.Release release) {
+        view.showChangelog(release);
+    }
 }
