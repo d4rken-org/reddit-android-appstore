@@ -10,6 +10,7 @@ import io.reactivex.Observable;
 public interface SelfUpdater {
 
     Observable<Release> getLatestRelease();
+    Observable<List<Contributor>> getContributors();
 
     class Release {
         @SerializedName("url") public String releaseUrl;
@@ -24,6 +25,10 @@ public interface SelfUpdater {
             @SerializedName("browser_download_url") public String downloadUrl;
             public long size;
         }
+    }
+
+    class Contributor {
+        @SerializedName("login") public String username;
     }
 
 }
