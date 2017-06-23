@@ -19,11 +19,15 @@ public interface NavigationContract {
         void enableUpdateAvailableText(@Nullable SelfUpdater.Release release);
 
         void showDownload(String url);
+
+        void showChangelog(SelfUpdater.Release release);
     }
 
     interface Presenter extends BasePresenter<View> {
         void notifySelectedFilter(CategoryFilter categoryFilter);
 
         void downloadUpdate(SelfUpdater.Release release);
+
+        void buildChangelog(SelfUpdater.Release release);
     }
 }

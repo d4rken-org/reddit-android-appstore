@@ -9,6 +9,8 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -95,14 +98,14 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
         if (release == null) return;
         Snackbar
                 .make(navigationView, R.string.update, Snackbar.LENGTH_LONG)
-                .setAction(R.string.update_confirm, view -> getPresenter().downloadUpdate(release)).show();
+                .setAction(R.string.view_update, view -> getPresenter().buildChangelog(release)).show();
     }
 
     @Override
     public void enableUpdateAvailableText(SelfUpdater.Release release) {
         if (release != null) {
             updateBanner.setVisibility(View.VISIBLE);
-            updateBanner.setOnClickListener(v -> getPresenter().downloadUpdate(release));
+            updateBanner.setOnClickListener(v -> getPresenter().buildChangelog(release));
         }
     }
 
@@ -113,6 +116,22 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
         builder.setSecondaryToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
+    }
+
+    public void showChangelog(SelfUpdater.Release release) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        Date date = release.publishDate;
+        String desc = release.releaseDescription;
+        String name = release.releaseName;
+        String tag = release.tagName;
+
+        builder.setMessage(DateFormat.format("MMM", date) + " "
+                    + DateFormat.format("dd", date) + "\n" + desc)
+                .setTitle(tag + ": " + name);
+        builder.setPositiveButton(R.string.update_confirm, (dialog, id) -> getPresenter().downloadUpdate(release));
+        builder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override

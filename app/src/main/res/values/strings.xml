@@ -28,6 +28,7 @@
     <string name="later">Later</string>
     <string name="app_category_everything">All</string>
     <string name="app_category_new">New</string>
+    <string name="view_update">View</string>
     <string name="error">Error fetching repository</string>
     <string name="data_options">Data options</string>
     <string name="screenshots">Screenshots</string>
@@ -35,6 +36,7 @@
     <string name="data_option_loadmedia_summary">Load app icons and screenshots</string>
     <string name="update">Update available</string>
     <string name="update_confirm">Update</string>
+    <string name="cancel">Cancel</string>
     <string name="flag">Flag app</string>
     <string name="no_message">Please enter a message</string>
     <string name="no_email_client">No email client available</string>
