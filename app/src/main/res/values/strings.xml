@@ -35,6 +35,7 @@
     <string name="data_option_loadmedia_title"><![CDATA[Icons & screenshots]]></string>
     <string name="data_option_loadmedia_summary">Load app icons and screenshots</string>
     <string name="update">Update available</string>
+    <string name="update_error">Error checking for updates</string>
     <string name="update_confirm">Update</string>
     <string name="cancel">Cancel</string>
     <string name="flag">Flag app</string>

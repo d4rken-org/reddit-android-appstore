@@ -16,6 +16,8 @@ public interface NavigationContract {
 
         void showUpdateSnackbar(@Nullable SelfUpdater.Release release);
 
+        void showUpdateErrorToast();
+
         void enableUpdateAvailableText(@Nullable SelfUpdater.Release release);
 
         void showDownload(String url);

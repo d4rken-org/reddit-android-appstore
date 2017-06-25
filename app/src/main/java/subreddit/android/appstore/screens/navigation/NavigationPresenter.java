@@ -73,6 +73,7 @@ public class NavigationPresenter implements NavigationContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        view.showUpdateErrorToast();
                         Timber.e(e, "Error during update check");
                     }
 

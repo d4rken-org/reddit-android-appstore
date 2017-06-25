@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -99,6 +100,11 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
         Snackbar
                 .make(navigationView, R.string.update, Snackbar.LENGTH_LONG)
                 .setAction(R.string.view_update, view -> getPresenter().buildChangelog(release)).show();
+    }
+
+    @Override
+    public void showUpdateErrorToast() {
+        Toast.makeText(getContext(), getContext().getResources().getString(R.string.update_error), Toast.LENGTH_LONG).show();
     }
 
     @Override
