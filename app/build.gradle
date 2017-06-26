@@ -13,8 +13,7 @@ def gitSha() {
 }
 
 android {
-    def signingPropFile = new File(System.properties['user.home'], ".signing/reddit-android-appstore/signing.properties")
-    if (signingPropFile.canRead()) {
+    if (new File(System.properties['user.home'], ".signing/reddit-android-appstore/signing.properties").canRead()) {
         def Properties signingProps = new Properties()
         signingProps.load(new FileInputStream(signingPropFile))
         signingConfigs {
@@ -54,7 +53,7 @@ android {
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
-            signingConfig signingConfigs.release
+            if (signingConfigs.hasProperty('release')) signingConfig signingConfigs.release
             minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
