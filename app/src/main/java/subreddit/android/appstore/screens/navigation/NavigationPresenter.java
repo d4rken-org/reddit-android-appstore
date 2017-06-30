@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.BuildConfig;
 import subreddit.android.appstore.backend.data.AppInfo;
-import subreddit.android.appstore.backend.github.SelfUpdater;
+import subreddit.android.appstore.backend.github.GithubRepository;
 import subreddit.android.appstore.backend.reddit.wiki.WikiRepository;
 import subreddit.android.appstore.util.VersionHelper;
 import timber.log.Timber;
@@ -16,17 +16,17 @@ import timber.log.Timber;
 
 public class NavigationPresenter implements NavigationContract.Presenter {
     final WikiRepository repository;
-    final SelfUpdater selfUpdater;
+    final GithubRepository githubRepository;
 
     NavigationContract.View view;
     private Disposable categoryUpdater;
     CategoryFilter currentCategoryFilter = new CategoryFilter();
     Disposable updateCheck;
-    SelfUpdater.Release release;
+    GithubRepository.Release release;
 
-    public NavigationPresenter(WikiRepository repository, SelfUpdater selfUpdater) {
+    public NavigationPresenter(WikiRepository repository, GithubRepository githubRepository) {
         this.repository = repository;
-        this.selfUpdater = selfUpdater;
+        this.githubRepository = githubRepository;
     }
 
     @Override
@@ -51,10 +51,10 @@ public class NavigationPresenter implements NavigationContract.Presenter {
                     NavigationPresenter.this.view.showNavigationItems(navigationData, currentCategoryFilter);
                 });
 
-        selfUpdater.getLatestRelease()
+        githubRepository.getLatestRelease()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<SelfUpdater.Release>() {
+                .subscribe(new Observer<GithubRepository.Release>() {
 
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -62,7 +62,7 @@ public class NavigationPresenter implements NavigationContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(SelfUpdater.Release release) {
+                    public void onNext(GithubRepository.Release release) {
                         NavigationPresenter.this.release = release;
                         if (VersionHelper.versionCompare(BuildConfig.VERSION_NAME, release.tagName) < 0) {
                             Timber.d("Update available, current: %s, new: %s", BuildConfig.VERSION_NAME, release.tagName);
@@ -107,13 +107,13 @@ public class NavigationPresenter implements NavigationContract.Presenter {
     }
 
     @Override
-    public void downloadUpdate(SelfUpdater.Release release) {
+    public void downloadUpdate(GithubRepository.Release release) {
         // TODO we could directory use Androids DownloadManager.class
         view.showDownload(release.assets.get(0).downloadUrl);
     }
 
     @Override
-    public void buildChangelog(SelfUpdater.Release release) {
+    public void buildChangelog(GithubRepository.Release release) {
         view.showChangelog(release);
     }
 }

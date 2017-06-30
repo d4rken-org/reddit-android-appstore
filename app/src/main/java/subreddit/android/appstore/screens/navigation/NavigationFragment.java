@@ -31,7 +31,7 @@ import butterknife.Unbinder;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.BuildConfig;
 import subreddit.android.appstore.R;
-import subreddit.android.appstore.backend.github.SelfUpdater;
+import subreddit.android.appstore.backend.github.GithubRepository;
 import subreddit.android.appstore.screens.settings.SettingsActivity;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
@@ -95,7 +95,7 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     }
 
     @Override
-    public void showUpdateSnackbar(SelfUpdater.Release release) {
+    public void showUpdateSnackbar(GithubRepository.Release release) {
         if (release == null) return;
         Snackbar
                 .make(navigationView, R.string.update, Snackbar.LENGTH_LONG)
@@ -108,7 +108,7 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     }
 
     @Override
-    public void enableUpdateAvailableText(SelfUpdater.Release release) {
+    public void enableUpdateAvailableText(GithubRepository.Release release) {
         if (release != null) {
             updateBanner.setVisibility(View.VISIBLE);
             updateBanner.setOnClickListener(v -> getPresenter().buildChangelog(release));
@@ -124,7 +124,7 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
         customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
     }
 
-    public void showChangelog(SelfUpdater.Release release) {
+    public void showChangelog(GithubRepository.Release release) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         Date date = release.publishDate;
         String desc = release.releaseDescription;

@@ -7,11 +7,11 @@ import subreddit.android.appstore.util.dagger.ApplicationScope;
 
 
 @Module
-public class SelfUpdaterModule {
+public class GithubRepositoryModule {
 
     @Provides
     @ApplicationScope
-    public SelfUpdater provideSelfUpdater(UserAgentInterceptor userAgentInterceptor) {
-        return new LiveSelfUpdater(userAgentInterceptor);
+    public GithubRepository provideGithubRepository(UserAgentInterceptor userAgentInterceptor) {
+        return new LiveGithubRepository(userAgentInterceptor);
     }
 }

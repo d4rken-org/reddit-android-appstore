@@ -7,7 +7,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
-public interface SelfUpdater {
+public interface GithubRepository {
 
     Observable<Release> getLatestRelease();
     Observable<List<Contributor>> getContributors();
