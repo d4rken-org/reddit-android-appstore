@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.BuildConfig;
 import subreddit.android.appstore.R;
-import subreddit.android.appstore.backend.github.SelfUpdater;
+import subreddit.android.appstore.backend.github.GithubRepository;
 import subreddit.android.appstore.util.ui.BaseActivity;
 import timber.log.Timber;
 
@@ -37,7 +37,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
 
     protected static final String GITHUB_URL = "https://www.github.com/";
     protected static final String BUG_URL = "https://github.com/d4rken/reddit-android-appstore/issues";
-    SelfUpdater selfUpdater;
+    GithubRepository githubRepository;
 
     NavigationView.OnNavigationItemSelectedListener contributorListener = new NavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -89,7 +89,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        selfUpdater = AppStoreApp.Injector.INSTANCE.getAppComponent().selfUpdater();
+        githubRepository = AppStoreApp.Injector.INSTANCE.getAppComponent().selfUpdater();
 
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
@@ -115,11 +115,11 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void listContributors() {
-        selfUpdater.getContributors()
+        githubRepository.getContributors()
                 .observeOn(Schedulers.computation())
                 .map(data -> {
                     ContributorData contributorData = new ContributorData();
-                    for (SelfUpdater.Contributor c : data) {
+                    for (GithubRepository.Contributor c : data) {
                         Timber.d("Contributor: %s", c.toString());
                         contributorData.addContributor(c.username);
                     }

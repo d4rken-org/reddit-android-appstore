@@ -2,7 +2,7 @@ package subreddit.android.appstore.screens.navigation;
 
 import android.support.annotation.Nullable;
 
-import subreddit.android.appstore.backend.github.SelfUpdater;
+import subreddit.android.appstore.backend.github.GithubRepository;
 import subreddit.android.appstore.util.mvp.BasePresenter;
 import subreddit.android.appstore.util.mvp.BaseView;
 
@@ -14,22 +14,22 @@ public interface NavigationContract {
 
         void selectFilter(CategoryFilter filter);
 
-        void showUpdateSnackbar(@Nullable SelfUpdater.Release release);
+        void showUpdateSnackbar(@Nullable GithubRepository.Release release);
 
         void showUpdateErrorToast();
 
-        void enableUpdateAvailableText(@Nullable SelfUpdater.Release release);
+        void enableUpdateAvailableText(@Nullable GithubRepository.Release release);
 
         void showDownload(String url);
 
-        void showChangelog(SelfUpdater.Release release);
+        void showChangelog(GithubRepository.Release release);
     }
 
     interface Presenter extends BasePresenter<View> {
         void notifySelectedFilter(CategoryFilter categoryFilter);
 
-        void downloadUpdate(SelfUpdater.Release release);
+        void downloadUpdate(GithubRepository.Release release);
 
-        void buildChangelog(SelfUpdater.Release release);
+        void buildChangelog(GithubRepository.Release release);
     }
 }
