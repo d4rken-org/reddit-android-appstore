@@ -1,5 +1,10 @@
 notifications:
   email: false
+
+env:
+  matrix:
+    - ANDROID_TARGET=android-25 ANDROID_ABI=armeabi-v7a
+
 language: android
 jdk:
   - oraclejdk8
@@ -16,12 +21,6 @@ android:
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
-
-env:
-  global:
-    - ADB_INSTALL_TIMEOUT=8
-  matrix:
-    - ANDROID_TARGET=android-25 ANDROID_ABI=armeabi-v7a
 
 before_install:
  - chmod +x gradlew
