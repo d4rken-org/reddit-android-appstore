@@ -20,6 +20,8 @@ android:
 env:
   global:
     - ADB_INSTALL_TIMEOUT=8
+   matrix:
+    - ANDROID_TARGET=android-25 ANDROID_ABI=armeabi-v7a
 
 before_install:
  - chmod +x gradlew
