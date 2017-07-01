@@ -3,10 +3,7 @@ notifications:
 
 env:
   matrix:
-    - ANDROID_TARGET=android-25 
-    - ANDROID_ABI=armeabi-v7a
-    - ANDROID_TAG=google_apis
-    - tools
+    - ANDROID_TARGET=android-23 ANDROID_ABI=google_apis/armeabi-v7a
 
 language: android
 jdk:
@@ -19,7 +16,7 @@ android:
     - android-25
     - extra-google-m2repository
     - extra-android-m2repository
-    - sys-img-armeabi-v7a-addon-google_apis-google-25
+    - sys-img-armeabi-v7a-android-23
   licenses:
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
@@ -29,7 +26,7 @@ before_install:
  - chmod +x gradlew
 
 before_script:
-    - echo no | android create avd --force -n test -t "android-25" --abi $ANDROID_ABI --tag $ANDROID_TAG
+    - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
     - emulator -avd test -no-skin -no-audio -no-window &
     - android-wait-for-emulator
     - adb shell input keyevent 82 &
