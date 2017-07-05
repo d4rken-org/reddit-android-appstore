@@ -3,8 +3,7 @@ notifications:
 
 env:
   matrix:
-    - ANDROID_TARGET=android-16 ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-23 ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-25 ANDROID_ABI=armeabi-v7a
 
 language: android
 jdk:
@@ -15,12 +14,10 @@ android:
     - platform-tools
     - tools
     - build-tools-25.0.3
-    - android-16
-    - android-23
+    - android-25
     - extra-google-m2repository
     - extra-android-m2repository
-    - sys-img-armeabi-v7a-android-16
-    - sys-img-armeabi-v7a-android-23
+    - sys-img-armeabi-v7a-android-25
   licenses:
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
