@@ -3,21 +3,20 @@ notifications:
 
 env:
   matrix:
-    - API=android-22 ABI=armeabi-v7a
+    - API=android-21 ABI=armeabi-v7a
 
 language: android
 jdk:
   - oraclejdk8
 android:
   components:
-    - tools
     - platform-tools
     - tools
     - build-tools-25.0.3
-    - android-22
     - android-25
     - extra-google-m2repository
     - extra-android-m2repository
+    sys-img-armeabi-v7a-android-21
   licenses:
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
@@ -27,9 +26,8 @@ before_install:
  - chmod +x gradlew
 
 before_script:
-  - android-update-sdk --components=sys-img-$ABI-$API --accept-licenses='android-sdk-license-[0-9a-f]{8}'
   - echo no | android create avd --force -n test -t $API --abi $ABI
-  - emulator -avd test -no-audio -no-window
+  - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
