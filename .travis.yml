@@ -3,8 +3,8 @@ notifications:
 
 env:
   matrix:
-    - ANDROID_TARGET=android-16 ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-25 ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-16 ANDROID_ABI=google_apis/armeabi-v7a
+    - ANDROID_TARGET=android-25 ANDROID_ABI=google_apis/armeabi-v7a
 
 language: android
 jdk:
