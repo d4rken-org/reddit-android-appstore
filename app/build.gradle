@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'realm-android'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: "jacoco"
 
 def gitSha() {
     def p = 'git rev-parse --short HEAD'.execute([], project.rootDir)
@@ -49,6 +51,7 @@ android {
         debug {
             minifyEnabled false
             useProguard false
+            if (System.env.'CI') testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -99,6 +102,21 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
+
+coveralls {
+    sourceDirs = fileTree(dir: "${project.projectDir}/java", excludes: [
+            '**/*_MembersInjector.class',
+            '**/Dagger*Component.class',
+            '**/Dagger*Component$Builder.class',
+            '**/*Module_*Factory.class'
+    ]).flatten()
+    jacocoReportPath = "${buildDir}/reports/coverage/prod/debug/report.xml"
+}
+
+tasks.coveralls {
+    dependsOn 'connectedAndroidTest', 'test'
+    onlyIf { System.env.'CI' }
 }
 
 tasks.withType(Test) {
