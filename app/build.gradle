@@ -181,9 +181,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.0.1'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
 
-    // Glide 4.0.0
-    compile 'com.github.bumptech.glide:glide:4.0.0-SNAPSHOT'
-
     //Timber
     compile 'com.jakewharton.timber:timber:4.1.2'
 
