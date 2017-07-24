@@ -1,5 +1,10 @@
 notifications:
   email: false
+
+env:
+  matrix:
+    - API=android-21 ABI=armeabi-v7a
+
 language: android
 jdk:
   - oraclejdk8
@@ -7,10 +12,11 @@ android:
   components:
     - platform-tools
     - tools
-    - build-tools-25.0.2
+    - build-tools-25.0.3
     - android-25
     - extra-google-m2repository
     - extra-android-m2repository
+    - sys-img-armeabi-v7a-android-21
   licenses:
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
@@ -19,5 +25,11 @@ android:
 before_install:
  - chmod +x gradlew
 
+before_script:
+  - echo no | android create avd --force -n test -t $API --abi $ABI
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
 script:
- - ./gradlew clean assemble test
+ - ./gradlew clean assemble test connectedAndroidTest coveralls

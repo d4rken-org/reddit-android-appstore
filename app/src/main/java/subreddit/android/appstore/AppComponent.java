@@ -3,8 +3,8 @@ package subreddit.android.appstore;
 import android.content.SharedPreferences;
 
 import dagger.Component;
-import subreddit.android.appstore.backend.github.SelfUpdater;
-import subreddit.android.appstore.backend.github.SelfUpdaterModule;
+import subreddit.android.appstore.backend.github.GithubRepository;
+import subreddit.android.appstore.backend.github.GithubRepositoryModule;
 import subreddit.android.appstore.backend.reddit.wiki.WikiRepository;
 import subreddit.android.appstore.backend.reddit.wiki.WikiRepositoryModule;
 import subreddit.android.appstore.backend.scrapers.MediaScraper;
@@ -17,7 +17,7 @@ import subreddit.android.appstore.util.dagger.ApplicationScope;
         AndroidModule.class,
         WikiRepositoryModule.class,
         ScraperModule.class,
-        SelfUpdaterModule.class
+        GithubRepositoryModule.class
 })
 public interface AppComponent {
     SharedPreferences providePreferences();
@@ -26,5 +26,5 @@ public interface AppComponent {
 
     MediaScraper mediaScraper();
 
-    SelfUpdater selfUpdater();
+    GithubRepository selfUpdater();
 }

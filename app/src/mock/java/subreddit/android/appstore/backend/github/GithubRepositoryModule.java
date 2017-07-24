@@ -6,10 +6,10 @@ import subreddit.android.appstore.util.dagger.ApplicationScope;
 
 
 @Module
-public class SelfUpdaterModule {
+public class GithubRepositoryModule {
     @Provides
     @ApplicationScope
-    public SelfUpdater provideSelfUpdater() {
-        return new FakeSelfUpdater();
+    public GithubRepository provideGithubRepository() {
+        return new FakeGithubRepository();
     }
 }

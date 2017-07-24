@@ -13,13 +13,13 @@ import retrofit2.http.GET;
 import subreddit.android.appstore.BuildConfig;
 import subreddit.android.appstore.backend.UserAgentInterceptor;
 
-public class LiveSelfUpdater implements SelfUpdater {
+public class LiveGithubRepository implements GithubRepository {
     private static final String BASEURL = "https://api.github.com/";
-    private final ReleaseApi releaseApi;
+    private final GithubApi githubApi;
     private Observable<Release> latestReleaseCache;
     private Observable<List<Contributor>> latestContributorsCache;
 
-    public LiveSelfUpdater(UserAgentInterceptor userAgent) {
+    public LiveGithubRepository(UserAgentInterceptor userAgent) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -34,10 +34,10 @@ public class LiveSelfUpdater implements SelfUpdater {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(BASEURL)
                 .build();
-        releaseApi = retrofit.create(ReleaseApi.class);
+        githubApi = retrofit.create(GithubApi.class);
     }
 
-    interface ReleaseApi {
+    interface GithubApi {
         @GET("repos/d4rken/reddit-android-appstore/releases/latest")
         Observable<Release> getLatestRelease();
 
@@ -47,13 +47,13 @@ public class LiveSelfUpdater implements SelfUpdater {
 
     @Override
     public Observable<Release> getLatestRelease() {
-        if (latestReleaseCache == null) latestReleaseCache = releaseApi.getLatestRelease().cache();
+        if (latestReleaseCache == null) latestReleaseCache = githubApi.getLatestRelease().cache();
         return latestReleaseCache;
     }
 
     @Override
     public Observable<List<Contributor>> getContributors() {
-        if (latestContributorsCache == null) latestContributorsCache = releaseApi.getContributors().cache();
+        if (latestContributorsCache == null) latestContributorsCache = githubApi.getContributors().cache();
         return latestContributorsCache;
     }
 }

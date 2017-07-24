@@ -8,7 +8,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
-public class FakeSelfUpdater implements SelfUpdater {
+public class FakeGithubRepository implements GithubRepository {
     @Override
     public Observable<Release> getLatestRelease() {
         Release release = new Release();
