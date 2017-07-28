@@ -3,7 +3,8 @@ apply plugin: 'android-apt'
 apply plugin: 'realm-android'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.github.kt3k.coveralls'
-apply plugin: "jacoco"
+apply plugin: 'jacoco'
+apply plugin: 'com.vanniktech.android.junit.jacoco'
 
 def gitSha() {
     def p = 'git rev-parse --short HEAD'.execute([], project.rootDir)
