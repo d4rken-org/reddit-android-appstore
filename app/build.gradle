@@ -51,8 +51,7 @@ android {
         debug {
             minifyEnabled false
             useProguard false
-            //if (System.env.'CI')
-            testCoverageEnabled true
+            if (System.env.'CI') testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -144,7 +143,7 @@ coveralls {
             '**/Dagger*Component$Builder.class',
             '**/*Module_*Factory.class'
     ]).flatten()
-    jacocoReportPath = "${buildDir}/reports/coverage/prod/debug/report.xml"
+    jacocoReportPath = "${buildDir}/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
 }
 
 tasks.coveralls {
