@@ -4,7 +4,6 @@ apply plugin: 'realm-android'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'jacoco'
-apply plugin: 'com.vanniktech.android.junit.jacoco'
 
 def gitSha() {
     def p = 'git rev-parse --short HEAD'.execute([], project.rootDir)
@@ -52,7 +51,8 @@ android {
         debug {
             minifyEnabled false
             useProguard false
-            if (System.env.'CI') testCoverageEnabled true
+            //if (System.env.'CI')
+            testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -97,12 +97,44 @@ android {
             outputs.upToDateWhen { false }
             showStandardStreams = true
         }
+
+        jacoco {
+            includeNoLocationClasses = true
+        }
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testProdDebugUnitTest' , 'createProdDebugCoverageReport']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class',
+                      '**/R$*.class',
+                      '**/BuildConfig.*',
+                      '**/Manifest*.*',
+                      '**/*Test*.*',
+                      'android/**/*.*',
+                      '**/*_MembersInjector.class',
+                      '**/Dagger*Component.class',
+                      '**/Dagger*Component$Builder.class',
+                      '**/*Module_*Factory.class']
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/prod/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: "$buildDir", includes: [
+            "jacoco/testProdDebugUnitTest.exec",
+            "outputs/code-coverage/connected/flavors/PROD/*coverage.ec"
+    ])
 }
 
 coveralls {
