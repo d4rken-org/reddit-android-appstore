@@ -45,7 +45,7 @@ public class AppStoreApp extends Application {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getInt("APP_VERSION",0)<BuildConfig.VERSION_CODE) {
             Timber.e("New release on %s, clearing cache database", BuildConfig.VERSION_NAME);
-            Realm.deleteRealm(new RealmConfiguration.Builder(this, getCacheDir()).build());
+            Realm.deleteRealm(new RealmConfiguration.Builder().build());
             prefs.edit().putInt("APP_VERSION",BuildConfig.VERSION_CODE).commit();
         }
     }
@@ -78,7 +78,7 @@ public class AppStoreApp extends Application {
         }
 
         void init(AppStoreApp app) {
-            RealmConfiguration realmConfig = new RealmConfiguration.Builder(app, app.getCacheDir())
+            RealmConfiguration realmConfig = new RealmConfiguration.Builder()
                     .deleteRealmIfMigrationNeeded()
                     .build();
             Realm.setDefaultConfiguration(realmConfig);
