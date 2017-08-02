@@ -31,7 +31,7 @@ public class BodyParserTest {
                 return invocation.getArgument(0);
             }
         });
-        bodyParser = new BodyParser(new ParserSuite(encodingFixer));
+        bodyParser = new BodyParser();
     }
 
     @Test

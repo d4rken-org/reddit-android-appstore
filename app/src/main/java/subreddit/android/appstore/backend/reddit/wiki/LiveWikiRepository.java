@@ -22,8 +22,6 @@ import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.backend.reddit.TokenRepository;
 import subreddit.android.appstore.backend.reddit.wiki.caching.WikiDiskCache;
 import subreddit.android.appstore.backend.reddit.wiki.parser.BodyParser;
-import subreddit.android.appstore.backend.reddit.wiki.parser.EncodingFixer;
-import subreddit.android.appstore.backend.reddit.wiki.parser.ParserSuite;
 import timber.log.Timber;
 
 
@@ -85,7 +83,7 @@ public class LiveWikiRepository implements WikiRepository {
                     Timber.d(response.toString());
                     long timeStart = System.currentTimeMillis();
                     Collection<AppInfo> infos = new ArrayList<>();
-                    infos.addAll(new BodyParser(new ParserSuite(new EncodingFixer())).parseBody(response.data.content_md));
+                    infos.addAll(new BodyParser().parseBody(response.data.content_md));
                     long timeStop = System.currentTimeMillis();
                     Timber.d("Initial parse: Parsed %d items in %dms", infos.size(), (timeStop - timeStart));
 

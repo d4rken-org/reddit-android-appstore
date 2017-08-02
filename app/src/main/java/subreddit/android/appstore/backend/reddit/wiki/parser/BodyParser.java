@@ -6,18 +6,21 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
+
+import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.data.AppInfo;
 
 public class BodyParser {
-    private final ParserSuite appParsers;
-    private final CategoryParser categoryParser;
+    @Inject Set<AppParser> appParsers;
+    @Inject CategoryParser categoryParser;
 
-    public BodyParser(ParserSuite appParsers) {
-        this.appParsers = appParsers;
-        categoryParser = appParsers.getCategoryParser();
+    public BodyParser() {
+        AppStoreApp.Injector.INSTANCE.getAppComponent().inject(this);
     }
 
     public Collection<AppInfo> parseBody(String bodyString) {
