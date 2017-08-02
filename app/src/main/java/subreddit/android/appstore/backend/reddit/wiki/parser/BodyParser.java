@@ -12,16 +12,12 @@ import java.util.regex.Pattern;
 import subreddit.android.appstore.backend.data.AppInfo;
 
 public class BodyParser {
-    private final List<AppParser> appParsers = new ArrayList<>();
+    private final ParserSuite appParsers;
     private final CategoryParser categoryParser;
 
-    public BodyParser(EncodingFixer encodingFixer) {
-        categoryParser = new CategoryParser(encodingFixer);
-        appParsers.add(new NameColumnParser(encodingFixer));
-        appParsers.add(new PriceColumnParser(encodingFixer));
-        appParsers.add(new DeviceColumnParser(encodingFixer));
-        appParsers.add(new DescriptionColumnParser(encodingFixer));
-        appParsers.add(new ContactColumnParser(encodingFixer));
+    public BodyParser(ParserSuite appParsers) {
+        this.appParsers = appParsers;
+        categoryParser = appParsers.getCategoryParser();
     }
 
     public Collection<AppInfo> parseBody(String bodyString) {
