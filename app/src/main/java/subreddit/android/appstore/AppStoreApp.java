@@ -81,6 +81,7 @@ public class AppStoreApp extends Application {
         }
 
         void init(AppStoreApp app) {
+            Realm.init(app);
             RealmConfiguration realmConfig = new RealmConfiguration.Builder()
                     .deleteRealmIfMigrationNeeded()
                     .build();
