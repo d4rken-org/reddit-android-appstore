@@ -17,31 +17,36 @@ import subreddit.android.appstore.backend.data.AppInfo;
 
 import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyMap;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.doAnswer;
 
 public class BodyParserTest {
-    @Mock EncodingFixer encodingFixer;
+    @Mock AppParser appParser;
+    @Mock CategoryParser categoryParser;
     private BodyParser bodyParser;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        when(encodingFixer.fixHtmlEscapes(anyString())).then(new Answer<String>() {
+        doAnswer(new Answer<Void>() {
             @Override
-            public String answer(InvocationOnMock invocation) throws Throwable {
-                return invocation.getArgument(0);
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                return null;
             }
-        });
+        }).when(categoryParser).parse(isA(AppInfo.class), anyList());
+        doAnswer(new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                return null;
+            }
+        }).when(appParser).parse(isA(AppInfo.class), anyMap());
 
-        //TODO: Mock out
         Set<AppParser> appParsers = new HashSet<>();
-        appParsers.add(new NameColumnParser(encodingFixer));
-        appParsers.add(new PriceColumnParser(encodingFixer));
-        appParsers.add(new DeviceColumnParser(encodingFixer));
-        appParsers.add(new DescriptionColumnParser(encodingFixer));
-        appParsers.add(new ContactColumnParser(encodingFixer));
-        CategoryParser categoryParser = new CategoryParser(encodingFixer);
+        for (int i=0; i<5; i++) {
+            appParsers.add(appParser);
+        }
 
         bodyParser = new BodyParser(categoryParser, appParsers);
     }
