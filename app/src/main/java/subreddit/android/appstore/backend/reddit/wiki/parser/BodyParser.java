@@ -12,15 +12,16 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
-import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.backend.data.AppInfo;
 
 public class BodyParser {
-    @Inject Set<AppParser> appParsers;
-    @Inject CategoryParser categoryParser;
+    Set<AppParser> appParsers;
+    CategoryParser categoryParser;
 
-    public BodyParser() {
-        AppStoreApp.Injector.INSTANCE.getAppComponent().inject(this);
+    @Inject
+    public BodyParser(CategoryParser categoryParser, Set<AppParser> appParsers) {
+        this.appParsers = appParsers;
+        this.categoryParser = categoryParser;
     }
 
     public Collection<AppInfo> parseBody(String bodyString) {

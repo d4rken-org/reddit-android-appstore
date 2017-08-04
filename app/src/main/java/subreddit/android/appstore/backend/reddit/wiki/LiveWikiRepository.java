@@ -32,12 +32,17 @@ public class LiveWikiRepository implements WikiRepository {
     final WikiDiskCache wikiDiskCache;
     final TokenRepository tokenRepository;
     final WikiApi wikiApi;
+    final BodyParser bodyParser;
     ReplaySubject<Collection<AppInfo>> dataReplayer;
     String authString;
 
-    public LiveWikiRepository(TokenRepository tokenRepository, WikiDiskCache wikiDiskCache, UserAgentInterceptor userAgent) {
+    public LiveWikiRepository(TokenRepository tokenRepository,
+                              WikiDiskCache wikiDiskCache,
+                              UserAgentInterceptor userAgent,
+                              BodyParser bodyParser) {
         this.tokenRepository = tokenRepository;
         this.wikiDiskCache = wikiDiskCache;
+        this.bodyParser = bodyParser;
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (BuildConfig.DEBUG) {
@@ -83,7 +88,7 @@ public class LiveWikiRepository implements WikiRepository {
                     Timber.d(response.toString());
                     long timeStart = System.currentTimeMillis();
                     Collection<AppInfo> infos = new ArrayList<>();
-                    infos.addAll(new BodyParser().parseBody(response.data.content_md));
+                    infos.addAll(bodyParser.parseBody(response.data.content_md));
                     long timeStop = System.currentTimeMillis();
                     Timber.d("Initial parse: Parsed %d items in %dms", infos.size(), (timeStop - timeStart));
 

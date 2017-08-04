@@ -10,6 +10,8 @@ import org.mockito.stubbing.Answer;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import subreddit.android.appstore.backend.data.AppInfo;
 
@@ -31,7 +33,17 @@ public class BodyParserTest {
                 return invocation.getArgument(0);
             }
         });
-        bodyParser = new BodyParser();
+
+        //TODO: Mock out
+        Set<AppParser> appParsers = new HashSet<>();
+        appParsers.add(new NameColumnParser(encodingFixer));
+        appParsers.add(new PriceColumnParser(encodingFixer));
+        appParsers.add(new DeviceColumnParser(encodingFixer));
+        appParsers.add(new DescriptionColumnParser(encodingFixer));
+        appParsers.add(new ContactColumnParser(encodingFixer));
+        CategoryParser categoryParser = new CategoryParser(encodingFixer);
+
+        bodyParser = new BodyParser(categoryParser, appParsers);
     }
 
     @Test

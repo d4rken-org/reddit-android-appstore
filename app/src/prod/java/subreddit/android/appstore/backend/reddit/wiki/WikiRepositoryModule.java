@@ -13,6 +13,7 @@ import subreddit.android.appstore.backend.UserAgentInterceptor;
 import subreddit.android.appstore.backend.reddit.TokenRepository;
 import subreddit.android.appstore.backend.reddit.wiki.caching.WikiDiskCache;
 import subreddit.android.appstore.backend.reddit.wiki.parser.AppParser;
+import subreddit.android.appstore.backend.reddit.wiki.parser.BodyParser;
 import subreddit.android.appstore.backend.reddit.wiki.parser.CategoryParser;
 import subreddit.android.appstore.backend.reddit.wiki.parser.ContactColumnParser;
 import subreddit.android.appstore.backend.reddit.wiki.parser.DescriptionColumnParser;
@@ -51,8 +52,11 @@ public class WikiRepositoryModule {
 
     @Provides
     @ApplicationScope
-    WikiRepository provideBackendService(TokenRepository tokenRepository, UserAgentInterceptor userAgentInterceptor, WikiDiskCache wikiDiskCache) {
-        return new LiveWikiRepository(tokenRepository, wikiDiskCache, userAgentInterceptor);
+    WikiRepository provideBackendService(TokenRepository tokenRepository,
+                                         UserAgentInterceptor userAgentInterceptor,
+                                         WikiDiskCache wikiDiskCache,
+                                         BodyParser bodyParser) {
+        return new LiveWikiRepository(tokenRepository, wikiDiskCache, userAgentInterceptor, bodyParser);
     }
 
     @Provides
