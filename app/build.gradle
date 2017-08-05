@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
 apply plugin: 'realm-android'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.github.kt3k.coveralls'
@@ -206,13 +205,13 @@ dependencies {
     compile 'com.google.code.gson:gson:2.7'
 
     //Dagger
-    apt 'com.google.dagger:dagger-compiler:2.2'
-    compile 'com.google.dagger:dagger:2.2'
+    compile "com.google.dagger:dagger:2.9"
+    annotationProcessor "com.google.dagger:dagger-compiler:2.9"
     provided 'javax.annotation:jsr250-api:1.0'
 
     //Butterknife
     compile 'com.jakewharton:butterknife:8.0.1'
-    apt 'com.jakewharton:butterknife-compiler:8.0.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.0.1'
 
     //Timber
     compile 'com.jakewharton.timber:timber:4.1.2'
