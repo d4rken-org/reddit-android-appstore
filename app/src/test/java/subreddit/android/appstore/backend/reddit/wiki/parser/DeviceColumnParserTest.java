@@ -16,8 +16,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 public class DeviceColumnParserTest {
-    @Mock
-    EncodingFixer encodingFixer;
+    @Mock EncodingFixer encodingFixer;
     private DeviceColumnParser parser;
 
     @Before

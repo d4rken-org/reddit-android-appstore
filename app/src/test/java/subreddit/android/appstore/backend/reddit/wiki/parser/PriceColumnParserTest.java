@@ -16,8 +16,7 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 public class PriceColumnParserTest {
-    @Mock
-    EncodingFixer encodingFixer;
+    @Mock EncodingFixer encodingFixer;
     private PriceColumnParser parser;
 
     @Before
