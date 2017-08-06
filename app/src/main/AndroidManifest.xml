@@ -34,10 +34,6 @@
             android:name=".screens.settings.SettingsActivity"
             android:label="@string/settings"
             android:parentActivityName=".screens.MainActivity"/>
-
-        <meta-data
-            android:name="subreddit.android.appstore.util.ui.glide.GlideConfigModule"
-            android:value="GlideModule"/>
     </application>
 
 </manifest>

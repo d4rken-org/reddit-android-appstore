@@ -22,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.wefika.flowlayout.FlowLayout;
 
 import java.util.ArrayList;
@@ -44,6 +43,7 @@ import subreddit.android.appstore.backend.data.Download;
 import subreddit.android.appstore.backend.scrapers.ScrapeResult;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
+import subreddit.android.appstore.util.ui.glide.GlideApp;
 import subreddit.android.appstore.util.ui.glide.IconRequest;
 import subreddit.android.appstore.util.ui.glide.PlaceHolderRequestListener;
 import timber.log.Timber;
@@ -288,7 +288,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     public void displayIcon(@Nullable AppInfo appInfo) {
         if (appInfo != null) {
             iconFrame.setVisibility(View.VISIBLE);
-            Glide.with(this)
+            GlideApp.with(this)
                     .load(new IconRequest(appInfo))
                     .listener(new PlaceHolderRequestListener(iconImage, iconPlaceholder))
                     .into(iconImage);
