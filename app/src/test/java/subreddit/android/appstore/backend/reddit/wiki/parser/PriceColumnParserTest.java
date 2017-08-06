@@ -38,7 +38,7 @@ public class PriceColumnParserTest {
         rawPriceData = "Free";
         rawColumnMap = new HashMap<>();
         rawColumnMap.put(AppParser.Column.PRICE, rawPriceData);
-        AppInfo appInfo1 = new AppInfo();
+        appInfo = new AppInfo();
         parser.parse(appInfo, rawColumnMap);
         assertTrue(appInfo.getTags().contains(AppTags.FREE));
         assertFalse(appInfo.getTags().contains(AppTags.PAID));

@@ -38,8 +38,8 @@ public class DeviceColumnParserTest {
         rawDeviceData = "Phone+Tablet";
         rawColumnMap = new HashMap<>();
         rawColumnMap.put(AppParser.Column.DEVICE, rawDeviceData);
-        AppInfo appInfo2 = new AppInfo();
-        parser.parse(appInfo2, rawColumnMap);
+        appInfo = new AppInfo();
+        parser.parse(appInfo, rawColumnMap);
         assertEquals(2, appInfo.getTags().size());
         assertTrue(appInfo.getTags().contains(AppTags.PHONE));
         assertTrue(appInfo.getTags().contains(AppTags.TABLET));
@@ -47,8 +47,8 @@ public class DeviceColumnParserTest {
         rawDeviceData = "Phone+Tablet+Wear";
         rawColumnMap = new HashMap<>();
         rawColumnMap.put(AppParser.Column.DEVICE, rawDeviceData);
-        AppInfo appInfo3 = new AppInfo();
-        parser.parse(appInfo3, rawColumnMap);
+        appInfo = new AppInfo();
+        parser.parse(appInfo, rawColumnMap);
         assertEquals(3, appInfo.getTags().size());
         assertTrue(appInfo.getTags().contains(AppTags.PHONE));
         assertTrue(appInfo.getTags().contains(AppTags.TABLET));

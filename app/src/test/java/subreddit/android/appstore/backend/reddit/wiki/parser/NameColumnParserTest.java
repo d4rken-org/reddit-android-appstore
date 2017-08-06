@@ -60,21 +60,21 @@ public class NameColumnParserTest {
         String rawUnknownDownload = "What is this download?";
         rawColumnMap = new HashMap<>();
         rawColumnMap.put(AppParser.Column.NAME, rawUnknownDownload);
-        AppInfo appInfo0 = new AppInfo();
-        parser.parse(appInfo0, rawColumnMap);
-        downloads = (ArrayList<Download>) appInfo0.getDownloads();
+        appInfo = new AppInfo();
+        parser.parse(appInfo, rawColumnMap);
+        downloads = (ArrayList<Download>) appInfo.getDownloads();
         assertEquals(Download.Type.UNKNOWN, downloads.get(0).getType());
         assertEquals("What is this download?",
                 downloads.get(0).getTarget());
-        assertEquals("What is this download?", appInfo0.getAppName());
+        assertEquals("What is this download?", appInfo.getAppName());
 
         //Amazon link
         String rawAmazonDownload = "[Lost Within](http://www.amazon.com/Amazon-Game-Studios-Lost-Within/dp/B00VGKMTKC/)";
         rawColumnMap = new HashMap<>();
         rawColumnMap.put(AppParser.Column.NAME, rawAmazonDownload);
-        AppInfo appInfo1 = new AppInfo();
-        parser.parse(appInfo1, rawColumnMap);
-        downloads = (ArrayList<Download>) appInfo0.getDownloads();
+        appInfo = new AppInfo();
+        parser.parse(appInfo, rawColumnMap);
+        downloads = (ArrayList<Download>) appInfo.getDownloads();
         //TODO: this, along with other download types in NameColumnParser
     }
 }
