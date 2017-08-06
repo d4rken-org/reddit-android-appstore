@@ -28,7 +28,7 @@ public class ContactColumnParserTest {
     }
 
     @Test
-    public void testParsing() throws IOException {
+    public void testParse() throws IOException {
         String rawContactData = "/u/someuser1 thisismail1@gmail.com " +
                 "Twitter: [@twitteraccount](https://twitter.com/twitteraccount) " +
                 "Instagram: [@instagramaccount](http://instagram.com/instagramaccount) " +
