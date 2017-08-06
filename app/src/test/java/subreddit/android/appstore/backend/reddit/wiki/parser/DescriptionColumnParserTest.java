@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,6 +15,8 @@ import subreddit.android.appstore.backend.data.AppInfo;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 public class DescriptionColumnParserTest {
     @Mock
@@ -22,6 +26,11 @@ public class DescriptionColumnParserTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
+        when(encodingFixer.fixHtmlEscapes(anyString())).then(new Answer<String>() {
+            public String answer(InvocationOnMock invocation) throws Throwable {
+                return invocation.getArgument(0);
+            }
+        });
         parser = new DescriptionColumnParser(encodingFixer);
     }
     @Test

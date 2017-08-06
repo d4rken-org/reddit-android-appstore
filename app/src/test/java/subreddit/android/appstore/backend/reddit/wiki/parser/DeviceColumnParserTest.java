@@ -44,7 +44,7 @@ public class DeviceColumnParserTest {
         assertTrue(appInfo.getTags().contains(AppTags.PHONE));
         assertTrue(appInfo.getTags().contains(AppTags.TABLET));
 
-        rawDeviceData = "Phone+Tablet+Wear";
+        rawDeviceData = "Phone+Tablet+Watch";
         rawColumnMap = new HashMap<>();
         rawColumnMap.put(AppParser.Column.DEVICE, rawDeviceData);
         appInfo = new AppInfo();
