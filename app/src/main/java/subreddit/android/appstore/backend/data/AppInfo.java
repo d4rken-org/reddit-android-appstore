@@ -105,7 +105,7 @@ public class AppInfo implements Comparable<AppInfo> {
 
     @Override
     public int compareTo(@NonNull AppInfo appInfo) {
-        return appName.compareTo(appInfo.appName);
+        return appName.compareToIgnoreCase(appInfo.appName);
     }
 
     @Override
