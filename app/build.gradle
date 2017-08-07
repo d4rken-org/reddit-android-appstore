@@ -179,6 +179,9 @@ dependencies {
     compile "com.android.support:preference-v14:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
 
+    // JavaPoet
+    compile 'com.squareup:javapoet:1.9.0'
+
     // Recyclerview fast scroller
     compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.4'
 
