@@ -2,13 +2,17 @@ package subreddit.android.appstore.backend.reddit.wiki;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+
 import java.util.HashSet;
 import java.util.Set;
 
 import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.ElementsIntoSet;
+import retrofit2.Retrofit;
 import subreddit.android.appstore.backend.DeviceIdentifier;
+import subreddit.android.appstore.backend.HttpModule;
 import subreddit.android.appstore.backend.UserAgentInterceptor;
 import subreddit.android.appstore.backend.reddit.TokenRepository;
 import subreddit.android.appstore.backend.reddit.wiki.caching.WikiDiskCache;
@@ -24,7 +28,7 @@ import subreddit.android.appstore.backend.reddit.wiki.parser.PriceColumnParser;
 import subreddit.android.appstore.util.dagger.ApplicationScope;
 
 
-@Module
+@Module(includes = HttpModule.class)
 public class WikiRepositoryModule {
     @Provides
     @ApplicationScope
@@ -40,8 +44,8 @@ public class WikiRepositoryModule {
 
     @Provides
     @ApplicationScope
-    TokenRepository provideTokenSource(Context context, UserAgentInterceptor userAgentInterceptor, DeviceIdentifier deviceIdentifier) {
-        return new TokenRepository(context, deviceIdentifier, userAgentInterceptor);
+    TokenRepository provideTokenSource(Context context, DeviceIdentifier deviceIdentifier, Retrofit retrofit, Gson gson) {
+        return new TokenRepository(context, deviceIdentifier, retrofit, gson);
     }
 
     @Provides
@@ -53,10 +57,10 @@ public class WikiRepositoryModule {
     @Provides
     @ApplicationScope
     WikiRepository provideBackendService(TokenRepository tokenRepository,
-                                         UserAgentInterceptor userAgentInterceptor,
                                          WikiDiskCache wikiDiskCache,
-                                         BodyParser bodyParser) {
-        return new LiveWikiRepository(tokenRepository, wikiDiskCache, userAgentInterceptor, bodyParser);
+                                         BodyParser bodyParser,
+                                         Retrofit retrofit) {
+        return new LiveWikiRepository(tokenRepository, wikiDiskCache, bodyParser, retrofit);
     }
 
     @Provides
