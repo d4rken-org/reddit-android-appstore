@@ -28,5 +28,5 @@ public interface AppComponent {
 
     MediaScraper mediaScraper();
 
-    GithubRepository selfUpdater();
+    GithubRepository githubRepository();
 }

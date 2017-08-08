@@ -89,7 +89,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        githubRepository = AppStoreApp.Injector.INSTANCE.getAppComponent().selfUpdater();
+        githubRepository = AppStoreApp.Injector.INSTANCE.getAppComponent().githubRepository();
 
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
