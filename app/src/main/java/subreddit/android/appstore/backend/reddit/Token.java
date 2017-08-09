@@ -1,6 +1,12 @@
 package subreddit.android.appstore.backend.reddit;
 
 
+import io.reactivex.Observable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Header;
+import retrofit2.http.POST;
+
 public class Token {
     String access_token;
     String token_type;
@@ -15,5 +21,16 @@ public class Token {
 
     public String getAuthorizationString() {
         return token_type + " " + access_token;
+    }
+
+    public interface Api {
+        @FormUrlEncoded
+        @POST("api/v1/access_token")
+        Observable<Token> getUserlessAuthToken(
+                @Header("Authorization") String authentication,
+                @Field("device_id") String deviceId,
+                @Field("grant_type") String grant_type,
+                @Field("scope") String scope
+        );
     }
 }

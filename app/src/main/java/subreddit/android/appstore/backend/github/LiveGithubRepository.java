@@ -3,25 +3,15 @@ package subreddit.android.appstore.backend.github;
 import java.util.List;
 
 import io.reactivex.Observable;
-import retrofit2.Retrofit;
-import retrofit2.http.GET;
 
 public class LiveGithubRepository implements GithubRepository {
-    private static final String BASEURL = "https://api.github.com/";
-    private final GithubApi githubApi;
+    public static final String BASEURL = "https://api.github.com/";
+    private final Github.Api githubApi;
     private Observable<Release> latestReleaseCache;
     private Observable<List<Contributor>> latestContributorsCache;
 
-    public LiveGithubRepository(Retrofit retrofit) {
-        githubApi = retrofit.create(GithubApi.class);
-    }
-
-    interface GithubApi {
-        @GET("repos/d4rken/reddit-android-appstore/releases/latest")
-        Observable<Release> getLatestRelease();
-
-        @GET("repos/d4rken/reddit-android-appstore/contributors")
-        Observable<List<Contributor>> getContributors();
+    public LiveGithubRepository(Github.Api githubApi) {
+        this.githubApi = githubApi;
     }
 
     @Override

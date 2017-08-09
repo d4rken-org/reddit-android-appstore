@@ -6,10 +6,6 @@ import java.util.Collection;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.ReplaySubject;
-import retrofit2.Retrofit;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Query;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.backend.reddit.TokenRepository;
@@ -19,11 +15,11 @@ import timber.log.Timber;
 
 
 public class LiveWikiRepository implements WikiRepository {
-    static final String BASEURL = "https://oauth.reddit.com/";
+    public static final String BASEURL = "https://oauth.reddit.com/";
     static final int NUMOFREVISIONS = 6;
     final WikiDiskCache wikiDiskCache;
     final TokenRepository tokenRepository;
-    final WikiApi wikiApi;
+    final Wiki.Api wikiApi;
     final BodyParser bodyParser;
     ReplaySubject<Collection<AppInfo>> dataReplayer;
     String authString;
@@ -31,12 +27,11 @@ public class LiveWikiRepository implements WikiRepository {
     public LiveWikiRepository(TokenRepository tokenRepository,
                               WikiDiskCache wikiDiskCache,
                               BodyParser bodyParser,
-                              Retrofit retrofit) {
+                              Wiki.Api wikiApi) {
         this.tokenRepository = tokenRepository;
         this.wikiDiskCache = wikiDiskCache;
         this.bodyParser = bodyParser;
-
-        wikiApi = retrofit.create(WikiApi.class);
+        this.wikiApi = wikiApi;
     }
 
     @Override
@@ -110,61 +105,6 @@ public class LiveWikiRepository implements WikiRepository {
     private String saveAuthString(String authString) {
         this.authString = authString;
         return authString;
-    }
-
-    interface WikiApi {
-        // BASEURL overides retrofit.baseUrl()
-        @GET(BASEURL + "r/Android/wiki/page")
-        Observable<WikiPageResponse> getWikiPage(@Header("Authorization") String authentication,
-                                                 @Query("page") String page);
-
-        @GET(BASEURL + "r/Android/wiki/revisions/page&limit")
-        Observable<WikiRevisionsResponse> getWikiRevisions(@Header("Authorization") String authentication,
-                                                           @Query("page") String page,
-                                                           @Query("limit") String lim);
-
-        @GET(BASEURL + "r/Android/wiki/page&v")
-        Observable<WikiPageResponse> getWikiRevision(@Header("Authorization") String authentication,
-                                                     @Query("page") String page,
-                                                     @Query("v") String id);
-
-        @GET(BASEURL + "r/Android/wiki/page&v&v2")
-        Observable<WikiPageResponse> getWikiRevisionDiff(@Header("Authorization") String authentication,
-                                                         @Query("page") String page,
-                                                         @Query("v") String id1,
-                                                         @Query("v2") String id2);
-    }
-
-    static class WikiPageResponse {
-        String kind;
-        Data data;
-
-        static class Data {
-            long revision_date;
-            String content_md;
-        }
-    }
-
-    static class WikiRevisionsResponse {
-        String kind;
-        Data data;
-
-        static class Data {
-            String modhash;
-            ArrayList<Children> children;
-        }
-
-        static class Children {
-            long timestamp;
-            String reason;
-            Author author;
-            String page;
-            String id;
-        }
-
-        static class Author {
-
-        }
     }
 
 
