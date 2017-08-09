@@ -35,7 +35,7 @@
     <string name="data_option_loadmedia_summary">Carica icone e schermate delle app</string>
     <string name="update">Aggiornamento disponibile</string>
     <string name="update_confirm">Aggiornamento</string>
-    <string name="update_error">Error checking for updates</string>
+    <string name="update_error">Errore nel controllo degli aggiornamenti</string>
     <string name="flag">Segnala app</string>
     <string name="no_message">Inserisci un messaggio</string>
     <string name="flag_text">Per favore descrivi perché stai segnalando quest\'app. Sarai reindirizzato su Reddit per inviare un messaggio ai moderatori di /r/Android</string>
