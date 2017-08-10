@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import subreddit.android.appstore.backend.DeviceIdentifier;
 import subreddit.android.appstore.backend.HttpModule;
 import subreddit.android.appstore.backend.UserAgentInterceptor;
-import subreddit.android.appstore.backend.reddit.Token;
+import subreddit.android.appstore.backend.reddit.TokenApi;
 import subreddit.android.appstore.backend.reddit.TokenRepository;
 import subreddit.android.appstore.backend.reddit.wiki.caching.WikiDiskCache;
 import subreddit.android.appstore.backend.reddit.wiki.parser.AppParser;
@@ -49,7 +49,7 @@ public class WikiRepositoryModule {
     @ApplicationScope
     TokenRepository provideTokenSource(Context context,
                                        DeviceIdentifier deviceIdentifier,
-                                       Token.Api tokenApi,
+                                       TokenApi tokenApi,
                                        Gson gson) {
         return new TokenRepository(context, deviceIdentifier, tokenApi, gson);
     }
@@ -65,7 +65,7 @@ public class WikiRepositoryModule {
     WikiRepository provideBackendService(TokenRepository tokenRepository,
                                          WikiDiskCache wikiDiskCache,
                                          BodyParser bodyParser,
-                                         Wiki.Api wikiApi) {
+                                         WikiApi wikiApi) {
         return new LiveWikiRepository(tokenRepository, wikiDiskCache, bodyParser, wikiApi);
     }
 
@@ -92,26 +92,26 @@ public class WikiRepositoryModule {
 
     @Provides
     @ApplicationScope
-    Wiki.Api provideWikiApi(OkHttpClient client) {
+    WikiApi provideWikiApi(OkHttpClient client) {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(LiveWikiRepository.BASEURL)
+                .baseUrl(WikiApi.BASEURL)
                 .build();
-        return retrofit.create(Wiki.Api.class);
+        return retrofit.create(WikiApi.class);
     }
 
     @Provides
     @ApplicationScope
-    Token.Api provideTokenApi(OkHttpClient client) {
+    TokenApi provideTokenApi(OkHttpClient client) {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(TokenRepository.BASEURL)
+                .baseUrl(TokenApi.BASEURL)
                 .build();
-        return retrofit.create(Token.Api.class);
+        return retrofit.create(TokenApi.class);
     }
 
 }

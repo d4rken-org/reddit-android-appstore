@@ -5,12 +5,11 @@ import java.util.List;
 import io.reactivex.Observable;
 
 public class LiveGithubRepository implements GithubRepository {
-    public static final String BASEURL = "https://api.github.com/";
-    private final Github.Api githubApi;
+    private final GithubApi githubApi;
     private Observable<Release> latestReleaseCache;
     private Observable<List<Contributor>> latestContributorsCache;
 
-    public LiveGithubRepository(Github.Api githubApi) {
+    public LiveGithubRepository(GithubApi githubApi) {
         this.githubApi = githubApi;
     }
 

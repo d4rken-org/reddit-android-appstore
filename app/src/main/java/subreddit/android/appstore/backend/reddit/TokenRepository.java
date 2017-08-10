@@ -16,19 +16,18 @@ import subreddit.android.appstore.backend.DeviceIdentifier;
 import timber.log.Timber;
 
 public class TokenRepository {
-    public static final String BASEURL = "https://www.reddit.com/";
     private static final String CLIENT_ID = "8i-tKlCSV9P_fQ";
     private static final String PREF_KEY = "reddit.token.userlessauth";
     final Context context;
     final DeviceIdentifier deviceIdentifier;
-    private final Token.Api tokenApi;
+    private final TokenApi tokenApi;
     private final String encodedCredentials;
     private final Gson gson;
     private final SharedPreferences preferences;
 
     public TokenRepository(Context context,
                            DeviceIdentifier deviceIdentifier,
-                           Token.Api tokenApi,
+                           TokenApi tokenApi,
                            Gson gson) {
         this.context = context;
         this.deviceIdentifier = deviceIdentifier;
@@ -41,10 +40,10 @@ public class TokenRepository {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public Observable<Token> getUserlessAuthToken() {
-        return Observable.<Token>create(
+    public Observable<TokenApi.Token> getUserlessAuthToken() {
+        return Observable.<TokenApi.Token>create(
                 emitter -> {
-                    Token token = getToken();
+                    TokenApi.Token token = getToken();
                     if (token != null) emitter.onNext(token);
                     emitter.onComplete();
                 })
@@ -60,19 +59,19 @@ public class TokenRepository {
     }
 
     @Nullable
-    Token getToken() {
-        Token token = null;
+    TokenApi.Token getToken() {
+        TokenApi.Token token = null;
         try {
-            token = gson.fromJson(preferences.getString(PREF_KEY, null), Token.class);
+            token = gson.fromJson(preferences.getString(PREF_KEY, null), TokenApi.Token.class);
         } catch (JsonSyntaxException ignore) {}
         if (token != null && token.isExpired()) {
-            Timber.d("Token expired!");
+            Timber.d("TokenApi expired!");
             return null;
         }
         return token;
     }
 
-    void storeToken(@NonNull Token token) {
+    void storeToken(@NonNull TokenApi.Token token) {
         preferences.edit().putString(PREF_KEY, gson.toJson(token)).apply();
     }
 

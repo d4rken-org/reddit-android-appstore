@@ -15,11 +15,10 @@ import timber.log.Timber;
 
 
 public class LiveWikiRepository implements WikiRepository {
-    public static final String BASEURL = "https://oauth.reddit.com/";
     static final int NUMOFREVISIONS = 6;
     final WikiDiskCache wikiDiskCache;
     final TokenRepository tokenRepository;
-    final Wiki.Api wikiApi;
+    final WikiApi wikiApi;
     final BodyParser bodyParser;
     ReplaySubject<Collection<AppInfo>> dataReplayer;
     String authString;
@@ -27,7 +26,7 @@ public class LiveWikiRepository implements WikiRepository {
     public LiveWikiRepository(TokenRepository tokenRepository,
                               WikiDiskCache wikiDiskCache,
                               BodyParser bodyParser,
-                              Wiki.Api wikiApi) {
+                              WikiApi wikiApi) {
         this.tokenRepository = tokenRepository;
         this.wikiDiskCache = wikiDiskCache;
         this.bodyParser = bodyParser;

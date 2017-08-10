@@ -16,20 +16,20 @@ public class GithubRepositoryModule {
 
     @Provides
     @ApplicationScope
-    public GithubRepository provideGithubRepository(Github.Api githubApi) {
+    public GithubRepository provideGithubRepository(GithubApi githubApi) {
         return new LiveGithubRepository(githubApi);
     }
 
     @Provides
     @ApplicationScope
-    public Github.Api provideGithubApi(OkHttpClient client) {
+    public GithubApi provideGithubApi(OkHttpClient client) {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(LiveGithubRepository.BASEURL)
+                .baseUrl(GithubApi.BASEURL)
                 .build();
-        return retrofit.create(Github.Api.class);
+        return retrofit.create(GithubApi.class);
     }
 
 }
