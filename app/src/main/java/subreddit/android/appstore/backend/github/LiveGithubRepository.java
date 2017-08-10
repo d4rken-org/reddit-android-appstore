@@ -6,21 +6,21 @@ import io.reactivex.Observable;
 
 public class LiveGithubRepository implements GithubRepository {
     private final GithubApi githubApi;
-    private Observable<Release> latestReleaseCache;
-    private Observable<List<Contributor>> latestContributorsCache;
+    private Observable<GithubApi.Release> latestReleaseCache;
+    private Observable<List<GithubApi.Contributor>> latestContributorsCache;
 
     public LiveGithubRepository(GithubApi githubApi) {
         this.githubApi = githubApi;
     }
 
     @Override
-    public Observable<Release> getLatestRelease() {
+    public Observable<GithubApi.Release> getLatestRelease() {
         if (latestReleaseCache == null) latestReleaseCache = githubApi.getLatestRelease().cache();
         return latestReleaseCache;
     }
 
     @Override
-    public Observable<List<Contributor>> getContributors() {
+    public Observable<List<GithubApi.Contributor>> getContributors() {
         if (latestContributorsCache == null) latestContributorsCache = githubApi.getContributors().cache();
         return latestContributorsCache;
     }

@@ -23,6 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.BuildConfig;
 import subreddit.android.appstore.R;
+import subreddit.android.appstore.backend.github.GithubApi;
 import subreddit.android.appstore.backend.github.GithubRepository;
 import subreddit.android.appstore.util.ui.BaseActivity;
 import timber.log.Timber;
@@ -119,7 +120,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
                 .observeOn(Schedulers.computation())
                 .map(data -> {
                     ContributorData contributorData = new ContributorData();
-                    for (GithubRepository.Contributor c : data) {
+                    for (GithubApi.Contributor c : data) {
                         Timber.d("Contributor: %s", c.toString());
                         contributorData.addContributor(c.username);
                     }
