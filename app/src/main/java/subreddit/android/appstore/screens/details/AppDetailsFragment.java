@@ -183,7 +183,12 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     }
 
     void openDownload(Download d) {
-        startActivity(new Intent(Intent.ACTION_VIEW, d.getDownloadUri()));
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, d.getDownloadUri()));
+        } catch (Exception e) {
+            Timber.e(e, "Problem launching intent for a Download link");
+            displayToast(R.string.no_download_client);
+        }
     }
 
     void openContact(Contact c) {
@@ -193,8 +198,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
                     startActivity(new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", c.getTarget(), null)));
                 } catch (Exception e) {
                     Timber.e(e, "Problem launching intent for Email contact");
-                    Toast.makeText(getContext(), getContext().getResources().getString(R.string.no_email_client), Toast.LENGTH_LONG).show();
-                    //note: translations pulled straight from google translate, someone might want to double check
+                    displayToast(R.string.no_email_client);
                 }
 
                 break;
@@ -273,6 +277,10 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         builder.setSecondaryToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
+    }
+
+    private void displayToast(int message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

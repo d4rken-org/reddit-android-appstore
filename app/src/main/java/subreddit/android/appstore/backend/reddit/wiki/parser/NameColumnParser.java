@@ -28,7 +28,7 @@ public class NameColumnParser extends BaseParser {
         if (matcher.matches()) {
             appName = matcher.group(1);
 
-            downloadUrl = matcher.group(2);
+            downloadUrl = matcher.group(2).replaceAll(" ","");
             // TODO more parsing of different types
             if (downloadUrl.contains("://play.google.com/store") || downloadUrl.contains("://market.android.com")) {
                 downloadType = Download.Type.GPLAY;
