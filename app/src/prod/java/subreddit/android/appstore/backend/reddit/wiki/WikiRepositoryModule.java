@@ -2,14 +2,21 @@ package subreddit.android.appstore.backend.reddit.wiki;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
 import java.util.HashSet;
 import java.util.Set;
 
 import dagger.Module;
 import dagger.Provides;
-import dagger.multibindings.ElementsIntoSet;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import subreddit.android.appstore.backend.DeviceIdentifier;
+import subreddit.android.appstore.backend.HttpModule;
 import subreddit.android.appstore.backend.UserAgentInterceptor;
+import subreddit.android.appstore.backend.reddit.TokenApi;
 import subreddit.android.appstore.backend.reddit.TokenRepository;
 import subreddit.android.appstore.backend.reddit.wiki.caching.WikiDiskCache;
 import subreddit.android.appstore.backend.reddit.wiki.parser.AppParser;
@@ -24,7 +31,7 @@ import subreddit.android.appstore.backend.reddit.wiki.parser.PriceColumnParser;
 import subreddit.android.appstore.util.dagger.ApplicationScope;
 
 
-@Module
+@Module(includes = HttpModule.class)
 public class WikiRepositoryModule {
     @Provides
     @ApplicationScope
@@ -40,8 +47,11 @@ public class WikiRepositoryModule {
 
     @Provides
     @ApplicationScope
-    TokenRepository provideTokenSource(Context context, UserAgentInterceptor userAgentInterceptor, DeviceIdentifier deviceIdentifier) {
-        return new TokenRepository(context, deviceIdentifier, userAgentInterceptor);
+    TokenRepository provideTokenSource(Context context,
+                                       DeviceIdentifier deviceIdentifier,
+                                       TokenApi tokenApi,
+                                       Gson gson) {
+        return new TokenRepository(context, deviceIdentifier, tokenApi, gson);
     }
 
     @Provides
@@ -53,14 +63,13 @@ public class WikiRepositoryModule {
     @Provides
     @ApplicationScope
     WikiRepository provideBackendService(TokenRepository tokenRepository,
-                                         UserAgentInterceptor userAgentInterceptor,
                                          WikiDiskCache wikiDiskCache,
-                                         BodyParser bodyParser) {
-        return new LiveWikiRepository(tokenRepository, wikiDiskCache, userAgentInterceptor, bodyParser);
+                                         BodyParser bodyParser,
+                                         WikiApi wikiApi) {
+        return new LiveWikiRepository(tokenRepository, wikiDiskCache, bodyParser, wikiApi);
     }
 
     @Provides
-    @ElementsIntoSet
     Set<AppParser> provideAppParsers(EncodingFixer encodingFixer) {
         Set<AppParser> appParsers = new HashSet<>();
         appParsers.add(new NameColumnParser(encodingFixer));
@@ -80,4 +89,29 @@ public class WikiRepositoryModule {
     EncodingFixer provideEncodingFixer() {
         return new EncodingFixer();
     }
+
+    @Provides
+    @ApplicationScope
+    WikiApi provideWikiApi(OkHttpClient client) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(WikiApi.BASEURL)
+                .build();
+        return retrofit.create(WikiApi.class);
+    }
+
+    @Provides
+    @ApplicationScope
+    TokenApi provideTokenApi(OkHttpClient client) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(TokenApi.BASEURL)
+                .build();
+        return retrofit.create(TokenApi.class);
+    }
+
 }

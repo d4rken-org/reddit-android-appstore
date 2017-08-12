@@ -5,15 +5,10 @@ import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.functions.Function;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import subreddit.android.appstore.backend.DeadLinkException;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.Download;
@@ -23,7 +18,12 @@ import subreddit.android.appstore.backend.scrapers.ScrapeResult;
 import timber.log.Timber;
 
 public class GPlayScraper implements MediaScraper {
-    final OkHttpClient client = new OkHttpClient();
+    // TODO: okhttp
+    final OkHttpClient client;
+
+    public GPlayScraper(OkHttpClient client) {
+        this.client = client;
+    }
 
     @NonNull
     @Override

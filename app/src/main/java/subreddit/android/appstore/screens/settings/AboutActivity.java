@@ -23,6 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.BuildConfig;
 import subreddit.android.appstore.R;
+import subreddit.android.appstore.backend.github.GithubApi;
 import subreddit.android.appstore.backend.github.GithubRepository;
 import subreddit.android.appstore.util.ui.BaseActivity;
 import timber.log.Timber;
@@ -89,7 +90,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        githubRepository = AppStoreApp.Injector.INSTANCE.getAppComponent().selfUpdater();
+        githubRepository = AppStoreApp.Injector.INSTANCE.getAppComponent().githubRepository();
 
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
@@ -119,7 +120,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
                 .observeOn(Schedulers.computation())
                 .map(data -> {
                     ContributorData contributorData = new ContributorData();
-                    for (GithubRepository.Contributor c : data) {
+                    for (GithubApi.Contributor c : data) {
                         Timber.d("Contributor: %s", c.toString());
                         contributorData.addContributor(c.username);
                     }
