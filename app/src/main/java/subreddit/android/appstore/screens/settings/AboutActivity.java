@@ -38,7 +38,6 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
 
     protected static final String GITHUB_URL = "https://www.github.com/";
     protected static final String BUG_URL = "https://github.com/d4rken/reddit-android-appstore/issues";
-    protected static final String SUBMIT_APP_URL = "https://androidflair.github.io/wikiapps/";
     GithubRepository githubRepository;
 
     NavigationView.OnNavigationItemSelectedListener contributorListener = new NavigationView.OnNavigationItemSelectedListener() {
@@ -76,10 +75,6 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
                         .setTitle(R.string.licenses)
                         .build()
                         .show();
-                break;
-            }
-            case R.id.submitapp: {
-                openInChrome(SUBMIT_APP_URL);
                 break;
             }
         }
