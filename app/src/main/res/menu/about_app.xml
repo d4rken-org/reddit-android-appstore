@@ -17,6 +17,11 @@
             android:id="@+id/reportbug"
             android:title="@string/bugreport" />
 
+        <item
+            android:icon="@drawable/ic_send_black_48px"
+            android:id="@+id/submitapp"
+            android:title="@string/submitapp" />
+
     </group>
 
 </menu>
