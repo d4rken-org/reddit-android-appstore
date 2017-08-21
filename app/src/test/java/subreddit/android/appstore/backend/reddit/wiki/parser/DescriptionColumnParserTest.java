@@ -31,8 +31,19 @@ public class DescriptionColumnParserTest {
                 return invocation.getArgument(0);
             }
         });
+        when(encodingFixer.convertStringToHtml(anyString())).then(new Answer<String>() {
+            public String answer(InvocationOnMock invocation) throws Throwable {
+                return invocation.getArgument(0);
+            }
+        });
+        when(encodingFixer.convertSubredditsToLinks(anyString())).then(new Answer<String>() {
+            public String answer(InvocationOnMock invocation) throws Throwable {
+                return invocation.getArgument(0);
+            }
+        });
         parser = new DescriptionColumnParser(encodingFixer);
     }
+
     @Test
     public void testParse() throws IOException {
         String rawDescriptionData = "This is a description";
@@ -43,16 +54,5 @@ public class DescriptionColumnParserTest {
 
         assertFalse(appInfo.getDescription().isEmpty());
         assertEquals("This is a description", appInfo.getDescription());
-    }
-
-    @Test
-    public void testParse_withMarkdown() throws IOException {
-        String rawDescriptionData = "";
-        Map<AppParser.Column, String> rawColumnMap = new HashMap<>();
-        rawColumnMap.put(AppParser.Column.DESCRIPTION, rawDescriptionData);
-        AppInfo appInfo = new AppInfo();
-        parser.parse(appInfo, rawColumnMap);
-
-        //TODO: Implement markdown parsing in DescriptionColumnParser as well
     }
 }
