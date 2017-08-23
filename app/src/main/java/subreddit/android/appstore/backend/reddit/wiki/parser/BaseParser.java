@@ -12,7 +12,7 @@ public abstract class BaseParser implements AppParser {
     }
 
     String fixMarkdown(String input) {
-        return encodingFixer.convertStringToHtml(input);
+        return encodingFixer.convertMarkdownToHtml(input);
     }
 
     String convertSubredditsToLinks(String input) {

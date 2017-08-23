@@ -228,9 +228,11 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         downloads = new ArrayList<>(appInfo.getDownloads());
         contacts = new ArrayList<>(appInfo.getContacts());
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             description.setText(Html.fromHtml(appInfo.getDescription(), Html.FROM_HTML_MODE_COMPACT));
-        else description.setText(Html.fromHtml(appInfo.getDescription()));
+        } else {
+            description.setText(Html.fromHtml(appInfo.getDescription()));
+        }
         description.setMovementMethod(LinkMovementMethod.getInstance());
 
         tagContainer.removeAllViews();

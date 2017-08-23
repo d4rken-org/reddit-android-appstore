@@ -94,9 +94,11 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
         public void bind(AppInfo item) {
             appName.setText(item.getAppName());
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 description.setText(Html.fromHtml(item.getDescription(), Html.FROM_HTML_MODE_COMPACT));
-            else description.setText(Html.fromHtml(item.getDescription()));
+            } else {
+                description.setText(Html.fromHtml(item.getDescription()));
+            }
 
             if (PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(SettingsActivity.PREF_KEY_LOAD_MEDIA, true)) {
                 iconFrame.setVisibility(View.VISIBLE);

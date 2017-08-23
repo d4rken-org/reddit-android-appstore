@@ -23,25 +23,25 @@ public class EncodingFixerTest {
     }
 
     @Test
-    public void testConvertStringToHtml() {
-        String output = encodingFixer.convertStringToHtml("");
+    public void testConvertMarkdownToHtml() {
+        String output = encodingFixer.convertMarkdownToHtml("");
         assertEquals("", output);
 
-        output = encodingFixer.convertStringToHtml("This description has no markdown");
+        output = encodingFixer.convertMarkdownToHtml("This description has no markdown");
         assertEquals("This description has no markdown", output);
     }
 
     @Test
-    public void testConvertStringToHtml_bold() {
-        String output = encodingFixer.convertStringToHtml(descriptionBoldMarkdown);
+    public void testConvertMarkdownToHtml_bold() {
+        String output = encodingFixer.convertMarkdownToHtml(descriptionBoldMarkdown);
         assertEquals("New ingenious full feature Reddit client. <b>Read AMA in magazine" +
                 "style QA format.</b> Add upcoming AMA to your calendar. <b>Only app with Text to " +
                 "Speech: Listen to the content.</b> Zero wait, streams all GIF instantly.", output);
     }
 
     @Test
-    public void testConvertStringToHtml_link() {
-        String output = encodingFixer.convertStringToHtml(descriptionLinkMarkdown);
+    public void testConvertMarkdownToHtml_link() {
+        String output = encodingFixer.convertMarkdownToHtml(descriptionLinkMarkdown);
         assertEquals("Tutorial screencast for " +
                 "<a href=\"https://www.propellerheads.se/products/reason/\">" +
                 "Propellerheads Reason</a> and <a href=\"https://www.google.com\">Link 2</a>", output);

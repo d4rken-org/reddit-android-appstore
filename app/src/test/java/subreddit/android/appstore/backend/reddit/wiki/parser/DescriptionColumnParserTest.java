@@ -31,7 +31,7 @@ public class DescriptionColumnParserTest {
                 return invocation.getArgument(0);
             }
         });
-        when(encodingFixer.convertStringToHtml(anyString())).then(new Answer<String>() {
+        when(encodingFixer.convertMarkdownToHtml(anyString())).then(new Answer<String>() {
             public String answer(InvocationOnMock invocation) throws Throwable {
                 return invocation.getArgument(0);
             }

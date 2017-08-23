@@ -53,7 +53,8 @@ public class FakeWikiRepository implements WikiRepository {
             AppInfo app3 = new AppInfo();
             app3.setAppName("Markdown Test");
             app3.setDescription(
-                    encodingFixer.convertStringToHtml("Tutorial **screencast** for [Propellerheads Reason](https://www.propellerheads.se/products/reason/)"));
+                    encodingFixer.convertStringToHtml("Tutorial **screencast** for [Propellerheads Reason](https://www.propellerheads.se/products/reason/)")
+            );
             app3.setCategories(new ArrayList<String>(Arrays.asList("Testing", "Examples", "Descriptions")));
             app3.addTag(AppTags.WEAR);
             app3.addTag(AppTags.PAID);
@@ -64,7 +65,8 @@ public class FakeWikiRepository implements WikiRepository {
             AppInfo app4 = new AppInfo();
             app4.setAppName("Subreddit Link Conversion Test");
             app4.setDescription(
-                    encodingFixer.convertSubredditsToLinks("Wow! /r/Android is the bestest ever."));
+                    encodingFixer.convertSubredditsToLinks("Wow! /r/Android is the bestest ever.")
+            );
             app4.setCategories(new ArrayList<String>(Arrays.asList("Testing", "Examples", "Descriptions")));
             app4.addTag(AppTags.WEAR);
             app4.addTag(AppTags.PAID);
