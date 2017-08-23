@@ -53,7 +53,7 @@ public class FakeWikiRepository implements WikiRepository {
             AppInfo app3 = new AppInfo();
             app3.setAppName("Markdown Test");
             app3.setDescription(
-                    encodingFixer.convertStringToHtml("Tutorial **screencast** for [Propellerheads Reason](https://www.propellerheads.se/products/reason/)")
+                    encodingFixer.convertMarkdownToHtml("Tutorial **screencast** for [Propellerheads Reason](https://www.propellerheads.se/products/reason/)")
             );
             app3.setCategories(new ArrayList<String>(Arrays.asList("Testing", "Examples", "Descriptions")));
             app3.addTag(AppTags.WEAR);
