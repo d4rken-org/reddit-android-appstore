@@ -57,5 +57,5 @@
         <item>2</item>
     </string-array>
  <string name="no_download_client">Nessun client disponibile per questo download</string>
- <string name="submitapp">Suggerisci un'app</string>
+ <string name="submitapp">Suggerisci un\'app</string>
 </resources>
