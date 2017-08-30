@@ -116,7 +116,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
                                 if (flagMessage.getText().toString().isEmpty()) {
                                     Toast.makeText(getContext(), getContext().getResources().getString(R.string.no_message), Toast.LENGTH_LONG).show();
                                 } else {
-                                    openInChrome(REDDIT_MSG_URL_HEADER + "*****" + toolbar.getSubtitle() +" REPORT" + "*****" + "%0A" +(flagMessage.getText().toString().trim()));
+                                    openInChrome(REDDIT_MSG_URL_HEADER + "*****" + primaryTitle.getText() +" REPORT" + "*****" + "%0A" +(flagMessage.getText().toString().trim()));
                                 }
                             }
                         })
@@ -138,7 +138,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
+        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
         toolbar.setNavigationOnClickListener(this);
         toolbar.inflateMenu(R.menu.appdetails_fragment);
         toolbar.setOnMenuItemClickListener(this);
@@ -245,7 +245,6 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
             tagContainer.addView(tv);
         }
         tagContainer.setVisibility(appInfo.getTags().isEmpty() ? View.GONE : View.VISIBLE);
-        toolbar.setSubtitle(appInfo.getAppName());
         createMenus();
 
     }
