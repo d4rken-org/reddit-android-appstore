@@ -9,7 +9,7 @@
     <string name="gplay">Google Play</string>
     <string name="fdroid">F-Droid</string>
     <string name="website">Sito web</string>
-    <string name="mail">E-Mail</string>
+    <string name="mail">Email</string>
     <string name="reddit">Reddit</string>
     <string name="twitter">Twitter</string>
     <string name="instagram">Instagram</string>
@@ -24,31 +24,31 @@
     <string name="appearance">Aspetto</string>
     <string name="preference_theme">Tema</string>
     <string name="preference_theme_desc">Tema da usare</string>
-    <string name="restart">È necessario riavviare per cambiare tema</string>
+    <string name="restart">È necessario riavviare per cambiare il tema</string>
     <string name="later">Dopo</string>
     <string name="app_category_everything">Tutto</string>
-    <string name="error">Errore nell\'ottenere il repository</string>
+    <string name="app_category_new">Nuovo</string>
     <string name="view_update">Mostra aggiornamenti</string>
+    <string name="error">Errore nell\'ottenere il repository</string>
     <string name="data_options">Opzioni dei dati</string>
     <string name="screenshots">Screenshot</string>
     <string name="data_option_loadmedia_title">Icone e schermate</string>
     <string name="data_option_loadmedia_summary">Carica icone e schermate delle app</string>
     <string name="update">Aggiornamento disponibile</string>
-    <string name="update_confirm">Aggiornamento</string>
     <string name="update_error">Errore nel controllo degli aggiornamenti</string>
+    <string name="update_confirm">Aggiorna</string>
+    <string name="cancel">Annulla</string>
     <string name="flag">Segnala app</string>
     <string name="no_message">Inserisci un messaggio</string>
+    <string name="no_email_client">Nessun client email disponibile</string>
     <string name="flag_text">Per favore descrivi perché stai segnalando quest\'app. Sarai reindirizzato su Reddit per inviare un messaggio ai moderatori di /r/Android</string>
     <plurals name="x_items">
-        <item quantity="one">%s item</item>
-        <item quantity="other">%s items</item>
+        <item quantity="one">%s elemento</item>
+        <item quantity="other">%s elementi</item>
     </plurals>
-    <string name="app_category_new">Nuovo</string>
-    <string name="no_email_client">Nessun client di posta elettronica disponibile</string>
-    <string name="submitapp">Submit an App</string>
-    <string-array name="themes">
-        <item>Light</item>
-        <item>Dark</item>
+        <string-array name="themes">
+        <item>Chiaro</item>
+        <item>Scuro</item>
         <item>AMOLED</item>
     </string-array>
     <string-array name="themesValues">
@@ -56,4 +56,6 @@
         <item>1</item>
         <item>2</item>
     </string-array>
+ <string name="no_download_client">Nessun client disponibile per questo download</string>
+ <string name="submitapp">Suggerisci un'app</string>
 </resources>
