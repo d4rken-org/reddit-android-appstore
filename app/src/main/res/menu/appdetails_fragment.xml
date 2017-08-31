@@ -3,9 +3,8 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_contact"
-        android:icon="@drawable/ic_email_white_24dp"
         android:title="@string/button_contact"
-        app:showAsAction="always"/>
+        app:showAsAction="never"/>
     <item
         android:id="@+id/menu_flag"
         android:title="@string/flag"
