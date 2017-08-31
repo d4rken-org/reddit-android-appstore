@@ -3,7 +3,7 @@ notifications:
 
 env:
   matrix:
-    - API=android-21 ABI=armeabi-v7a
+    - API=android-22 ABI=armeabi-v7a
 
 language: android
 jdk:
