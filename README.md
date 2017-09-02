@@ -1,10 +1,23 @@
 # /r/Android App Store
 [![Project License](https://img.shields.io/badge/license-Apache--2.0-blue.svg?style=flat-square)](LICENSE)
-[![Build Status](https://travis-ci.org/d4rken/reddit-android-appstore.svg?branch=dev)](https://travis-ci.org/d4rken/reddit-android-appstore) [![Coverage Status](https://coveralls.io/repos/github/d4rken/reddit-android-appstore/badge.svg)](https://coveralls.io/github/d4rken/reddit-android-appstore)
+[![Build Status](https://travis-ci.org/d4rken/reddit-android-appstore.svg?branch=dev)](https://travis-ci.org/d4rken/reddit-android-appstore)
+[![Coverage Status](https://coveralls.io/repos/github/d4rken/reddit-android-appstore/badge.svg)](https://coveralls.io/github/d4rken/reddit-android-appstore)
 
 App inspired by [this reddit post](https://redd.it/50rafp)
 
-Pulls the curated app list from the [/r/Android wiki](https://www.reddit.com/r/android/wiki/apps) and displays.
+Displays the curated app list from the [/r/Android wiki](https://www.reddit.com/r/android/wiki/apps).
+
+## Features
+* Filter by category (Apps, Games, etc.) and traits (New, Free, Phone, Wear, etc.)
+* Search through the apps list
+* View screenshots and read brief summaries of each app
+* Go straight to each app's download page
+* Night and AMOLED themes
+* ...and more!
+
+## Screenshots
+From commit [269d4fa](https://github.com/d4rken/reddit-android-appstore/commit/269d4fab0fd2a4553c7d51dcaaf5da82de3883a3)
+![](art/preview-v080.png)
 
 ## How to Contribute
 * Make sure there is an issue for what you are working on __(create one if necessary)__
@@ -15,12 +28,8 @@ Pulls the curated app list from the [/r/Android wiki](https://www.reddit.com/r/a
 
 ## Questions?
 [Create an issue](https://github.com/d4rken/reddit-android-appstore/issues/new)
+
 [Submit your App](https://androidflair.github.io/wikiapps/)
-
-## Screenshots
-From commit [36e4daa](https://github.com/d4rken/reddit-android-appstore/commit/36e4daaa4a1f9969917c3fc3833213d68c684bf4)
-
-![](art/preview.png)
 
 ## License
 ```
