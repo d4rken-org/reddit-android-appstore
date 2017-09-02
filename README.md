@@ -17,7 +17,6 @@ Displays the curated app list from the [/r/Android wiki](https://www.reddit.com/
 
 ## Screenshots
 From commit [269d4fa](https://github.com/d4rken/reddit-android-appstore/commit/269d4fab0fd2a4553c7d51dcaaf5da82de3883a3)
-
 ![](art/preview-v080.png)
 
 ## How to Contribute
