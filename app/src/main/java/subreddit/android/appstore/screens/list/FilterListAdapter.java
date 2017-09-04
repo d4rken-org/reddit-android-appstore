@@ -31,26 +31,13 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
 
     public FilterListAdapter(final FilterListener filterListener) {
         setItemClickListener((view, position, itemId) -> {
-            //If selected tag is FREE, make sure paid is removed from selectedItems before it is added
+
             if (data.get(position) == AppTags.FREE) {
-                //Find 'PAID' in selectedItems and remove it
-                for (int i = 0; i < selectedItems.size(); i++) {
-                    int key = selectedItems.keyAt(i);
-                    if (data.get(key) == AppTags.PAID) {
-                        selectedItems.delete(key);
-                        notifyDataSetChanged();
-                    }
-                }
+                deselectTag(AppTags.PAID);
             } else if (data.get(position) == AppTags.PAID) {
-                //Find 'FREE' in selectedItems and remove it
-                for (int i = 0; i < selectedItems.size(); i++) {
-                    int key = selectedItems.keyAt(i);
-                    if (data.get(key) == AppTags.FREE) {
-                        selectedItems.delete(key);
-                        notifyDataSetChanged();
-                    }
-                }
+                deselectTag(AppTags.FREE);
             }
+
             selectedItems.put(position, !selectedItems.get(position));
             notifyItemChanged(position);
             Collection<AppTags> activeAppTagses = new ArrayList<>();
@@ -104,4 +91,15 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
             checkBox.setChecked(checked);
         }
     }
+
+    private void deselectTag(AppTags tag) {
+        for (int i = 0; i < selectedItems.size(); i++) {
+            int key = selectedItems.keyAt(i);
+            if (data.get(key) == tag) {
+                selectedItems.delete(key);
+                notifyDataSetChanged();
+            }
+        }
+    }
+
 }
