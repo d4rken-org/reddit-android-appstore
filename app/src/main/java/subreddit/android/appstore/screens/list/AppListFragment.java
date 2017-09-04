@@ -229,10 +229,6 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
         return true;
     }
 
-    private boolean isTagFilterDrawerOpen() {
-        return drawerLayout.isDrawerOpen(GravityCompat.END);
-    }
-
     private void toggleTagFilterDrawer() {
         if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
             drawerLayout.closeDrawer(GravityCompat.END);
