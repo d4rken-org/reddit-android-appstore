@@ -139,7 +139,7 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
         if (buildFromGithub()) {
             builder.setMessage(message + desc);
         } else {
-            builder.setMessage(message + desc + "\n" + R.string.build_from_fdroid);
+            builder.setMessage(message + R.string.build_from_fdroid + "\n" + desc);
         }
 
         builder.setPositiveButton(R.string.update_confirm, (dialog, id) -> getPresenter().downloadUpdate(release));
