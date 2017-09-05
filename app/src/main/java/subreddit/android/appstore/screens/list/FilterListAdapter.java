@@ -22,7 +22,6 @@ import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.screens.settings.SettingsActivity;
 import subreddit.android.appstore.util.ui.BaseAdapter;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
-import timber.log.Timber;
 
 
 public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder> {
@@ -118,7 +117,6 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
         SharedPreferences prefs =
                 PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         SharedPreferences.Editor editor = prefs.edit();
-        Timber.d("ROBERT: Saving selected filters");
 
         for(int i = 0; i < AppTags.values().length; i++) {
             editor.putBoolean("savedTags_" + i, selectedItems.get(i, false));
@@ -137,7 +135,6 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
                 savedTagsArray.put(i, prefs.getBoolean("savedTags_" + i, false));
             }
         }
-        Timber.d("ROBERT: Loaded saved filters" + savedTagsArray.toString());
 
         return savedTagsArray;
     }
@@ -165,7 +162,6 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
         } else {
             selectedItems = new SparseBooleanArray(AppTags.values().length);
         }
-        Timber.d("ROBERT: Active tags are " + getActiveAppTags().toString());
         filterListener.onNewFilterTags(getActiveAppTags());
     }
 

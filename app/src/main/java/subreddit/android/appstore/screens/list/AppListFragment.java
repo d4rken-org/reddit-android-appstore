@@ -46,7 +46,6 @@ import subreddit.android.appstore.util.mvp.PresenterFactory;
 import subreddit.android.appstore.util.ui.BaseActivity;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
 import subreddit.android.appstore.util.ui.DividerItemDecoration;
-import timber.log.Timber;
 
 
 public class AppListFragment extends BasePresenterFragment<AppListContract.Presenter, AppListContract.View>
@@ -239,7 +238,6 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
 
     @Override
     public void onNewFilterTags(Collection<AppTags> appTagses) {
-        Timber.d("ROBERT: Filtering to " + appTagses.toString());
         appTags = appTagses;
         appListAdapter.getFilter().setFilterAppTagses(appTagses);
         appListAdapter.getFilter().filter(appListAdapter.getFilter().getFilterString());
