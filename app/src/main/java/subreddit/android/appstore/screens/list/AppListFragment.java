@@ -46,6 +46,7 @@ import subreddit.android.appstore.util.mvp.PresenterFactory;
 import subreddit.android.appstore.util.ui.BaseActivity;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
 import subreddit.android.appstore.util.ui.DividerItemDecoration;
+import timber.log.Timber;
 
 
 public class AppListFragment extends BasePresenterFragment<AppListContract.Presenter, AppListContract.View>
@@ -116,7 +117,7 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
 
         filterList.setLayoutManager(new LinearLayoutManager(getContext()));
         filterList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
-        filterListAdapter = new FilterListAdapter(this);
+        filterListAdapter = new FilterListAdapter(this, getContext());
         filterList.setAdapter(filterListAdapter);
 
         final FragmentActivity activity = getActivity();
@@ -166,8 +167,7 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     @Override
     public void showAppList(List<AppInfo> appInfos) {
         appListAdapter.setData(appInfos);
-        appListAdapter.getFilter().setFilterAppTagses(appTags);
-        appListAdapter.getFilter().filter(appListAdapter.getFilter().getFilterString());
+        filterListAdapter.setSelectedTagFilters();
         swipeRefresh.setRefreshing(false);
         setHasOptionsMenu(true);
     }
@@ -239,6 +239,7 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
 
     @Override
     public void onNewFilterTags(Collection<AppTags> appTagses) {
+        Timber.d("ROBERT: Filtering to " + appTagses.toString());
         appTags = appTagses;
         appListAdapter.getFilter().setFilterAppTagses(appTagses);
         appListAdapter.getFilter().filter(appListAdapter.getFilter().getFilterString());

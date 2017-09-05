@@ -1,5 +1,8 @@
 package subreddit.android.appstore.screens.list;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,20 +19,29 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import subreddit.android.appstore.R;
 import subreddit.android.appstore.backend.data.AppTags;
+import subreddit.android.appstore.screens.settings.SettingsActivity;
 import subreddit.android.appstore.util.ui.BaseAdapter;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
+import timber.log.Timber;
 
 
 public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder> {
     final List<AppTags> data = Arrays.asList(AppTags.values());
-    final SparseBooleanArray selectedItems = new SparseBooleanArray(AppTags.values().length);
+    final Context context;
+    final FilterListener filterListener;
+    private SparseBooleanArray selectedItems;
     TagMap tagMap = new TagMap();
 
     interface FilterListener {
         void onNewFilterTags(Collection<AppTags> appTagses);
     }
 
-    public FilterListAdapter(final FilterListener filterListener) {
+    public FilterListAdapter(FilterListener filterListener, Context context) {
+        this.context = context;
+        this.filterListener = filterListener;
+
+        setSelectedTagFilters();
+
         setItemClickListener((view, position, itemId) -> {
 
             if (data.get(position) == AppTags.FREE) {
@@ -40,12 +52,12 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
 
             selectedItems.put(position, !selectedItems.get(position));
             notifyItemChanged(position);
-            Collection<AppTags> activeAppTagses = new ArrayList<>();
-            for (int i = 0; i < selectedItems.size(); i++) {
-                int key = selectedItems.keyAt(i);
-                if (selectedItems.get(key)) activeAppTagses.add(data.get(key));
+
+            if (saveTagFiltersSelected()) {
+                saveSelectedTagFilters();
             }
-            filterListener.onNewFilterTags(activeAppTagses);
+
+            filterListener.onNewFilterTags(getActiveAppTags());
             return false;
         });
     }
@@ -100,6 +112,61 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
                 notifyDataSetChanged();
             }
         }
+    }
+
+    private void saveSelectedTagFilters() {
+        SharedPreferences prefs =
+                PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        Timber.d("ROBERT: Saving selected filters");
+
+        for(int i = 0; i < AppTags.values().length; i++) {
+            editor.putBoolean("savedTags_" + i, selectedItems.get(i, false));
+        }
+
+        editor.commit();
+    }
+
+    private SparseBooleanArray getSavedTagFilters() {
+        SharedPreferences prefs =
+                PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        SparseBooleanArray savedTagsArray = new SparseBooleanArray(AppTags.values().length);
+
+        for (int i = 0; i < AppTags.values().length; i++) {
+            if (prefs.getBoolean("savedTags_" + i, false)) {
+                savedTagsArray.put(i, prefs.getBoolean("savedTags_" + i, false));
+            }
+        }
+        Timber.d("ROBERT: Loaded saved filters" + savedTagsArray.toString());
+
+        return savedTagsArray;
+    }
+
+    private Collection<AppTags> getActiveAppTags() {
+        Collection<AppTags> activeAppTagses = new ArrayList<>();
+
+        for (int i = 0; i < selectedItems.size(); i++) {
+            int key = selectedItems.keyAt(i);
+            if (selectedItems.get(key)) activeAppTagses.add(data.get(key));
+        }
+
+        return activeAppTagses;
+    }
+
+    private boolean saveTagFiltersSelected() {
+        SharedPreferences prefs =
+                PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        return prefs.getBoolean(SettingsActivity.PREF_KEY_SAVE_TAG_FILTERS, true);
+    }
+
+    void setSelectedTagFilters() {
+        if (saveTagFiltersSelected()) {
+            selectedItems = getSavedTagFilters();
+        } else {
+            selectedItems = new SparseBooleanArray(AppTags.values().length);
+        }
+        Timber.d("ROBERT: Active tags are " + getActiveAppTags().toString());
+        filterListener.onNewFilterTags(getActiveAppTags());
     }
 
 }
