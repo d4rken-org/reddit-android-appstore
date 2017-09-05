@@ -136,7 +136,5 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
                     }
                     contributor_nav.setNavigationItemSelectedListener(contributorListener);
                 });
-
-        //contributor_nav.getMenu().add("Error").setTitle(R.string.error_contributors);
     }
 }
