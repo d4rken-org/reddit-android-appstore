@@ -18,7 +18,6 @@ import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20;
 import de.psdev.licensesdialog.licenses.BSD2ClauseLicense;
 import de.psdev.licensesdialog.model.Notice;
 import de.psdev.licensesdialog.model.Notices;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.BuildConfig;
@@ -117,7 +116,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
 
     private void listContributors() {
         githubRepository.getContributors()
-                .observeOn(Schedulers.computation())
+                .observeOn(Schedulers.io())
                 .map(data -> {
                     ContributorData contributorData = new ContributorData();
                     for (GithubApi.Contributor c : data) {
@@ -126,12 +125,18 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
                     }
                     return contributorData;
                 })
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(contributorData -> {
+                    if (contributorData.getContributors().size() <1) {
+                        contributor_nav.getMenu().add("Error").setTitle(R.string.error_contributors);
+                        return;
+                    }
+
                     for (String name : contributorData.getContributors()) {
                         contributor_nav.getMenu().add(name).setTitle(name);
                     }
                     contributor_nav.setNavigationItemSelectedListener(contributorListener);
                 });
+
+        //contributor_nav.getMenu().add("Error").setTitle(R.string.error_contributors);
     }
 }
