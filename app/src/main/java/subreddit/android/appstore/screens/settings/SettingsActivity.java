@@ -65,10 +65,11 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
         @Override
         public boolean onPreferenceChange(Preference preference, Object o) {
-            if (preference.getKey().equals("core.options.savetagfilters")
-                    && !((Boolean) o)) {
-                deleteSavedTagFilters();
-                Timber.d("Save selected tags is now " + o);
+            if (preference.getKey().equals("core.options.savetagfilters")) {
+                if (!((Boolean) o)) {
+                    deleteSavedTagFilters();
+                    Timber.d("Save selected tags is now " + o);
+                }
                 return true;
             }
 
