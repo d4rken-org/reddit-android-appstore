@@ -1,10 +1,7 @@
 package subreddit.android.appstore.screens.settings;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -19,7 +16,6 @@ import subreddit.android.appstore.util.ui.BaseActivity;
 
 public class SettingsActivity extends BaseActivity implements View.OnClickListener {
     public static final String PREF_KEY_LOAD_MEDIA = "core.data.loadmedia";
-    protected static final String SUBMIT_APP_URL = "https://androidflair.github.io/wikiapps/";
     @BindView(R.id.settings_toolbar) Toolbar mToolbar;
 
     @Override
@@ -48,7 +44,6 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             addPreferencesFromResource(R.xml.preferences);
             findPreference("about").setOnPreferenceClickListener(this);
-            findPreference("submitapp").setOnPreferenceClickListener(this);
             findPreference("theme").setOnPreferenceChangeListener(this);
         }
 
@@ -72,18 +67,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
         @Override
         public boolean onPreferenceClick(Preference preference) {
-            if (preference.getKey().equals("about"))
-                startActivity(new Intent(getActivity(), AboutActivity.class));
-            else if (preference.getKey().equals("submitapp")) {
-                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                builder.setToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
-                builder.setSecondaryToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
-                CustomTabsIntent customTabsIntent = builder.build();
-                customTabsIntent.launchUrl(getActivity(), Uri.parse(SUBMIT_APP_URL));
-            }
+            startActivity(new Intent(getActivity(), AboutActivity.class));
             return true;
         }
-
-
     }
 }
