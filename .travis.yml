@@ -32,4 +32,4 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
- - ./gradlew clean assemble jacocoTestReport coveralls
+ - ./gradlew clean assemble test connectedAndroidTest coveralls
