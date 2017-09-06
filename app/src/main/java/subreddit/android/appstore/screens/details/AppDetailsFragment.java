@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -56,19 +54,16 @@ import timber.log.Timber;
 
 public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract.Presenter, AppDetailsContract.View>
         implements AppDetailsContract.View, ScreenshotsAdapter.ScreenshotClickedListener, View.OnClickListener, Toolbar.OnMenuItemClickListener {
+    @BindView(R.id.description) TextView description;
+    @BindView(R.id.tag_container) FlowLayout tagContainer;
     @BindView(R.id.download_fab) FloatingActionButton downloadButton;
     @BindView(R.id.details_toolbar) Toolbar toolbar;
-    @BindView(R.id.collapsingToolbar) CollapsingToolbarLayout collapsingToolbar;
-    @BindView(R.id.appbar) AppBarLayout appBar;
-
     @BindView(R.id.icon_frame) View iconFrame;
     @BindView(R.id.icon_image) ImageView iconImage;
     @BindView(R.id.icon_placeholder) View iconPlaceholder;
+    @BindView(R.id.title_primary) TextView primaryTitle;
     @BindView(R.id.title_secondary) TextView secondaryTitle;
-    @BindView(R.id.tag_container) FlowLayout tagContainer;
-
     @BindView(R.id.screenshot_pager) ViewPager screenshotPager;
-    @BindView(R.id.description) TextView description;
 
     private static final String REDDIT_MSG_URL_HEADER="https://www.reddit.com/message/compose/?to=/r/Android&subject=**RAS Flag Report**&message=";
 
@@ -121,7 +116,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
                                 if (flagMessage.getText().toString().isEmpty()) {
                                     Toast.makeText(getContext(), getContext().getResources().getString(R.string.no_message), Toast.LENGTH_LONG).show();
                                 } else {
-                                    openInChrome(REDDIT_MSG_URL_HEADER + "*****" + collapsingToolbar.getTitle() +" REPORT" + "*****" + "%0A" +(flagMessage.getText().toString().trim()));
+                                    openInChrome(REDDIT_MSG_URL_HEADER + "*****" + toolbar.getSubtitle() +" REPORT" + "*****" + "%0A" +(flagMessage.getText().toString().trim()));
                                 }
                             }
                         })
@@ -137,23 +132,13 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_appdetails_layout, container, false);
         unbinder = ButterKnife.bind(this, layout);
-        toolbar.setContentInsetStartWithNavigation(0);
-
-        appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                float scrollRange = (float) appBarLayout.getTotalScrollRange();
-                fadeHeaderItems(scrollRange, verticalOffset);
-            }
-        });
-
         return layout;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
         toolbar.setNavigationOnClickListener(this);
         toolbar.inflateMenu(R.menu.appdetails_fragment);
         toolbar.setOnMenuItemClickListener(this);
@@ -238,7 +223,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
             getActivity().finish();
             return;
         }
-        collapsingToolbar.setTitle(appInfo.getAppName());
+        primaryTitle.setText(appInfo.getAppName());
         secondaryTitle.setText(appInfo.getSecondaryCategory());
         downloads = new ArrayList<>(appInfo.getDownloads());
         contacts = new ArrayList<>(appInfo.getContacts());
@@ -260,6 +245,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
             tagContainer.addView(tv);
         }
         tagContainer.setVisibility(appInfo.getTags().isEmpty() ? View.GONE : View.VISIBLE);
+        toolbar.setSubtitle(appInfo.getAppName());
         createMenus();
 
     }
@@ -330,12 +316,5 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     @Override
     public void onScreenshotClicked(String url) {
         new ScreenshotDialog(getContext(), screenshotUrls, screenshotUrls.indexOf(url)).show();
-    }
-
-    private void fadeHeaderItems(float scrollRange, int verticalOffset) {
-        float fadeFactor = 1.0f - Math.abs(2 * verticalOffset / scrollRange);
-        secondaryTitle.setAlpha(fadeFactor);
-        tagContainer.setAlpha(fadeFactor);
-        iconFrame.setAlpha(fadeFactor);
     }
 }
