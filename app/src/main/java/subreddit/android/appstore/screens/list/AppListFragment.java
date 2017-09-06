@@ -27,6 +27,7 @@ import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     Unbinder unbinder;
     AppListAdapter appListAdapter;
     FilterListAdapter filterListAdapter;
-    Collection<AppTags> appTags;
+    Collection<AppTags> appTags = new ArrayList<>();
 
     private BaseActivity.OnBackKeyPressedListener closeDrawerOnBackKeyListener;
 
@@ -116,7 +117,7 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
 
         filterList.setLayoutManager(new LinearLayoutManager(getContext()));
         filterList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
-        filterListAdapter = new FilterListAdapter(this, getContext());
+        filterListAdapter = new FilterListAdapter(this);
         filterList.setAdapter(filterListAdapter);
 
         final FragmentActivity activity = getActivity();
@@ -166,7 +167,8 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     @Override
     public void showAppList(List<AppInfo> appInfos) {
         appListAdapter.setData(appInfos);
-        filterListAdapter.setSelectedTagFilters();
+        appListAdapter.getFilter().setFilterAppTagses(appTags);
+        appListAdapter.getFilter().filter(appListAdapter.getFilter().getFilterString());
         swipeRefresh.setRefreshing(false);
         setHasOptionsMenu(true);
     }
@@ -241,5 +243,14 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
         appTags = appTagses;
         appListAdapter.getFilter().setFilterAppTagses(appTagses);
         appListAdapter.getFilter().filter(appListAdapter.getFilter().getFilterString());
+    }
+
+    @Override
+    public void restoreSelectedTags(Collection<AppTags> appTags) {
+        filterListAdapter.setSelectedItems(appTags);
+    }
+
+    public Collection<AppTags> getSelectedTags() {
+        return appTags;
     }
 }

@@ -1,8 +1,5 @@
 package subreddit.android.appstore.screens.list;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,27 +16,22 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import subreddit.android.appstore.R;
 import subreddit.android.appstore.backend.data.AppTags;
-import subreddit.android.appstore.screens.settings.SettingsActivity;
 import subreddit.android.appstore.util.ui.BaseAdapter;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
 
 
 public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder> {
     final List<AppTags> data = Arrays.asList(AppTags.values());
-    final Context context;
     final FilterListener filterListener;
-    private SparseBooleanArray selectedItems;
+    private SparseBooleanArray selectedItems = new SparseBooleanArray(AppTags.values().length);;
     TagMap tagMap = new TagMap();
 
     interface FilterListener {
         void onNewFilterTags(Collection<AppTags> appTagses);
     }
 
-    public FilterListAdapter(FilterListener filterListener, Context context) {
-        this.context = context;
+    public FilterListAdapter(FilterListener filterListener) {
         this.filterListener = filterListener;
-
-        setSelectedTagFilters();
 
         setItemClickListener((view, position, itemId) -> {
 
@@ -51,10 +43,6 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
 
             selectedItems.put(position, !selectedItems.get(position));
             notifyItemChanged(position);
-
-            if (saveTagFiltersSelected()) {
-                saveSelectedTagFilters();
-            }
 
             filterListener.onNewFilterTags(getActiveAppTags());
             return false;
@@ -86,6 +74,21 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
         return data.size();
     }
 
+    public void setSelectedItems(Collection<AppTags> appTags) {
+        boolean changed = false;
+        for (int i = 0; i < AppTags.values().length; i++) {
+            if (appTags.contains(data.get(i))) {
+                selectedItems.put(i, true);
+                changed = true;
+            }
+        }
+
+        if (changed) {
+            notifyDataSetChanged();
+            filterListener.onNewFilterTags(getActiveAppTags());
+        }
+    }
+
     static class ViewHolder extends BaseViewHolder {
         @BindView(R.id.tagname) TextView tagName;
         @BindView(R.id.tagcount) TextView tagCount;
@@ -113,32 +116,6 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
         }
     }
 
-    private void saveSelectedTagFilters() {
-        SharedPreferences prefs =
-                PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        SharedPreferences.Editor editor = prefs.edit();
-
-        for(int i = 0; i < AppTags.values().length; i++) {
-            editor.putBoolean("savedTags_" + i, selectedItems.get(i, false));
-        }
-
-        editor.commit();
-    }
-
-    private SparseBooleanArray getSavedTagFilters() {
-        SharedPreferences prefs =
-                PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        SparseBooleanArray savedTagsArray = new SparseBooleanArray(AppTags.values().length);
-
-        for (int i = 0; i < AppTags.values().length; i++) {
-            if (prefs.getBoolean("savedTags_" + i, false)) {
-                savedTagsArray.put(i, prefs.getBoolean("savedTags_" + i, false));
-            }
-        }
-
-        return savedTagsArray;
-    }
-
     private Collection<AppTags> getActiveAppTags() {
         Collection<AppTags> activeAppTagses = new ArrayList<>();
 
@@ -148,21 +125,6 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
         }
 
         return activeAppTagses;
-    }
-
-    private boolean saveTagFiltersSelected() {
-        SharedPreferences prefs =
-                PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        return prefs.getBoolean(SettingsActivity.PREF_KEY_SAVE_TAG_FILTERS, true);
-    }
-
-    void setSelectedTagFilters() {
-        if (saveTagFiltersSelected()) {
-            selectedItems = getSavedTagFilters();
-        } else {
-            selectedItems = new SparseBooleanArray(AppTags.values().length);
-        }
-        filterListener.onNewFilterTags(getActiveAppTags());
     }
 
 }
