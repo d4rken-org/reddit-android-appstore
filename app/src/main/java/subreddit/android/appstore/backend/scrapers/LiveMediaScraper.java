@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.util.LruCache;
 
 import io.reactivex.Observable;
-import okhttp3.OkHttpClient;
+import io.reactivex.functions.Consumer;
 import subreddit.android.appstore.backend.UnsupportedScrapeTargetException;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.Download;
@@ -16,11 +16,10 @@ import timber.log.Timber;
 public class LiveMediaScraper implements MediaScraper {
     final LruCache<AppInfo, Observable<ScrapeResult>> scrapeCache = new LruCache<>(1);
     final ScrapeDiskCache scrapeDiskCache;
-    final GPlayScraper gPlayScraper;
+    final GPlayScraper gPlayScraper = new GPlayScraper();
 
-    public LiveMediaScraper(ScrapeDiskCache scrapeDiskCache, OkHttpClient client) {
+    public LiveMediaScraper(ScrapeDiskCache scrapeDiskCache) {
         this.scrapeDiskCache = scrapeDiskCache;
-        this.gPlayScraper = new GPlayScraper(client);
     }
 
     @NonNull

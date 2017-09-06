@@ -8,7 +8,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import subreddit.android.appstore.BuildConfig;
 import subreddit.android.appstore.backend.data.AppInfo;
-import subreddit.android.appstore.backend.github.GithubApi;
 import subreddit.android.appstore.backend.github.GithubRepository;
 import subreddit.android.appstore.backend.reddit.wiki.WikiRepository;
 import subreddit.android.appstore.util.VersionHelper;
@@ -23,7 +22,7 @@ public class NavigationPresenter implements NavigationContract.Presenter {
     private Disposable categoryUpdater;
     CategoryFilter currentCategoryFilter = new CategoryFilter();
     Disposable updateCheck;
-    GithubApi.Release release;
+    GithubRepository.Release release;
 
     public NavigationPresenter(WikiRepository repository, GithubRepository githubRepository) {
         this.repository = repository;
@@ -55,7 +54,7 @@ public class NavigationPresenter implements NavigationContract.Presenter {
         githubRepository.getLatestRelease()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<GithubApi.Release>() {
+                .subscribe(new Observer<GithubRepository.Release>() {
 
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -63,7 +62,7 @@ public class NavigationPresenter implements NavigationContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(GithubApi.Release release) {
+                    public void onNext(GithubRepository.Release release) {
                         NavigationPresenter.this.release = release;
                         if (VersionHelper.versionCompare(BuildConfig.VERSION_NAME, release.tagName) < 0) {
                             Timber.d("Update available, current: %s, new: %s", BuildConfig.VERSION_NAME, release.tagName);
@@ -108,13 +107,13 @@ public class NavigationPresenter implements NavigationContract.Presenter {
     }
 
     @Override
-    public void downloadUpdate(GithubApi.Release release) {
+    public void downloadUpdate(GithubRepository.Release release) {
         // TODO we could directory use Androids DownloadManager.class
         view.showDownload(release.assets.get(0).downloadUrl);
     }
 
     @Override
-    public void buildChangelog(GithubApi.Release release) {
+    public void buildChangelog(GithubRepository.Release release) {
         view.showChangelog(release);
     }
 }
