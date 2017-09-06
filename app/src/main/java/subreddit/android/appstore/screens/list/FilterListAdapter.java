@@ -22,43 +22,29 @@ import subreddit.android.appstore.util.ui.BaseViewHolder;
 
 public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder> {
     final List<AppTags> data = Arrays.asList(AppTags.values());
-    final SparseBooleanArray selectedItems = new SparseBooleanArray(AppTags.values().length);
+    final FilterListener filterListener;
+    private SparseBooleanArray selectedItems = new SparseBooleanArray(AppTags.values().length);;
     TagMap tagMap = new TagMap();
 
     interface FilterListener {
         void onNewFilterTags(Collection<AppTags> appTagses);
     }
 
-    public FilterListAdapter(final FilterListener filterListener) {
+    public FilterListAdapter(FilterListener filterListener) {
+        this.filterListener = filterListener;
+
         setItemClickListener((view, position, itemId) -> {
-            //If selected tag is FREE, make sure paid is removed from selectedItems before it is added
+
             if (data.get(position) == AppTags.FREE) {
-                //Find 'PAID' in selectedItems and remove it
-                for (int i = 0; i < selectedItems.size(); i++) {
-                    int key = selectedItems.keyAt(i);
-                    if (data.get(key) == AppTags.PAID) {
-                        selectedItems.delete(key);
-                        notifyDataSetChanged();
-                    }
-                }
+                deselectTag(AppTags.PAID);
             } else if (data.get(position) == AppTags.PAID) {
-                //Find 'FREE' in selectedItems and remove it
-                for (int i = 0; i < selectedItems.size(); i++) {
-                    int key = selectedItems.keyAt(i);
-                    if (data.get(key) == AppTags.FREE) {
-                        selectedItems.delete(key);
-                        notifyDataSetChanged();
-                    }
-                }
+                deselectTag(AppTags.FREE);
             }
+
             selectedItems.put(position, !selectedItems.get(position));
             notifyItemChanged(position);
-            Collection<AppTags> activeAppTagses = new ArrayList<>();
-            for (int i = 0; i < selectedItems.size(); i++) {
-                int key = selectedItems.keyAt(i);
-                if (selectedItems.get(key)) activeAppTagses.add(data.get(key));
-            }
-            filterListener.onNewFilterTags(activeAppTagses);
+
+            filterListener.onNewFilterTags(getActiveAppTags());
             return false;
         });
     }
@@ -88,6 +74,21 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
         return data.size();
     }
 
+    public void setSelectedItems(Collection<AppTags> appTags) {
+        boolean changed = false;
+        for (int i = 0; i < AppTags.values().length; i++) {
+            if (appTags.contains(data.get(i))) {
+                selectedItems.put(i, true);
+                changed = true;
+            }
+        }
+
+        if (changed) {
+            notifyDataSetChanged();
+            filterListener.onNewFilterTags(getActiveAppTags());
+        }
+    }
+
     static class ViewHolder extends BaseViewHolder {
         @BindView(R.id.tagname) TextView tagName;
         @BindView(R.id.tagcount) TextView tagCount;
@@ -104,4 +105,26 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
             checkBox.setChecked(checked);
         }
     }
+
+    private void deselectTag(AppTags tag) {
+        for (int i = 0; i < selectedItems.size(); i++) {
+            int key = selectedItems.keyAt(i);
+            if (data.get(key) == tag) {
+                selectedItems.delete(key);
+                notifyDataSetChanged();
+            }
+        }
+    }
+
+    private Collection<AppTags> getActiveAppTags() {
+        Collection<AppTags> activeAppTagses = new ArrayList<>();
+
+        for (int i = 0; i < selectedItems.size(); i++) {
+            int key = selectedItems.keyAt(i);
+            if (selectedItems.get(key)) activeAppTagses.add(data.get(key));
+        }
+
+        return activeAppTagses;
+    }
+
 }
