@@ -39,5 +39,4 @@
     <string name="website">Веб-сайт</string>
     <string name="app_category_new">новый</string>
     <string name="no_email_client">Отсутствует клиент электронной почты</string>
-    <string name="submitapp">Submit an App</string>
 </resources>

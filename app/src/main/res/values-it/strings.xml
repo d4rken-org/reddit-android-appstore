@@ -45,7 +45,6 @@
     </plurals>
     <string name="app_category_new">Nuovo</string>
     <string name="no_email_client">Nessun client di posta elettronica disponibile</string>
-    <string name="submitapp">Submit an App</string>
     <string-array name="themes">
         <item>Light</item>
         <item>Dark</item>
