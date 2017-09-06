@@ -7,7 +7,6 @@ import subreddit.android.appstore.backend.github.GithubRepository;
 import subreddit.android.appstore.backend.github.GithubRepositoryModule;
 import subreddit.android.appstore.backend.reddit.wiki.WikiRepository;
 import subreddit.android.appstore.backend.reddit.wiki.WikiRepositoryModule;
-import subreddit.android.appstore.backend.reddit.wiki.parser.BodyParser;
 import subreddit.android.appstore.backend.scrapers.MediaScraper;
 import subreddit.android.appstore.backend.scrapers.ScraperModule;
 import subreddit.android.appstore.util.dagger.ApplicationScope;
@@ -28,6 +27,4 @@ public interface AppComponent {
     MediaScraper mediaScraper();
 
     GithubRepository selfUpdater();
-
-    void inject(BodyParser bodyParser);
 }

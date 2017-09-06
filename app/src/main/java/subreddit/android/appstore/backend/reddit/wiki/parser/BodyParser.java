@@ -6,22 +6,22 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.inject.Inject;
 
 import subreddit.android.appstore.backend.data.AppInfo;
 
 public class BodyParser {
-    Set<AppParser> appParsers;
-    CategoryParser categoryParser;
+    private final List<AppParser> appParsers = new ArrayList<>();
+    private final CategoryParser categoryParser;
 
-    @Inject
-    public BodyParser(CategoryParser categoryParser, Set<AppParser> appParsers) {
-        this.appParsers = appParsers;
-        this.categoryParser = categoryParser;
+    public BodyParser(EncodingFixer encodingFixer) {
+        categoryParser = new CategoryParser(encodingFixer);
+        appParsers.add(new NameColumnParser(encodingFixer));
+        appParsers.add(new PriceColumnParser(encodingFixer));
+        appParsers.add(new DeviceColumnParser(encodingFixer));
+        appParsers.add(new DescriptionColumnParser(encodingFixer));
+        appParsers.add(new ContactColumnParser(encodingFixer));
     }
 
     public Collection<AppInfo> parseBody(String bodyString) {
