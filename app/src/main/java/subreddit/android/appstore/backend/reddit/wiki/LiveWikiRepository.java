@@ -1,11 +1,22 @@
 package subreddit.android.appstore.backend.reddit.wiki;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.ReplaySubject;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Query;
+import subreddit.android.appstore.BuildConfig;
+import subreddit.android.appstore.backend.UserAgentInterceptor;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.backend.reddit.TokenRepository;
@@ -15,7 +26,9 @@ import timber.log.Timber;
 
 
 public class LiveWikiRepository implements WikiRepository {
+    static final String BASEURL = " https://oauth.reddit.com/";
     static final int NUMOFREVISIONS = 6;
+    final OkHttpClient client = new OkHttpClient();
     final WikiDiskCache wikiDiskCache;
     final TokenRepository tokenRepository;
     final WikiApi wikiApi;
@@ -25,12 +38,27 @@ public class LiveWikiRepository implements WikiRepository {
 
     public LiveWikiRepository(TokenRepository tokenRepository,
                               WikiDiskCache wikiDiskCache,
-                              BodyParser bodyParser,
-                              WikiApi wikiApi) {
+                              UserAgentInterceptor userAgent,
+                              BodyParser bodyParser) {
         this.tokenRepository = tokenRepository;
         this.wikiDiskCache = wikiDiskCache;
         this.bodyParser = bodyParser;
-        this.wikiApi = wikiApi;
+
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.addInterceptor(interceptor);
+        }
+        builder.addInterceptor(userAgent);
+        OkHttpClient client = builder.build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(BASEURL)
+                .build();
+        wikiApi = retrofit.create(WikiApi.class);
     }
 
     @Override
@@ -104,6 +132,60 @@ public class LiveWikiRepository implements WikiRepository {
     private String saveAuthString(String authString) {
         this.authString = authString;
         return authString;
+    }
+
+    interface WikiApi {
+        @GET("r/Android/wiki/page")
+        Observable<WikiPageResponse> getWikiPage(@Header("Authorization") String authentication,
+                                                 @Query("page") String page);
+
+        @GET("r/Android/wiki/revisions/page&limit")
+        Observable<WikiRevisionsResponse> getWikiRevisions(@Header("Authorization") String authentication,
+                                                           @Query("page") String page,
+                                                           @Query("limit") String lim);
+
+        @GET("r/Android/wiki/page&v")
+        Observable<WikiPageResponse> getWikiRevision(@Header("Authorization") String authentication,
+                                                     @Query("page") String page,
+                                                     @Query("v") String id);
+
+        @GET("r/Android/wiki/page&v&v2")
+        Observable<WikiPageResponse> getWikiRevisionDiff(@Header("Authorization") String authentication,
+                                                         @Query("page") String page,
+                                                         @Query("v") String id1,
+                                                         @Query("v2") String id2);
+    }
+
+    static class WikiPageResponse {
+        String kind;
+        Data data;
+
+        static class Data {
+            long revision_date;
+            String content_md;
+        }
+    }
+
+    static class WikiRevisionsResponse {
+        String kind;
+        Data data;
+
+        static class Data {
+            String modhash;
+            ArrayList<Children> children;
+        }
+
+        static class Children {
+            long timestamp;
+            String reason;
+            Author author;
+            String page;
+            String id;
+        }
+
+        static class Author {
+
+        }
     }
 
 

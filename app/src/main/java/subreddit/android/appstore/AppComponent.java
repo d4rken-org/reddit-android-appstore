@@ -9,7 +9,6 @@ import subreddit.android.appstore.backend.reddit.wiki.WikiRepository;
 import subreddit.android.appstore.backend.reddit.wiki.WikiRepositoryModule;
 import subreddit.android.appstore.backend.scrapers.MediaScraper;
 import subreddit.android.appstore.backend.scrapers.ScraperModule;
-import subreddit.android.appstore.backend.HttpModule;
 import subreddit.android.appstore.util.dagger.ApplicationScope;
 
 
@@ -18,8 +17,7 @@ import subreddit.android.appstore.util.dagger.ApplicationScope;
         AndroidModule.class,
         WikiRepositoryModule.class,
         ScraperModule.class,
-        GithubRepositoryModule.class,
-        HttpModule.class
+        GithubRepositoryModule.class
 })
 public interface AppComponent {
     SharedPreferences providePreferences();
@@ -28,5 +26,5 @@ public interface AppComponent {
 
     MediaScraper mediaScraper();
 
-    GithubRepository githubRepository();
+    GithubRepository selfUpdater();
 }

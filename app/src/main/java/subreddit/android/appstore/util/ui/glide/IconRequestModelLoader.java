@@ -18,10 +18,12 @@ import java.security.MessageDigest;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import subreddit.android.appstore.backend.scrapers.ImgSize;
 import subreddit.android.appstore.backend.scrapers.MediaScraper;
+import subreddit.android.appstore.backend.scrapers.ScrapeResult;
 
 
 public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStream> {
@@ -114,7 +116,6 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
                         if (iconUrl == null) {
                             throw new IllegalArgumentException("Icon url was null for" + iconRequest.getAppInfo());
                         }
-                        //TODO: okhttp
                         OkHttpClient client = new OkHttpClient();
                         Request request = new Request.Builder().url(iconUrl).build();
                         return client.newCall(request).execute().body().byteStream();
