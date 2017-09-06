@@ -42,6 +42,7 @@
     <string name="no_message">Please enter a message</string>
     <string name="no_email_client">No email client available</string>
     <string name="flag_text">Please describe why you are flagging this app. You will be redirected to reddit to send a PM to the r/Android mod team</string>
+    <string name="error_contributors">There was a problem fetching contributors.</string>
     <string name="build_from_fdroid">Note: If you downloaded this app from F-Droid, the download link will require a reinstall.</string>
     <plurals name="x_items">
         <item quantity="one">%s item</item>
