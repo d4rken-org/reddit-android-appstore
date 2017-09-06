@@ -32,8 +32,8 @@ android {
     buildToolsVersion "25.0.3"
 
     def versionMajor = 0
-    def versionMinor = 7
-    def versionPatch = 1
+    def versionMinor = 8
+    def versionPatch = 0
     def versionBuild = 0
 
 
