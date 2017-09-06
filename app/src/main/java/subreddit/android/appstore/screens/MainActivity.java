@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.View;
 
 import butterknife.BindView;
@@ -37,14 +36,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         getSupportFragmentManager().beginTransaction().replace(R.id.navigationFrame, navigationFragment).commit();
 
         if (savedInstanceState == null) onCategorySelected(new CategoryFilter());
-
-        addOnBackKeyPressedListener(() -> {
-            if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
-            }
-            return false;
-        });
     }
 
     @Override
@@ -64,5 +55,4 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         toolbar.setTitle(filter.getName(this));
     }
-
 }
