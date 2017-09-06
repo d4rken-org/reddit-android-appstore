@@ -17,11 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            android:theme="@style/AppTheme.Dark"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:expandedTitleMarginStart="8dp"
             app:expandedTitleMarginEnd="8dp"
-            app:expandedTitleMarginBottom="84dp"
+            app:expandedTitleMarginBottom="124dp"
             app:expandedTitleGravity="center_horizontal|bottom"
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title">
 
@@ -38,7 +37,6 @@
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
-                android:layout_marginTop="?attr/actionBarSize"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.7">
 
@@ -87,8 +85,7 @@
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="32dp"/>
+                    android:paddingTop="8dp"/>
             </LinearLayout>
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -97,8 +94,6 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="50dp"
-        android:clipToPadding="false"
         app:behavior_overlapTop="30dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
