@@ -10,6 +10,7 @@ import io.reactivex.Observable;
 import io.reactivex.subjects.ReplaySubject;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
+import subreddit.android.appstore.backend.reddit.wiki.parser.EncodingFixer;
 
 
 public class FakeWikiRepository implements WikiRepository {
@@ -28,6 +29,7 @@ public class FakeWikiRepository implements WikiRepository {
     }
 
     private Observable<Collection<AppInfo>> loadData() {
+        EncodingFixer encodingFixer = new EncodingFixer();
         return Observable.defer(() -> {
             Collection<AppInfo> testValues = new ArrayList<>();
             AppInfo app1 = new AppInfo();
@@ -46,6 +48,31 @@ public class FakeWikiRepository implements WikiRepository {
             app2.addTag(AppTags.PAID);
             app2.addTag(AppTags.NEW);
             testValues.add(app2);
+
+            // Test app with bold and link markdown in description
+            AppInfo app3 = new AppInfo();
+            app3.setAppName("Markdown Test");
+            app3.setDescription(
+                    encodingFixer.convertMarkdownToHtml("Tutorial **screencast** for [Propellerheads Reason](https://www.propellerheads.se/products/reason/)")
+            );
+            app3.setCategories(new ArrayList<String>(Arrays.asList("Testing", "Examples", "Descriptions")));
+            app3.addTag(AppTags.WEAR);
+            app3.addTag(AppTags.PAID);
+            app3.addTag(AppTags.NEW);
+            testValues.add(app3);
+
+            // Test app with Subreddit link conversion
+            AppInfo app4 = new AppInfo();
+            app4.setAppName("Subreddit Link Conversion Test");
+            app4.setDescription(
+                    encodingFixer.convertSubredditsToLinks("Wow! /r/Android is the bestest ever.")
+            );
+            app4.setCategories(new ArrayList<String>(Arrays.asList("Testing", "Examples", "Descriptions")));
+            app4.addTag(AppTags.WEAR);
+            app4.addTag(AppTags.PAID);
+            app4.addTag(AppTags.NEW);
+            testValues.add(app4);
+
             for (int i = 0; i < 1000; i++) {
                 AppInfo randomApp = new AppInfo();
                 randomApp.setAppName(UUID.randomUUID().toString() + " app");

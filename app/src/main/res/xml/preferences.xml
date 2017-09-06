@@ -11,17 +11,25 @@
             android:key="theme"/>
     </android.support.v7.preference.PreferenceCategory>
     <android.support.v7.preference.PreferenceCategory
-        android:title="@string/data_options">
+        android:title="@string/options">
         <android.support.v7.preference.CheckBoxPreference
-            android:key="core.data.loadmedia"
-            android:title="@string/data_option_loadmedia_title"
+            android:key="core.options.loadmedia"
+            android:title="@string/options_loadmedia_title"
             android:checked="true"
             android:defaultValue="true"
-            android:summary="@string/data_option_loadmedia_summary"/>
+            android:summary="@string/options_loadmedia_summary"/>
+        <android.support.v7.preference.CheckBoxPreference
+            android:key="core.options.savetagfilters"
+            android:title="@string/options_savetagfilters_title"
+            android:checked="false"
+            android:defaultValue="false"
+            android:summary="@string/options_savetagfilters_summary"/>
     </android.support.v7.preference.PreferenceCategory>
     <android.support.v7.preference.PreferenceCategory
         android:title="@string/more" >
         <android.support.v7.preference.Preference android:title="@string/button_about"
             android:key="about"/>
+        <android.support.v7.preference.Preference android:title="@string/submitapp"
+            android:key="submitapp"/>
     </android.support.v7.preference.PreferenceCategory>
 </android.support.v7.preference.PreferenceScreen>

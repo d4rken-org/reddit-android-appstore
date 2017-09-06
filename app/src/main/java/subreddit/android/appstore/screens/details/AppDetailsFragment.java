@@ -4,15 +4,20 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.wefika.flowlayout.FlowLayout;
 
 import java.util.ArrayList;
@@ -44,6 +48,7 @@ import subreddit.android.appstore.backend.data.Download;
 import subreddit.android.appstore.backend.scrapers.ScrapeResult;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
+import subreddit.android.appstore.util.ui.glide.GlideApp;
 import subreddit.android.appstore.util.ui.glide.IconRequest;
 import subreddit.android.appstore.util.ui.glide.PlaceHolderRequestListener;
 import timber.log.Timber;
@@ -51,16 +56,19 @@ import timber.log.Timber;
 
 public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract.Presenter, AppDetailsContract.View>
         implements AppDetailsContract.View, ScreenshotsAdapter.ScreenshotClickedListener, View.OnClickListener, Toolbar.OnMenuItemClickListener {
-    @BindView(R.id.description) TextView description;
-    @BindView(R.id.tag_container) FlowLayout tagContainer;
     @BindView(R.id.download_fab) FloatingActionButton downloadButton;
     @BindView(R.id.details_toolbar) Toolbar toolbar;
+    @BindView(R.id.collapsingToolbar) CollapsingToolbarLayout collapsingToolbar;
+    @BindView(R.id.appbar) AppBarLayout appBar;
+
     @BindView(R.id.icon_frame) View iconFrame;
     @BindView(R.id.icon_image) ImageView iconImage;
     @BindView(R.id.icon_placeholder) View iconPlaceholder;
-    @BindView(R.id.title_primary) TextView primaryTitle;
     @BindView(R.id.title_secondary) TextView secondaryTitle;
+    @BindView(R.id.tag_container) FlowLayout tagContainer;
+
     @BindView(R.id.screenshot_pager) ViewPager screenshotPager;
+    @BindView(R.id.description) TextView description;
 
     private static final String REDDIT_MSG_URL_HEADER="https://www.reddit.com/message/compose/?to=/r/Android&subject=**RAS Flag Report**&message=";
 
@@ -113,7 +121,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
                                 if (flagMessage.getText().toString().isEmpty()) {
                                     Toast.makeText(getContext(), getContext().getResources().getString(R.string.no_message), Toast.LENGTH_LONG).show();
                                 } else {
-                                    openInChrome(REDDIT_MSG_URL_HEADER + "*****" + toolbar.getSubtitle() +" REPORT" + "*****" + "%0A" +(flagMessage.getText().toString().trim()));
+                                    openInChrome(REDDIT_MSG_URL_HEADER + "*****" + collapsingToolbar.getTitle() +" REPORT" + "*****" + "%0A" +(flagMessage.getText().toString().trim()));
                                 }
                             }
                         })
@@ -129,13 +137,23 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_appdetails_layout, container, false);
         unbinder = ButterKnife.bind(this, layout);
+        toolbar.setContentInsetStartWithNavigation(0);
+
+        appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                float scrollRange = (float) appBarLayout.getTotalScrollRange();
+                fadeHeaderItems(scrollRange, verticalOffset);
+            }
+        });
+
         return layout;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_48px);
+        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
         toolbar.setNavigationOnClickListener(this);
         toolbar.inflateMenu(R.menu.appdetails_fragment);
         toolbar.setOnMenuItemClickListener(this);
@@ -183,7 +201,12 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     }
 
     void openDownload(Download d) {
-        startActivity(new Intent(Intent.ACTION_VIEW, d.getDownloadUri()));
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, d.getDownloadUri()));
+        } catch (Exception e) {
+            Timber.e(e, "Problem launching intent for a Download link");
+            displayToast(R.string.no_download_client);
+        }
     }
 
     void openContact(Contact c) {
@@ -193,8 +216,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
                     startActivity(new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", c.getTarget(), null)));
                 } catch (Exception e) {
                     Timber.e(e, "Problem launching intent for Email contact");
-                    Toast.makeText(getContext(), getContext().getResources().getString(R.string.no_email_client), Toast.LENGTH_LONG).show();
-                    //note: translations pulled straight from google translate, someone might want to double check
+                    displayToast(R.string.no_email_client);
                 }
 
                 break;
@@ -216,11 +238,18 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
             getActivity().finish();
             return;
         }
-        primaryTitle.setText(appInfo.getAppName());
+        collapsingToolbar.setTitle(appInfo.getAppName());
         secondaryTitle.setText(appInfo.getSecondaryCategory());
         downloads = new ArrayList<>(appInfo.getDownloads());
         contacts = new ArrayList<>(appInfo.getContacts());
-        description.setText(appInfo.getDescription());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            description.setText(Html.fromHtml(appInfo.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+        } else {
+            description.setText(Html.fromHtml(appInfo.getDescription()));
+        }
+        description.setMovementMethod(LinkMovementMethod.getInstance());
+
         tagContainer.removeAllViews();
         for (AppTags appTags : appInfo.getTags()) {
             TextView tv = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.view_tagtemplate, tagContainer, false);
@@ -231,7 +260,6 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
             tagContainer.addView(tv);
         }
         tagContainer.setVisibility(appInfo.getTags().isEmpty() ? View.GONE : View.VISIBLE);
-        toolbar.setSubtitle(appInfo.getAppName());
         createMenus();
 
     }
@@ -275,6 +303,10 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
     }
 
+    private void displayToast(int message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public void displayScreenshots(@Nullable ScrapeResult scrapeResult) {
         if (scrapeResult != null) {
@@ -288,7 +320,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     public void displayIcon(@Nullable AppInfo appInfo) {
         if (appInfo != null) {
             iconFrame.setVisibility(View.VISIBLE);
-            Glide.with(this)
+            GlideApp.with(this)
                     .load(new IconRequest(appInfo))
                     .listener(new PlaceHolderRequestListener(iconImage, iconPlaceholder))
                     .into(iconImage);
@@ -298,5 +330,12 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     @Override
     public void onScreenshotClicked(String url) {
         new ScreenshotDialog(getContext(), screenshotUrls, screenshotUrls.indexOf(url)).show();
+    }
+
+    private void fadeHeaderItems(float scrollRange, int verticalOffset) {
+        float fadeFactor = 1.0f - Math.abs(2 * verticalOffset / scrollRange);
+        secondaryTitle.setAlpha(fadeFactor);
+        tagContainer.setAlpha(fadeFactor);
+        iconFrame.setAlpha(fadeFactor);
     }
 }

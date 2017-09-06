@@ -1,7 +1,9 @@
 package subreddit.android.appstore.screens.list;
 
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,6 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 import com.wefika.flowlayout.FlowLayout;
 
@@ -28,6 +29,7 @@ import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.screens.settings.SettingsActivity;
 import subreddit.android.appstore.util.ui.BaseAdapter;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
+import subreddit.android.appstore.util.ui.glide.GlideApp;
 import subreddit.android.appstore.util.ui.glide.IconRequest;
 import subreddit.android.appstore.util.ui.glide.PlaceHolderRequestListener;
 
@@ -91,10 +93,16 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
 
         public void bind(AppInfo item) {
             appName.setText(item.getAppName());
-            description.setText(item.getDescription());
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                description.setText(Html.fromHtml(item.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+            } else {
+                description.setText(Html.fromHtml(item.getDescription()));
+            }
+
             if (PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(SettingsActivity.PREF_KEY_LOAD_MEDIA, true)) {
                 iconFrame.setVisibility(View.VISIBLE);
-                Glide.with(getContext())
+                GlideApp.with(getContext())
                         .load(new IconRequest(item))
                         .listener(new PlaceHolderRequestListener(iconImage, iconPlaceholder))
                         .into(iconImage);

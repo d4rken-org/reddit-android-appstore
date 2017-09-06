@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -26,6 +27,7 @@ import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -42,6 +44,7 @@ import subreddit.android.appstore.screens.details.AppDetailsActivity;
 import subreddit.android.appstore.screens.navigation.CategoryFilter;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
+import subreddit.android.appstore.util.ui.BaseActivity;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
 import subreddit.android.appstore.util.ui.DividerItemDecoration;
 
@@ -62,7 +65,9 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     Unbinder unbinder;
     AppListAdapter appListAdapter;
     FilterListAdapter filterListAdapter;
-    Collection<AppTags> appTags;
+    Collection<AppTags> appTags = new ArrayList<>();
+
+    private BaseActivity.OnBackKeyPressedListener closeDrawerOnBackKeyListener;
 
     public static Fragment newInstance(@NonNull CategoryFilter categoryFilter) {
         AppListFragment fragment = new AppListFragment();
@@ -114,6 +119,19 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
         filterList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         filterListAdapter = new FilterListAdapter(this);
         filterList.setAdapter(filterListAdapter);
+
+        final FragmentActivity activity = getActivity();
+        if (activity instanceof BaseActivity) {
+            closeDrawerOnBackKeyListener = () -> {
+                if (drawerLayout != null && drawerLayout.isDrawerVisible(GravityCompat.END)) {
+                    drawerLayout.closeDrawer(GravityCompat.END);
+                    return true;
+                }
+                return false;
+            };
+            ((BaseActivity) activity).addOnBackKeyPressedListener(closeDrawerOnBackKeyListener);
+        }
+
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -137,6 +155,12 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     @Override
     public void onDestroyView() {
         if (unbinder != null) unbinder.unbind();
+
+        final FragmentActivity activity = getActivity();
+        if (closeDrawerOnBackKeyListener != null && activity instanceof BaseActivity) {
+            ((BaseActivity) activity).removeOnBackKeyPressedListener(closeDrawerOnBackKeyListener);
+        }
+
         super.onDestroyView();
     }
 
@@ -206,10 +230,6 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
         return true;
     }
 
-    private boolean isTagFilterDrawerOpen() {
-        return drawerLayout.isDrawerOpen(GravityCompat.END);
-    }
-
     private void toggleTagFilterDrawer() {
         if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
             drawerLayout.closeDrawer(GravityCompat.END);
@@ -223,5 +243,14 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
         appTags = appTagses;
         appListAdapter.getFilter().setFilterAppTagses(appTagses);
         appListAdapter.getFilter().filter(appListAdapter.getFilter().getFilterString());
+    }
+
+    @Override
+    public void restoreSelectedTags(Collection<AppTags> appTags) {
+        filterListAdapter.setSelectedItems(appTags);
+    }
+
+    public Collection<AppTags> getSelectedTags() {
+        return appTags;
     }
 }

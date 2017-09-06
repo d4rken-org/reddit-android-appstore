@@ -4,7 +4,7 @@
     <string name="button_filter">Filter</string>
     <string name="button_search">Search</string>
     <string name="screen_details">Details</string>
-    <string name="button_contact">Contact</string>
+    <string name="button_contact">Contact developer</string>
     <string name="button_download">Download</string>
     <string name="gplay">Google Play</string>
     <string name="fdroid">F-Droid</string>
@@ -30,10 +30,12 @@
     <string name="app_category_new">New</string>
     <string name="view_update">View</string>
     <string name="error">Error fetching repository</string>
-    <string name="data_options">Data options</string>
+    <string name="options">Options</string>
     <string name="screenshots">Screenshots</string>
-    <string name="data_option_loadmedia_title"><![CDATA[Icons & screenshots]]></string>
-    <string name="data_option_loadmedia_summary">Load app icons and screenshots</string>
+    <string name="options_loadmedia_title"><![CDATA[Icons & screenshots]]></string>
+    <string name="options_loadmedia_summary">Load app icons and screenshots</string>
+    <string name="options_savetagfilters_title">Save selected Tag filters</string>
+    <string name="options_savetagfilters_summary">Filter by the same selected Tags every time</string>
     <string name="update">Update available</string>
     <string name="update_error">Error checking for updates</string>
     <string name="update_confirm">Update</string>
@@ -42,6 +44,8 @@
     <string name="no_message">Please enter a message</string>
     <string name="no_email_client">No email client available</string>
     <string name="flag_text">Please describe why you are flagging this app. You will be redirected to reddit to send a PM to the r/Android mod team</string>
+    <string name="error_contributors">There was a problem fetching contributors.</string>
+    <string name="build_from_fdroid">Note: If you downloaded this app from F-Droid, the download link will require a reinstall.</string>
     <plurals name="x_items">
         <item quantity="one">%s item</item>
         <item quantity="other">%s items</item>
@@ -56,4 +60,6 @@
         <item>1</item>
         <item>2</item>
     </string-array>
+    <string name="no_download_client">No client available for this download</string>
+    <string name="submitapp">Submit an App</string>
 </resources>

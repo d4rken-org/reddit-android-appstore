@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -31,7 +32,7 @@ import butterknife.Unbinder;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.BuildConfig;
 import subreddit.android.appstore.R;
-import subreddit.android.appstore.backend.github.GithubRepository;
+import subreddit.android.appstore.backend.github.GithubApi;
 import subreddit.android.appstore.screens.settings.SettingsActivity;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
@@ -95,7 +96,7 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     }
 
     @Override
-    public void showUpdateSnackbar(GithubRepository.Release release) {
+    public void showUpdateSnackbar(GithubApi.Release release) {
         if (release == null) return;
         Snackbar
                 .make(navigationView, R.string.update, Snackbar.LENGTH_LONG)
@@ -108,7 +109,7 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     }
 
     @Override
-    public void enableUpdateAvailableText(GithubRepository.Release release) {
+    public void enableUpdateAvailableText(GithubApi.Release release) {
         if (release != null) {
             updateBanner.setVisibility(View.VISIBLE);
             updateBanner.setOnClickListener(v -> getPresenter().buildChangelog(release));
@@ -124,16 +125,23 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
         customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
     }
 
-    public void showChangelog(GithubRepository.Release release) {
+    public void showChangelog(GithubApi.Release release) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         Date date = release.publishDate;
         String desc = release.releaseDescription;
         String name = release.releaseName;
         String tag = release.tagName;
+        String message =
+                DateFormat.format("MMM", date) + " " + DateFormat.format("dd", date) + "\n";
 
-        builder.setMessage(DateFormat.format("MMM", date) + " "
-                    + DateFormat.format("dd", date) + "\n" + desc)
-                .setTitle(tag + ": " + name);
+        builder.setTitle(tag + ": " + name);
+
+        if (buildFromGithub()) {
+            builder.setMessage(message + desc);
+        } else {
+            builder.setMessage(message + R.string.build_from_fdroid + "\n" + desc);
+        }
+
         builder.setPositiveButton(R.string.update_confirm, (dialog, id) -> getPresenter().downloadUpdate(release));
         builder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
@@ -226,6 +234,16 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
 
     public interface OnCategorySelectedListener {
         void onCategorySelected(CategoryFilter filter);
+    }
+
+    private boolean buildFromGithub() {
+        List<String> signatures =
+                AppStoreApp.getSignatures(getContext(), "subreddit.android.appstore");
+
+        for (String signature : signatures) {
+            if (signature.equals(AppStoreApp.GITHUB_SIGNATURE)) return true;
+        }
+        return false;
     }
 
 }

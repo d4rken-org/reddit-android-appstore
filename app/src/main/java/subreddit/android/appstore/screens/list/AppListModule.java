@@ -1,5 +1,6 @@
 package subreddit.android.appstore.screens.list;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import dagger.Module;
@@ -26,11 +27,15 @@ public class AppListModule {
 
     @Provides
     @FragmentScope
-    public PresenterFactory<AppListContract.Presenter> providePresenterFactory(final WikiRepository wikiRepository, final CategoryFilter categoryFilter) {
+    public PresenterFactory<AppListContract.Presenter> providePresenterFactory(
+            final WikiRepository wikiRepository,
+            final CategoryFilter categoryFilter,
+            SharedPreferences preferences
+    ) {
         return new PresenterFactory<AppListContract.Presenter>() {
             @Override
             public AppListContract.Presenter create() {
-                return new AppListPresenter(wikiRepository, categoryFilter);
+                return new AppListPresenter(wikiRepository, categoryFilter, preferences);
             }
 
             @Override
