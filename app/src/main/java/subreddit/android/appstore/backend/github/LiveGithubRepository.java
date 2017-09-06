@@ -1,6 +1,5 @@
 package subreddit.android.appstore.backend.github;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -22,10 +21,7 @@ public class LiveGithubRepository implements GithubRepository {
 
     @Override
     public Observable<List<GithubApi.Contributor>> getContributors() {
-        if (latestContributorsCache == null) {
-            latestContributorsCache = githubApi.getContributors().cache()
-                    .onErrorReturn(throwable -> new ArrayList<>());
-        }
+        if (latestContributorsCache == null) latestContributorsCache = githubApi.getContributors().cache();
         return latestContributorsCache;
     }
 }
