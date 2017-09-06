@@ -18,13 +18,4 @@
 
 # Glide
 # https://github.com/bumptech/glide/wiki/Configuration#keeping-a-glidemodule
-# http://bumptech.github.io/glide/doc/download-setup.html#proguard
-#
-# Note: class com.bumptech.glide.module.LibraryGlideModule is not kept.
-#       Not sure if this is intentional, or if Glide devs forgot it.
 -keep public class * implements com.bumptech.glide.module.GlideModule
--keep public class * extends com.bumptech.glide.AppGlideModule
--keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-    **[] $VALUES;
-    public *;
-}
