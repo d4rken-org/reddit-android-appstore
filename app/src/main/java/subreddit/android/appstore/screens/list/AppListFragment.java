@@ -27,6 +27,7 @@ import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     Unbinder unbinder;
     AppListAdapter appListAdapter;
     FilterListAdapter filterListAdapter;
-    Collection<AppTags> appTags;
+    Collection<AppTags> appTags = new ArrayList<>();
 
     private BaseActivity.OnBackKeyPressedListener closeDrawerOnBackKeyListener;
 
@@ -229,10 +230,6 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
         return true;
     }
 
-    private boolean isTagFilterDrawerOpen() {
-        return drawerLayout.isDrawerOpen(GravityCompat.END);
-    }
-
     private void toggleTagFilterDrawer() {
         if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
             drawerLayout.closeDrawer(GravityCompat.END);
@@ -246,5 +243,14 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
         appTags = appTagses;
         appListAdapter.getFilter().setFilterAppTagses(appTagses);
         appListAdapter.getFilter().filter(appListAdapter.getFilter().getFilterString());
+    }
+
+    @Override
+    public void restoreSelectedTags(Collection<AppTags> appTags) {
+        filterListAdapter.setSelectedItems(appTags);
+    }
+
+    public Collection<AppTags> getSelectedTags() {
+        return appTags;
     }
 }
