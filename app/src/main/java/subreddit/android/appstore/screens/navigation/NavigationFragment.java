@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -131,17 +130,10 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
         String desc = release.releaseDescription;
         String name = release.releaseName;
         String tag = release.tagName;
-        String message =
-                DateFormat.format("MMM", date) + " " + DateFormat.format("dd", date) + "\n";
 
-        builder.setTitle(tag + ": " + name);
-
-        if (buildFromGithub()) {
-            builder.setMessage(message + desc);
-        } else {
-            builder.setMessage(message + R.string.build_from_fdroid + "\n" + desc);
-        }
-
+        builder.setMessage(DateFormat.format("MMM", date) + " "
+                    + DateFormat.format("dd", date) + "\n" + desc)
+                .setTitle(tag + ": " + name);
         builder.setPositiveButton(R.string.update_confirm, (dialog, id) -> getPresenter().downloadUpdate(release));
         builder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
@@ -234,16 +226,6 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
 
     public interface OnCategorySelectedListener {
         void onCategorySelected(CategoryFilter filter);
-    }
-
-    private boolean buildFromGithub() {
-        List<String> signatures =
-                AppStoreApp.getSignatures(getContext(), "subreddit.android.appstore");
-
-        for (String signature : signatures) {
-            if (signature.equals(AppStoreApp.GITHUB_SIGNATURE)) return true;
-        }
-        return false;
     }
 
 }
