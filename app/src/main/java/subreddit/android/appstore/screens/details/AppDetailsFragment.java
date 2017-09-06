@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,8 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -227,14 +224,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         secondaryTitle.setText(appInfo.getSecondaryCategory());
         downloads = new ArrayList<>(appInfo.getDownloads());
         contacts = new ArrayList<>(appInfo.getContacts());
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            description.setText(Html.fromHtml(appInfo.getDescription(), Html.FROM_HTML_MODE_COMPACT));
-        } else {
-            description.setText(Html.fromHtml(appInfo.getDescription()));
-        }
-        description.setMovementMethod(LinkMovementMethod.getInstance());
-
+        description.setText(appInfo.getDescription());
         tagContainer.removeAllViews();
         for (AppTags appTags : appInfo.getTags()) {
             TextView tv = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.view_tagtemplate, tagContainer, false);
