@@ -41,6 +41,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.R;
+import subreddit.android.appstore.ScreenshotViewPager;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.backend.data.Contact;
@@ -67,7 +68,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     @BindView(R.id.title_secondary) TextView secondaryTitle;
     @BindView(R.id.tag_container) FlowLayout tagContainer;
 
-    @BindView(R.id.screenshot_pager) ViewPager screenshotPager;
+    @BindView(R.id.screenshot_pager) ScreenshotViewPager screenshotPager;
     @BindView(R.id.description) TextView description;
 
     private static final String REDDIT_MSG_URL_HEADER="https://www.reddit.com/message/compose/?to=/r/Android&subject=**RAS Flag Report**&message=";

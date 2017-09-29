@@ -2,6 +2,7 @@ package subreddit.android.appstore.screens.details;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class ScreenshotsAdapter extends PagerAdapter {
     private LayoutInflater layoutInflater;
     List<String> urls = new ArrayList<>();
     ScreenshotClickedListener l;
+    private View currentView;
 
     public ScreenshotsAdapter(Context context, int imagesPerPage) {
         this.imagesPerPage = imagesPerPage;
@@ -62,6 +64,9 @@ public class ScreenshotsAdapter extends PagerAdapter {
 
         container.addView(itemView);
 
+        Log.i("ScreenshotAdapter", itemView.getWidth() + " " + itemView.getHeight());
+        Log.i("ScreenshotAdapter", " " + position);
+
         return itemView;
     }
 
@@ -79,6 +84,15 @@ public class ScreenshotsAdapter extends PagerAdapter {
         this.l = l;
     }
 
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        currentView = (View) object;
+        super.setPrimaryItem(container, position, object);
+    }
+
+    public View getCurrentView() {
+        return currentView;
+    }
     interface ScreenshotClickedListener {
         void onScreenshotClicked(String url);
     }
