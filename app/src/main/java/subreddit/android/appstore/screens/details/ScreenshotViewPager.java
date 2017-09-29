@@ -1,4 +1,4 @@
-package subreddit.android.appstore;
+package subreddit.android.appstore.screens.details;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -10,6 +10,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 
+import subreddit.android.appstore.R;
 import subreddit.android.appstore.screens.details.ScreenshotsAdapter;
 
 /**
