@@ -56,30 +56,19 @@ import timber.log.Timber;
 
 public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract.Presenter, AppDetailsContract.View>
         implements AppDetailsContract.View, ScreenshotsAdapter.ScreenshotClickedListener, View.OnClickListener, Toolbar.OnMenuItemClickListener {
-    @BindView(R.id.download_fab)
-    FloatingActionButton downloadButton;
-    @BindView(R.id.details_toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.collapsingToolbar)
-    CollapsingToolbarLayout collapsingToolbar;
-    @BindView(R.id.appbar)
-    AppBarLayout appBar;
+    @BindView(R.id.download_fab) FloatingActionButton downloadButton;
+    @BindView(R.id.details_toolbar) Toolbar toolbar;
+    @BindView(R.id.collapsingToolbar) CollapsingToolbarLayout collapsingToolbar;
+    @BindView(R.id.appbar) AppBarLayout appBar;
 
-    @BindView(R.id.icon_frame)
-    View iconFrame;
-    @BindView(R.id.icon_image)
-    ImageView iconImage;
-    @BindView(R.id.icon_placeholder)
-    View iconPlaceholder;
-    @BindView(R.id.title_secondary)
-    TextView secondaryTitle;
-    @BindView(R.id.tag_container)
-    FlowLayout tagContainer;
+    @BindView(R.id.icon_frame) View iconFrame;
+    @BindView(R.id.icon_image) ImageView iconImage;
+    @BindView(R.id.icon_placeholder) View iconPlaceholder;
+    @BindView(R.id.title_secondary) TextView secondaryTitle;
+    @BindView(R.id.tag_container) FlowLayout tagContainer;
 
-    @BindView(R.id.screenshot_pager)
-    ScreenshotViewPager screenshotPager;
-    @BindView(R.id.description)
-    TextView description;
+    @BindView(R.id.screenshot_pager) ScreenshotViewPager screenshotPager;
+    @BindView(R.id.description) TextView description;
 
     private static final String REDDIT_MSG_URL_HEADER = "https://www.reddit.com/message/compose/?to=/r/Android&subject=**RAS Flag Report**&message=";
 

@@ -64,9 +64,6 @@ public class ScreenshotsAdapter extends PagerAdapter {
 
         container.addView(itemView);
 
-        Log.i("ScreenshotAdapter", itemView.getWidth() + " " + itemView.getHeight());
-        Log.i("ScreenshotAdapter", " " + position);
-
         return itemView;
     }
 
