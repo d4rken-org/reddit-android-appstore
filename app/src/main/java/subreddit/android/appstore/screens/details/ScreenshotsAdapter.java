@@ -93,6 +93,7 @@ public class ScreenshotsAdapter extends PagerAdapter {
     public View getCurrentView() {
         return currentView;
     }
+
     interface ScreenshotClickedListener {
         void onScreenshotClicked(String url);
     }
