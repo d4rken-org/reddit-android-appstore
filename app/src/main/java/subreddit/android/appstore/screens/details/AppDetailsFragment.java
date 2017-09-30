@@ -13,11 +13,11 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -67,10 +67,10 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     @BindView(R.id.title_secondary) TextView secondaryTitle;
     @BindView(R.id.tag_container) FlowLayout tagContainer;
 
-    @BindView(R.id.screenshot_pager) ViewPager screenshotPager;
+    @BindView(R.id.screenshot_pager) ScreenshotViewPager screenshotPager;
     @BindView(R.id.description) TextView description;
 
-    private static final String REDDIT_MSG_URL_HEADER="https://www.reddit.com/message/compose/?to=/r/Android&subject=**RAS Flag Report**&message=";
+    private static final String REDDIT_MSG_URL_HEADER = "https://www.reddit.com/message/compose/?to=/r/Android&subject=**RAS Flag Report**&message=";
 
     private List<String> contactItems = new ArrayList<>();
     private List<String> downloadItems = new ArrayList<>();
@@ -121,7 +121,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
                                 if (flagMessage.getText().toString().isEmpty()) {
                                     Toast.makeText(getContext(), getContext().getResources().getString(R.string.no_message), Toast.LENGTH_LONG).show();
                                 } else {
-                                    openInChrome(REDDIT_MSG_URL_HEADER + "*****" + collapsingToolbar.getTitle() +" REPORT" + "*****" + "%0A" +(flagMessage.getText().toString().trim()));
+                                    openInChrome(REDDIT_MSG_URL_HEADER + "*****" + collapsingToolbar.getTitle() + " REPORT" + "*****" + "%0A" + (flagMessage.getText().toString().trim()));
                                 }
                             }
                         })
@@ -329,7 +329,9 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
 
     @Override
     public void onScreenshotClicked(String url) {
-        new ScreenshotDialog(getContext(), screenshotUrls, screenshotUrls.indexOf(url)).show();
+        ScreenshotDialog dialog = new ScreenshotDialog(getContext(), screenshotUrls, screenshotUrls.indexOf(url));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.ScreenshotDialogTheme;
+        dialog.show();
     }
 
     private void fadeHeaderItems(float scrollRange, int verticalOffset) {
