@@ -39,5 +39,18 @@
     <string name="website">Internetseite</string>
     <string name="app_category_new">Neu</string>
     <string name="no_email_client">Kein E-Mail-Client verfügbar</string>
-    <string name="submitapp">Submit an App</string>
+    <string name="submitapp">App einreichen</string>
+    <string name="view_update">Ansehen</string>
+    <string name="update_error">Fehler beim Suchen nach Updates</string>
+    <string name="cancel">Abbrechen</string>
+    <string-array name="themes">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>AMOLED</item>
+    </string-array>
+    <string-array name="themesValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>
