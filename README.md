@@ -5,9 +5,7 @@
 [![Build Status](https://travis-ci.org/d4rken/reddit-android-appstore.svg?branch=dev)](https://travis-ci.org/d4rken/reddit-android-appstore)
 [![Coverage Status](https://coveralls.io/repos/github/d4rken/reddit-android-appstore/badge.svg)](https://coveralls.io/github/d4rken/reddit-android-appstore)
 
-App inspired by [this reddit post](https://redd.it/50rafp)
-
-The official app for displaying the curated app list from the [/r/Android wiki](https://www.reddit.com/r/android/wiki/apps).
+The official app for displaying the curated app list from the [/r/Android wiki](https://www.reddit.com/r/android/wiki/apps), inspired by [this reddit post](https://redd.it/50rafp).
 
 ## Features
 * Filter by category (Apps, Games, etc.) and traits (New, Free, Phone, Wear, etc.)
