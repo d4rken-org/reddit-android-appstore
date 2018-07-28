@@ -3,7 +3,7 @@ notifications:
 
 env:
   matrix:
-    - API=android-22 ABI=armeabi-v7a
+    - API=android-27 ABI=armeabi-v7a
 
 language: android
 jdk:
@@ -12,12 +12,13 @@ android:
   components:
     - platform-tools
     - tools
-    - build-tools-25.0.3
+    - build-tools-27.0.3
     - android-22
     - android-25
+    - android-27
     - extra-google-m2repository
     - extra-android-m2repository
-    - sys-img-armeabi-v7a-android-22
+    - sys-img-armeabi-v7a-android-27
   licenses:
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
