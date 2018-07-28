@@ -3,10 +3,16 @@ package subreddit.android.appstore.backend.scrapers.gplay;
 
 import android.support.annotation.NonNull;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import subreddit.android.appstore.backend.DeadLinkException;
@@ -40,41 +46,26 @@ public class GPlayScraper implements MediaScraper {
                 })
                 .map(s -> client.newCall(new Request.Builder().url(s).build()).execute())
                 .map(response -> {
-                    if (response.code() == 404)
-                        throw new DeadLinkException(response.request().url().toString());
+                    if (response.code() == 404) throw new DeadLinkException(response.request().url().toString());
 
-                    Collection<String> urls = new ArrayList<>();
-                    String body = response.body().string();
-                    int iconStart = body.indexOf("<img class=\"cover-image\"");
-                    int iconEnd = body.indexOf("\" alt=\"Cover art\"", iconStart);
-                    String iconUrl = body.substring(body.indexOf("lh", iconStart), iconEnd);
-                    Timber.v("%s | icon url: %s", appToScrape, iconUrl);
+                    Document doc = Jsoup.parse(response.body().string());
 
+                    String iconUrl = doc.select("img[alt*=Cover Art]").attr("src");
                     // Strip size parameter we generate these
-                    iconUrl = iconUrl.replaceAll("=(w|h)\\d+", "");
+                    iconUrl = iconUrl.replaceAll("=(s|w|h)\\d+", "");
 
-                    if (!iconUrl.startsWith("http://")) iconUrl = "http://" + iconUrl;
-                    while (body.contains("<img class=\"screenshot\"")) {
-                        int start = body.indexOf("<img class=\"screenshot\"");
-                        int end = body.indexOf("itemprop=\"screenshot\"", start);
-                        String screenUrl = body.substring(start, end);
-                        int subStart = screenUrl.indexOf("lh");
-                        int subEnd = screenUrl.indexOf("\"", subStart);
-                        screenUrl = screenUrl.substring(subStart, subEnd);
-                        body = body.substring(end, body.length());
-                        Timber.v("%s | screenshot url: %s", appToScrape, screenUrl);
-
+                    Collection<String> screenUrls = new ArrayList<>();
+                    for (Element screenshots : doc.select("img[alt*=Screenshot Image]")) {
+                        String screen = screenshots.attr("src");
                         // Strip size parameter we generate these
-                        screenUrl = screenUrl.replaceAll("=(w|h)\\d+", "");
-
-                        if (!screenUrl.startsWith("http://")) screenUrl = "http://" + screenUrl;
-                        urls.add(screenUrl);
+                        screen = screen.replaceAll("=(-*(w|h|s)\\d+)*", "");
+                        screenUrls.add(screen);
                     }
 
-                    return new GPlayResult(iconUrl, urls);
+                    return new GPlayResult(iconUrl, screenUrls);
                 })
                 .toList()
-                .map(scrapeResults -> {
+                .map((Function<List<GPlayResult>, ScrapeResult>) scrapeResults -> {
                     String iconUrl = null;
                     Collection<String> screenshotUrls = new ArrayList<>();
                     for (ScrapeResult scrapeResult : scrapeResults) {
@@ -84,7 +75,8 @@ public class GPlayScraper implements MediaScraper {
                         screenshotUrls.addAll(scrapeResult.getScreenshotUrls());
                     }
                     return new GPlayResult(iconUrl, screenshotUrls);
-                });
+                })
+                .toObservable();
 
     }
 }

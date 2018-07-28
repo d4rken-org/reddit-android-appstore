@@ -1,11 +1,11 @@
 # /r/Android App Store
-[![Project License](https://img.shields.io/badge/license-Apache--2.0-blue.svg?style=flat-square)](LICENSE)
+[![Latest Release](https://img.shields.io/github/release/d4rken/reddit-android-appstore.svg)](https://github.com/d4rken/reddit-android-appstore/releases/latest)
+![Total Downloads](https://img.shields.io/github/downloads/d4rken/reddit-android-appstore/total.svg)
+[![Project License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Build Status](https://travis-ci.org/d4rken/reddit-android-appstore.svg?branch=dev)](https://travis-ci.org/d4rken/reddit-android-appstore)
 [![Coverage Status](https://coveralls.io/repos/github/d4rken/reddit-android-appstore/badge.svg)](https://coveralls.io/github/d4rken/reddit-android-appstore)
 
-App inspired by [this reddit post](https://redd.it/50rafp)
-
-Displays the curated app list from the [/r/Android wiki](https://www.reddit.com/r/android/wiki/apps).
+The official app for displaying the curated app list from the [/r/Android wiki](https://www.reddit.com/r/android/wiki/apps), inspired by [this reddit post](https://redd.it/50rafp).
 
 ## Features
 * Filter by category (Apps, Games, etc.) and traits (New, Free, Phone, Wear, etc.)
@@ -33,7 +33,7 @@ From commit [269d4fa](https://github.com/d4rken/reddit-android-appstore/commit/2
 
 ## License
 ```
-Copyright 2016 Matthias Urhahn and Garret Yoder
+Copyright 2017 /r/Android App Store Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

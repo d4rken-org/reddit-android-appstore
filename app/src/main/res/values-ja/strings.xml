@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">/r/Android App store</string>
+    <string name="button_refresh">更新</string>
+    <string name="button_filter">フィルタ</string>
+    <string name="button_search">検索</string>
+    <string name="screen_details">詳細</string>
+    <string name="button_contact">開発者に連絡</string>
+    <string name="button_download">ダウンロード</string>
+    <string name="gplay">Google Play</string>
+    <string name="fdroid">F-Droid</string>
+    <string name="website">ウェブサイト</string>
+    <string name="mail">メール</string>
+    <string name="reddit">Reddit</string>
+    <string name="twitter">Twitter</string>
+    <string name="instagram">Instagram</string>
+    <string name="hint_type_to_filter">フィルタをかけるには入力</string>
+    <string name="button_about">このアプリについて</string>
+    <string name="text_contributors">貢献者</string>
+    <string name="licenses">ライセンス</string>
+    <string name="version">バージョン</string>
+    <string name="bugreport">バグを報告</string>
+    <string name="settings">設定</string>
+    <string name="more">その他</string>
+    <string name="appearance">表示</string>
+    <string name="preference_theme">テーマ</string>
+    <string name="preference_theme_desc">使用するテーマ</string>
+    <string name="restart">テーマの変更を適用するにはアプリの再起動が必要です</string>
+    <string name="later">後で</string>
+    <string name="app_category_everything">すべて</string>
+    <string name="app_category_new">新着</string>
+    <string name="view_update">表示</string>
+    <string name="error">リポジトリの取得中にエラーが発生しました</string>
+    <string name="options">オプション</string>
+    <string name="screenshots">スクリーンショット</string>
+    <string name="options_loadmedia_title"><![CDATA[Icons & screenshots]]></string>
+    <string name="options_loadmedia_summary">アプリのアイコンとスクリーンを読み込む</string>
+    <string name="options_savetagfilters_title">選択されたタグフィルタを保存</string>
+    <string name="options_savetagfilters_summary">毎回同じタグでフィルタをかける</string>
+    <string name="update">更新が利用可能</string>
+    <string name="update_error">更新のチェック中にエラーが発生しました</string>
+    <string name="update_confirm">更新する</string>
+    <string name="cancel">キャンセル</string>
+    <string name="flag">アプリを報告</string>
+    <string name="no_message">メッセージを入力してください</string>
+    <string name="no_email_client">メールクライアントがありません</string>
+    <string name="flag_text">このアプリを報告する理由を説明してください。r/Androidのモデレータチームにプライベートメッセージを送信するために、Redditにリダイレクトされます</string>
+    <string name="error_contributors">貢献者の取得中に問題が発生しました。</string>
+    <string name="build_from_fdroid">注: このアプリをF-Droidからインストールした場合、ダウンロードリンクは再インストールを要求します。</string>
+    <plurals name="x_items">
+        <item quantity="one">%s個の項目</item>
+        <item quantity="other">%s個の項目</item>
+    </plurals>
+    <string-array name="themes">
+        <item>ライト</item>
+        <item>ダーク</item>
+        <item>AMOLED</item>
+    </string-array>
+    <string-array name="themesValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="no_download_client">このダウンロードを実行するためのクライアントがありません</string>
+    <string name="submitapp">アプリを登録</string>
+</resources>

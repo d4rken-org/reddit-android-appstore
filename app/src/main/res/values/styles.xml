@@ -54,5 +54,10 @@
         <item name="android:minHeight">56dp</item>
     </style>
 
+    <style name="ScreenshotDialogTheme">
+        <item name="android:windowEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_left</item>
+    </style>
+
 </resources>
 
