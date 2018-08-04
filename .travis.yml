@@ -6,8 +6,10 @@ env:
     - API=android-22 ABI=armeabi-v7a
 
 language: android
+
 jdk:
   - oraclejdk8
+
 android:
   components:
     - platform-tools
@@ -15,13 +17,15 @@ android:
     - build-tools-28.0.1
     - android-22
     - android-25
+    - android-27
     - android-28
     - extra-google-m2repository
     - extra-android-m2repository
     - sys-img-armeabi-v7a-android-22
+
   licenses:
-    - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
+    - 'android-sdk-preview-license-.+'
     - 'google-gdk-license-.+'
 
 before_install:
