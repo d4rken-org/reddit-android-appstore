@@ -15,6 +15,7 @@ android:
     - platform-tools
     - tools
     - build-tools-28.0.1
+    - tools
     - android-22
     - android-28
     - extra-google-m2repository
@@ -36,4 +37,4 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
- - ./gradlew clean assemble jacocoTestReport coveralls
+ - ./gradlew clean assemble jacocoTestReport coveralls --stacktrace
