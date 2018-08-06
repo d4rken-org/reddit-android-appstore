@@ -66,8 +66,7 @@ android {
         applicationVariants.all { variant ->
             if (variant.buildType.name != "debug") {
                 variant.outputs.each { output ->
-                    output.outputFileName = "${packageName}-v" + defaultConfig.versionName + "(" + defaultConfig.versionCode + ")-"
-                            + variant.buildType.name.toUpperCase() + "-" + gitSha + ".apk"
+                    output.outputFileName = "${packageName}-v" + defaultConfig.versionName + "(" + defaultConfig.versionCode + ")-" + variant.buildType.name.toUpperCase() + "-" + gitSha() + ".apk"
                 }
             }
         }
