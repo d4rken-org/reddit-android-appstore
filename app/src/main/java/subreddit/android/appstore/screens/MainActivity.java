@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.View;
 
 import butterknife.BindView;
@@ -16,8 +15,8 @@ import subreddit.android.appstore.screens.navigation.CategoryFilter;
 import subreddit.android.appstore.screens.navigation.NavigationFragment;
 import subreddit.android.appstore.util.ui.BaseActivity;
 
-
-public class MainActivity extends BaseActivity implements View.OnClickListener, NavigationFragment.OnCategorySelectedListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener,
+        NavigationFragment.OnCategorySelectedListener {
     @BindView(R.id.main_drawer) DrawerLayout drawerLayout;
     @BindView(R.id.applist_toolbar) Toolbar toolbar;
 
@@ -64,5 +63,4 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         toolbar.setTitle(filter.getName(this));
     }
-
 }

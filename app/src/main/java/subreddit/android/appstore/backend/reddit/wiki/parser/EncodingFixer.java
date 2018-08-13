@@ -62,5 +62,4 @@ public class EncodingFixer {
         }
         return string;
     }
-
 }

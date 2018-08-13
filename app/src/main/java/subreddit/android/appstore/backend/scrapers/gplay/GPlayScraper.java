@@ -1,6 +1,5 @@
 package subreddit.android.appstore.backend.scrapers.gplay;
 
-
 import android.support.annotation.NonNull;
 
 import org.jsoup.Jsoup;
@@ -10,6 +9,7 @@ import org.jsoup.nodes.Element;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
@@ -25,7 +25,7 @@ import timber.log.Timber;
 
 public class GPlayScraper implements MediaScraper {
     // TODO: okhttp
-    final OkHttpClient client;
+    private final OkHttpClient client;
 
     public GPlayScraper(OkHttpClient client) {
         this.client = client;
@@ -48,24 +48,24 @@ public class GPlayScraper implements MediaScraper {
                 .map(response -> {
                     if (response.code() == 404) throw new DeadLinkException(response.request().url().toString());
 
-                    Document doc = Jsoup.parse(response.body().string());
+                    Document doc = Jsoup.parse(Objects.requireNonNull(response.body()).string());
 
                     String iconUrl = doc.select("img[alt*=Cover Art]").attr("src");
                     // Strip size parameter we generate these
-                    iconUrl = iconUrl.replaceAll("=(s|w|h)\\d+", "");
+                    iconUrl = iconUrl.replaceAll("=([swh])\\d+", "");
 
                     Collection<String> screenUrls = new ArrayList<>();
                     for (Element screenshots : doc.select("img[alt*=Screenshot Image]")) {
                         String screen = screenshots.attr("src");
                         // Strip size parameter we generate these
-                        screen = screen.replaceAll("=(-*(w|h|s)\\d+)*", "");
+                        screen = screen.replaceAll("=(-*([whs])\\d+)*", "");
                         screenUrls.add(screen);
                     }
 
                     return new GPlayResult(iconUrl, screenUrls);
                 })
                 .toList()
-                .map((Function<List<GPlayResult>, ScrapeResult>) scrapeResults -> {
+                .map((Function<List<GPlayResult>, ScrapeResult>) (List<GPlayResult> scrapeResults) -> {
                     String iconUrl = null;
                     Collection<String> screenshotUrls = new ArrayList<>();
                     for (ScrapeResult scrapeResult : scrapeResults) {
@@ -77,6 +77,5 @@ public class GPlayScraper implements MediaScraper {
                     return new GPlayResult(iconUrl, screenshotUrls);
                 })
                 .toObservable();
-
     }
 }

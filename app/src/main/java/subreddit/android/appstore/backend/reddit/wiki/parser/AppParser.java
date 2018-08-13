@@ -4,7 +4,6 @@ import java.util.Map;
 
 import subreddit.android.appstore.backend.data.AppInfo;
 
-
 public interface AppParser {
     enum Column {
         NAME, PRICE, DEVICE, DESCRIPTION, CONTACT

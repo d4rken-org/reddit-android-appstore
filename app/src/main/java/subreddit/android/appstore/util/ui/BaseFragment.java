@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 
 import subreddit.android.appstore.AppStoreApp;
 
-
 public class BaseFragment extends Fragment {
 
     @Override

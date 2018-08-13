@@ -5,7 +5,6 @@ import java.util.List;
 
 import subreddit.android.appstore.backend.data.AppInfo;
 
-
 public class CategoryParser {
 
     private final EncodingFixer encodingFixer;
@@ -14,7 +13,6 @@ public class CategoryParser {
 
         this.encodingFixer = encodingFixer;
     }
-
 
     public void parse(AppInfo appInfo, List<String> rawCategories) {
         List<String> processedCategories = new ArrayList<>();

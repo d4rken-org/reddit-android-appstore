@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -37,7 +38,6 @@ import subreddit.android.appstore.screens.settings.SettingsActivity;
 import subreddit.android.appstore.util.mvp.BasePresenterFragment;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
 
-
 public class NavigationFragment extends BasePresenterFragment<NavigationContract.Presenter, NavigationContract.View>
         implements NavigationContract.View, NavigationView.OnNavigationItemSelectedListener {
 
@@ -46,7 +46,6 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     @BindView(R.id.navigationview) NavigationView navigationView;
     @BindView(R.id.update_banner) View updateBanner;
     OnCategorySelectedListener onCategorySelectedListener;
-
 
     public static NavigationFragment newInstance() {
         return new NavigationFragment();
@@ -72,14 +71,15 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_navigation_layout, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         versionText.setText(getResources().getString(R.string.version) + " " + BuildConfig.VERSION_NAME);
         navFooter.setNavigationItemSelectedListener(item -> {
@@ -105,7 +105,8 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
 
     @Override
     public void showUpdateErrorToast() {
-        Toast.makeText(getContext(), getContext().getResources().getString(R.string.update_error), Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), Objects.requireNonNull(getContext()).getResources()
+                .getString(R.string.update_error), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -119,14 +120,14 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     @Override
     public void showDownload(String url) {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        builder.setToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+        builder.setToolbarColor(ContextCompat.getColor(Objects.requireNonNull(getActivity()), R.color.colorPrimary));
         builder.setSecondaryToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
     }
 
     public void showChangelog(GithubApi.Release release) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
         Date date = release.publishDate;
         String desc = release.releaseDescription;
         String name = release.releaseName;
@@ -158,8 +159,10 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
             item.setVisible(filter.getPrimaryCategory() == null
                     || filter.getSecondaryCategory() == null
                     || filter.getTertiaryCategory() == null
-                    || (filter.getPrimaryCategory().equals(clickedFilter.getPrimaryCategory())) && filter.getSecondaryCategory().equals(clickedFilter.getSecondaryCategory())
-                    || filter.getPrimaryCategory().equals(getContext().getString(R.string.app_category_everything))
+                    || (filter.getPrimaryCategory().equals(clickedFilter.getPrimaryCategory()))
+                    && filter.getSecondaryCategory().equals(clickedFilter.getSecondaryCategory())
+                    || filter.getPrimaryCategory().equals(Objects.requireNonNull(
+                    getContext()).getString(R.string.app_category_everything))
                     || filter.getPrimaryCategory().equals(getContext().getString(R.string.app_category_new))
             );
         }
@@ -183,7 +186,7 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
         MenuItem noFilterItem = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, noFilterFilter.getName(getContext()));
         menuItemCategoryFilterMap.put(noFilterItem, noFilterFilter);
 
-        String n = getContext().getString(R.string.app_category_new);
+        String n = Objects.requireNonNull(getContext()).getString(R.string.app_category_new);
         CategoryFilter newAppsFilter = new CategoryFilter(n, n, n, n);
         MenuItem newAppsItem = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, newAppsFilter.getName(getContext()));
         menuItemCategoryFilterMap.put(newAppsItem, newAppsFilter);
@@ -204,7 +207,6 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
                     }
                 }
         }
-
 
         for (int i = 0; i < navigationView.getMenu().size(); i++) {
             MenuItem item = navigationView.getMenu().getItem(i);
@@ -231,7 +233,6 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
         this.onCategorySelectedListener = onCategorySelectedListener;
     }
 
-
     public interface OnCategorySelectedListener {
         void onCategorySelected(CategoryFilter filter);
     }
@@ -245,5 +246,4 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
         }
         return false;
     }
-
 }

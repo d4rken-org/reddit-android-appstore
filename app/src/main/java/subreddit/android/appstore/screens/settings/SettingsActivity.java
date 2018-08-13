@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -12,6 +13,8 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,7 +50,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         finish();
     }
 
-    public static class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
+    public static class SettingsFragment extends PreferenceFragmentCompat implements
+            Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -59,8 +63,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         }
 
         @Override
-        public void onViewCreated(View view, Bundle savedInstanceState) {
-            super.onViewCreated(view, savedInstanceState);
+        public void onViewCreated(@NonNull View v, Bundle savedInstanceState) {
+            super.onViewCreated(v, savedInstanceState);
         }
 
         @Override
@@ -68,16 +72,15 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             if (preference.getKey().equals("core.options.savetagfilters")) {
                 if (!((Boolean) o)) {
                     deleteSavedTagFilters();
-                    Timber.d("Save selected tags is now " + o);
+                    Timber.d("Save selected tags is now %s", o);
                 }
                 return true;
             }
 
-            new AlertDialog.Builder(getActivity())
+            new AlertDialog.Builder(Objects.requireNonNull(getActivity()))
                     .setMessage(R.string.restart)
                     .setNegativeButton(R.string.later, null)
-                    .setPositiveButton(
-                            android.R.string.ok,
+                    .setPositiveButton(android.R.string.ok,
                             (dialogInterface, i) -> ((AppStoreApp) getActivity().getApplication()).restart())
                     .show();
 
@@ -85,12 +88,13 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         }
 
         @Override
-        public boolean onPreferenceClick(Preference preference) {
-            if (preference.getKey().equals("about"))
+        public boolean onPreferenceClick(Preference pref) {
+            if (pref.getKey().equals("about"))
                 startActivity(new Intent(getActivity(), AboutActivity.class));
-            else if (preference.getKey().equals("submitapp")) {
+            else if (pref.getKey().equals("submitapp")) {
                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                builder.setToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+                builder.setToolbarColor(ContextCompat.getColor(Objects.requireNonNull(getActivity()),
+                        R.color.colorPrimary));
                 builder.setSecondaryToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
                 CustomTabsIntent customTabsIntent = builder.build();
                 customTabsIntent.launchUrl(getActivity(), Uri.parse(SUBMIT_APP_URL));
@@ -108,8 +112,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                 editor.remove("savedTags_" + i);
             }
 
-            editor.commit();
+            editor.apply();
         }
-
     }
 }

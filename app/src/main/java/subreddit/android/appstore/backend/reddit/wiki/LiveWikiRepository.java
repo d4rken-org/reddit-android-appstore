@@ -13,7 +13,6 @@ import subreddit.android.appstore.backend.reddit.wiki.caching.WikiDiskCache;
 import subreddit.android.appstore.backend.reddit.wiki.parser.BodyParser;
 import timber.log.Timber;
 
-
 public class LiveWikiRepository implements WikiRepository {
     static final int NUMOFREVISIONS = 6;
     final WikiDiskCache wikiDiskCache;
@@ -59,8 +58,7 @@ public class LiveWikiRepository implements WikiRepository {
                 .flatMap(response -> {
                     Timber.d(response.toString());
                     long timeStart = System.currentTimeMillis();
-                    Collection<AppInfo> infos = new ArrayList<>();
-                    infos.addAll(bodyParser.parseBody(response.data.content_md));
+                    Collection<AppInfo> infos = new ArrayList<>(bodyParser.parseBody(response.data.content_md));
                     long timeStop = System.currentTimeMillis();
                     Timber.d("Initial parse: Parsed %d items in %dms", infos.size(), (timeStop - timeStart));
 
@@ -105,6 +103,4 @@ public class LiveWikiRepository implements WikiRepository {
         this.authString = authString;
         return authString;
     }
-
-
 }

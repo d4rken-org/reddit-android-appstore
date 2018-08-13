@@ -10,7 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import subreddit.android.appstore.backend.HttpModule;
 import subreddit.android.appstore.util.dagger.ApplicationScope;
 
-
 @Module(includes = HttpModule.class)
 public class GithubRepositoryModule {
 
@@ -31,5 +30,4 @@ public class GithubRepositoryModule {
                 .build();
         return retrofit.create(GithubApi.class);
     }
-
 }

@@ -10,12 +10,11 @@ import subreddit.android.appstore.screens.navigation.CategoryFilter;
 import subreddit.android.appstore.util.dagger.FragmentScope;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
 
-
 @Module
 public class AppListModule {
     private CategoryFilter categoryFilter;
 
-    public AppListModule(Bundle fragmentArguments) {
+    AppListModule(Bundle fragmentArguments) {
         categoryFilter = fragmentArguments.getParcelable(AppListFragment.ARG_KEY_CATEGORYFILTER);
     }
 

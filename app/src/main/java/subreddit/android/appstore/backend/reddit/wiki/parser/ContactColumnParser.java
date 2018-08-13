@@ -8,7 +8,6 @@ import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.Contact;
 import timber.log.Timber;
 
-
 public class ContactColumnParser extends BaseParser {
     final static Pattern EMAIL_PATTERN = Pattern.compile("(\\b[\\w._%+-]+@[\\w.-]+\\.[\\w]{2,}\\b)");
     final static Pattern REDDIT_PATTERN = Pattern.compile("(/u/[\\-_\\w]+\\b)");

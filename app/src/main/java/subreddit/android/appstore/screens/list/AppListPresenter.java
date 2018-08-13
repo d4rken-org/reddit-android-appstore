@@ -1,5 +1,6 @@
 package subreddit.android.appstore.screens.list;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -21,16 +22,15 @@ import subreddit.android.appstore.screens.navigation.CategoryFilter;
 import subreddit.android.appstore.screens.settings.SettingsActivity;
 import timber.log.Timber;
 
-
 public class AppListPresenter implements AppListContract.Presenter {
-    final WikiRepository repository;
-    final CategoryFilter categoryFilter;
+    private final WikiRepository repository;
+    private final CategoryFilter categoryFilter;
     private SharedPreferences sharedPreferences;
     private Disposable listUpdater;
     private Disposable tagUpdater;
-    AppListContract.View view;
+    private AppListContract.View view;
 
-    public AppListPresenter(WikiRepository repository, CategoryFilter categoryFilter, SharedPreferences preferences) {
+    AppListPresenter(WikiRepository repository, CategoryFilter categoryFilter, SharedPreferences preferences) {
         this.repository = repository;
         this.categoryFilter = categoryFilter;
         this.sharedPreferences = preferences;
@@ -38,9 +38,9 @@ public class AppListPresenter implements AppListContract.Presenter {
 
     @Override
     public void onCreate(Bundle bundle) {
-
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onAttachView(final AppListContract.View view) {
         this.view = view;
@@ -80,12 +80,7 @@ public class AppListPresenter implements AppListContract.Presenter {
 
         tagUpdater = filteredData
                 .observeOn(Schedulers.computation())
-                .map(new Function<Collection<AppInfo>, TagMap>() {
-                    @Override
-                    public TagMap apply(Collection<AppInfo> appInfos) throws Exception {
-                        return new TagMap(appInfos);
-                    }
-                })
+                .map((Function<Collection<AppInfo>, TagMap>) TagMap::new)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(tagMap -> {
                     Timber.d("updateTagCount(%s)", tagMap);
@@ -145,7 +140,7 @@ public class AppListPresenter implements AppListContract.Presenter {
         return appTags;
     }
 
-    public void saveSelectedTags(Collection<AppTags> appTags) {
+    private void saveSelectedTags(Collection<AppTags> appTags) {
         List<AppTags> data = Arrays.asList(AppTags.values());
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -154,7 +149,6 @@ public class AppListPresenter implements AppListContract.Presenter {
                 editor.putBoolean("savedTags_" + i, true);
             }
         }
-
-        editor.commit();
+        editor.apply();
     }
 }

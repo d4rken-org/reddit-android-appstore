@@ -12,10 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
-
 public class BaseViewHolder extends RecyclerView.ViewHolder {
-    ClickListener clickListener;
-    LongClickListener longClickListener;
+    private ClickListener clickListener;
+    private LongClickListener longClickListener;
 
     public BaseViewHolder(final View itemView) {
         super(itemView);
@@ -28,14 +27,11 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         clickListener = listener;
     }
 
-    public View.OnClickListener buildWrapperForAdapterClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (clickListener == null) return;
-                if (getAdapterPosition() == RecyclerView.NO_POSITION) return;
-                clickListener.onItemClick(v, getAdapterPosition(), getItemId());
-            }
+    private View.OnClickListener buildWrapperForAdapterClickListener() {
+        return v -> {
+            if (clickListener == null) return;
+            if (getAdapterPosition() == RecyclerView.NO_POSITION) return;
+            clickListener.onItemClick(v, getAdapterPosition(), getItemId());
         };
     }
 
@@ -43,19 +39,16 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         longClickListener = listener;
     }
 
-    public View.OnLongClickListener buildWrapperForAdapterLongClickListener() {
-        return v -> {
-            if (longClickListener == null) return false;
-            if (getAdapterPosition() == RecyclerView.NO_POSITION) return true;
-            return longClickListener.onItemLongClick(itemView, getAdapterPosition(), getItemId());
-        };
+    private View.OnLongClickListener buildWrapperForAdapterLongClickListener() {
+        return v -> longClickListener != null && (getAdapterPosition() == RecyclerView.NO_POSITION ||
+                longClickListener.onItemLongClick(itemView, getAdapterPosition(), getItemId()));
     }
 
-    public void setOnClickListener(@Nullable View.OnClickListener listener) {
+    private void setOnClickListener(@Nullable View.OnClickListener listener) {
         itemView.setOnClickListener(listener);
     }
 
-    public void setOnLongClickListener(@Nullable View.OnLongClickListener listener) {
+    private void setOnLongClickListener(@Nullable View.OnLongClickListener listener) {
         itemView.setOnLongClickListener(listener);
     }
 
@@ -63,7 +56,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         getRootView().post(runnable);
     }
 
-    public View getRootView() {
+    private View getRootView() {
         return itemView;
     }
 
@@ -79,7 +72,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         return getResources().getString(string, args);
     }
 
-    public String getQuantityString(int id, int quantity, Object... formatArgs) throws Resources.NotFoundException {
+    protected String getQuantityString(int id, int quantity, Object... formatArgs) throws Resources.NotFoundException {
         return getResources().getQuantityString(id, quantity, formatArgs);
     }
 
@@ -95,7 +88,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         return ContextCompat.getDrawable(getContext(), drawableRes);
     }
 
-    public LayoutInflater getLayoutInflater() {
+    protected LayoutInflater getLayoutInflater() {
         return LayoutInflater.from(getContext());
     }
 
@@ -106,5 +99,4 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     public interface LongClickListener {
         boolean onItemLongClick(View view, int position, long itemId);
     }
-
 }

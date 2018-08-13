@@ -6,7 +6,6 @@ import subreddit.android.appstore.backend.github.GithubApi;
 import subreddit.android.appstore.util.mvp.BasePresenter;
 import subreddit.android.appstore.util.mvp.BaseView;
 
-
 public interface NavigationContract {
     interface View extends BaseView {
 

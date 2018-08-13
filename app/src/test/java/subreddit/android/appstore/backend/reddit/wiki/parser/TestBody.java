@@ -1,6 +1,5 @@
 package subreddit.android.appstore.backend.reddit.wiki.parser;
 
-
 public class TestBody {
     static final String HTMLBODY =
             "# Category1 Entry1\n" +

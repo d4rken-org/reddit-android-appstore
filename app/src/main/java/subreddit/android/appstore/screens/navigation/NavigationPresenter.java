@@ -14,30 +14,27 @@ import subreddit.android.appstore.backend.reddit.wiki.WikiRepository;
 import subreddit.android.appstore.util.VersionHelper;
 import timber.log.Timber;
 
-
 public class NavigationPresenter implements NavigationContract.Presenter {
-    final WikiRepository repository;
-    final GithubRepository githubRepository;
+    private final WikiRepository repository;
+    private final GithubRepository githubRepository;
 
-    NavigationContract.View view;
+    private NavigationContract.View view;
     private Disposable categoryUpdater;
-    CategoryFilter currentCategoryFilter = new CategoryFilter();
-    Disposable updateCheck;
-    GithubApi.Release release;
+    private CategoryFilter currentCategoryFilter = new CategoryFilter();
+    private Disposable updateCheck;
+    private GithubApi.Release release;
 
-    public NavigationPresenter(WikiRepository repository, GithubRepository githubRepository) {
+    NavigationPresenter(WikiRepository repository, GithubRepository githubRepository) {
         this.repository = repository;
         this.githubRepository = githubRepository;
     }
 
     @Override
     public void onCreate(Bundle bundle) {
-
     }
 
     @Override
     public void onAttachView(NavigationContract.View view) {
-
         this.view = view;
         categoryUpdater = repository.getAppList()
                 .observeOn(Schedulers.computation())
@@ -80,7 +77,6 @@ public class NavigationPresenter implements NavigationContract.Presenter {
 
                     @Override
                     public void onComplete() {
-
                     }
                 });
     }
@@ -94,12 +90,10 @@ public class NavigationPresenter implements NavigationContract.Presenter {
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-
     }
 
     @Override
     public void onDestroy() {
-
     }
 
     @Override

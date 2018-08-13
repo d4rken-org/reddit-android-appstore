@@ -1,7 +1,6 @@
 package subreddit.android.appstore.screens.details;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -17,7 +16,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +30,7 @@ import com.wefika.flowlayout.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -52,7 +51,6 @@ import subreddit.android.appstore.util.ui.glide.GlideApp;
 import subreddit.android.appstore.util.ui.glide.IconRequest;
 import subreddit.android.appstore.util.ui.glide.PlaceHolderRequestListener;
 import timber.log.Timber;
-
 
 public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract.Presenter, AppDetailsContract.View>
         implements AppDetailsContract.View, ScreenshotsAdapter.ScreenshotClickedListener, View.OnClickListener, Toolbar.OnMenuItemClickListener {
@@ -93,13 +91,13 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         super.onCreate(savedInstanceState);
         DaggerAppDetailsComponent.builder()
                 .appComponent(AppStoreApp.Injector.INSTANCE.getAppComponent())
-                .appDetailsModule(new AppDetailsModule(getActivity()))
+                .appDetailsModule(new AppDetailsModule(Objects.requireNonNull(getActivity())))
                 .build().inject(this);
     }
 
     @Override
     public void onClick(View view) {
-        getActivity().finish();
+        Objects.requireNonNull(getActivity()).finish();
     }
 
     @Override
@@ -110,19 +108,17 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
                 break;
             }
             case R.id.menu_flag: {
-                EditText flagMessage = ((EditText) getActivity().getLayoutInflater().inflate(R.layout.dialog_flag, null));
-                Dialog d = new AlertDialog.Builder(getContext())
+                EditText flagMessage = ((EditText) Objects.requireNonNull(getActivity()).getLayoutInflater()
+                        .inflate(R.layout.dialog_flag, null));
+                Dialog d = new AlertDialog.Builder(Objects.requireNonNull(getContext()))
                         .setTitle(R.string.flag)
                         .setMessage(R.string.flag_text)
                         .setNegativeButton(android.R.string.cancel, null)
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                if (flagMessage.getText().toString().isEmpty()) {
-                                    Toast.makeText(getContext(), getContext().getResources().getString(R.string.no_message), Toast.LENGTH_LONG).show();
-                                } else {
-                                    openInChrome(REDDIT_MSG_URL_HEADER + "*****" + collapsingToolbar.getTitle() + " REPORT" + "*****" + "%0A" + (flagMessage.getText().toString().trim()));
-                                }
+                        .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                            if (flagMessage.getText().toString().isEmpty()) {
+                                Toast.makeText(getContext(), getContext().getResources().getString(R.string.no_message), Toast.LENGTH_LONG).show();
+                            } else {
+                                openInChrome(REDDIT_MSG_URL_HEADER + "*****" + collapsingToolbar.getTitle() + " REPORT" + "*****" + "%0A" + (flagMessage.getText().toString().trim()));
                             }
                         })
                         .setView(flagMessage)
@@ -134,30 +130,26 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_appdetails_layout, container, false);
         unbinder = ButterKnife.bind(this, layout);
         toolbar.setContentInsetStartWithNavigation(0);
 
-        appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                float scrollRange = (float) appBarLayout.getTotalScrollRange();
-                fadeHeaderItems(scrollRange, verticalOffset);
-            }
+        appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            float scrollRange = (float) appBarLayout.getTotalScrollRange();
+            fadeHeaderItems(scrollRange, verticalOffset);
         });
-
         return layout;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
         toolbar.setNavigationOnClickListener(this);
         toolbar.inflateMenu(R.menu.appdetails_fragment);
         toolbar.setOnMenuItemClickListener(this);
-        screenshotsAdapter = new ScreenshotsAdapter(getContext(), 3);
+        screenshotsAdapter = new ScreenshotsAdapter(Objects.requireNonNull(getContext()), 3);
         screenshotPager.setAdapter(screenshotsAdapter);
         screenshotPager.setOffscreenPageLimit(3);
         screenshotsAdapter.setScreenshotClickedListener(this);
@@ -180,7 +172,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         if (downloads.size() < 2) {
             openDownload(downloads.get(0));
         } else {
-            new AlertDialog.Builder(getContext())
+            new AlertDialog.Builder(Objects.requireNonNull(getContext()))
                     .setItems(
                             downloadItems.toArray(new CharSequence[downloadItems.size()]),
                             (dialogInterface, i) -> openDownload(downloads.get(i)))
@@ -192,7 +184,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         if (contacts.size() < 2) {
             openContact(contacts.get(0));
         } else {
-            new AlertDialog.Builder(getContext())
+            new AlertDialog.Builder(Objects.requireNonNull(getContext()))
                     .setItems(
                             contactItems.toArray(new CharSequence[contactItems.size()]),
                             (dialogInterface, i) -> openContact(contacts.get(i)))
@@ -235,7 +227,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     @Override
     public void displayDetails(@Nullable AppInfo appInfo) {
         if (appInfo == null) {
-            getActivity().finish();
+            Objects.requireNonNull(getActivity()).finish();
             return;
         }
         collapsingToolbar.setTitle(appInfo.getAppName());
@@ -297,7 +289,8 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
 
     private void openInChrome(String url) {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        builder.setToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+        builder.setToolbarColor(ContextCompat.getColor(Objects.requireNonNull(getActivity()),
+                R.color.colorPrimary));
         builder.setSecondaryToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(getActivity(), Uri.parse(url));
@@ -330,7 +323,8 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
     @Override
     public void onScreenshotClicked(String url) {
         ScreenshotDialog dialog = new ScreenshotDialog(getContext(), screenshotUrls, screenshotUrls.indexOf(url));
-        dialog.getWindow().getAttributes().windowAnimations = R.style.ScreenshotDialogTheme;
+        Objects.requireNonNull(dialog.getWindow()).getAttributes()
+                .windowAnimations = R.style.ScreenshotDialogTheme;
         dialog.show();
     }
 

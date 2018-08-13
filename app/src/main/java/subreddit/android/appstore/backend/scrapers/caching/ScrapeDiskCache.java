@@ -4,9 +4,6 @@ package subreddit.android.appstore.backend.scrapers.caching;
 import android.content.Context;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.functions.Function;
 import io.realm.Realm;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.scrapers.ScrapeResult;

@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +15,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 public class DeviceColumnParserTest {
-    @Mock EncodingFixer encodingFixer;
+    @Mock
+    private EncodingFixer encodingFixer;
     private DeviceColumnParser parser;
 
     @Before
@@ -26,7 +26,7 @@ public class DeviceColumnParserTest {
     }
 
     @Test
-    public void testParse() throws IOException {
+    public void testParse() {
         String rawDeviceData = "Phone";
         Map<AppParser.Column, String> rawColumnMap = new HashMap<>();
         rawColumnMap.put(AppParser.Column.DEVICE, rawDeviceData);

@@ -7,7 +7,6 @@ import subreddit.android.appstore.backend.scrapers.ScrapeResult;
 import subreddit.android.appstore.util.mvp.BasePresenter;
 import subreddit.android.appstore.util.mvp.BaseView;
 
-
 public interface AppDetailsContract {
     interface View extends BaseView {
 
@@ -19,6 +18,5 @@ public interface AppDetailsContract {
     }
 
     interface Presenter extends BasePresenter<View> {
-
     }
 }

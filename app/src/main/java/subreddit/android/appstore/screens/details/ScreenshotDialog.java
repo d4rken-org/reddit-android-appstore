@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class ScreenshotDialog extends Dialog implements View.OnClickListener {
     @BindView(R.id.screenshot_dialog_pager) ViewPager viewPager;
     @BindView(R.id.screenshot_dialog_toolbar) Toolbar toolbar;
 
-    public ScreenshotDialog(Context context, List<String> urls, int currentImage) {
+    ScreenshotDialog(Context context, List<String> urls, int currentImage) {
         super(context, R.style.AppTheme_Black);
         this.currentImage = currentImage;
         this.urls = urls;
@@ -42,7 +41,6 @@ public class ScreenshotDialog extends Dialog implements View.OnClickListener {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -52,7 +50,6 @@ public class ScreenshotDialog extends Dialog implements View.OnClickListener {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
         updatePageIndicator(currentImage);

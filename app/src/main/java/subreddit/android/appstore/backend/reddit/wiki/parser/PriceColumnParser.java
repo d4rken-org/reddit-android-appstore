@@ -5,7 +5,6 @@ import java.util.Map;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
 
-
 public class PriceColumnParser extends BaseParser {
 
     public PriceColumnParser(EncodingFixer encodingFixer) {

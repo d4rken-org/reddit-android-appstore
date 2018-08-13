@@ -33,11 +33,10 @@ import subreddit.android.appstore.util.ui.glide.GlideApp;
 import subreddit.android.appstore.util.ui.glide.IconRequest;
 import subreddit.android.appstore.util.ui.glide.PlaceHolderRequestListener;
 
-
 public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> implements Filterable, SectionTitleProvider {
     private AppInfoFilter filter;
-    final List<AppInfo> data = new ArrayList<>();
-    final List<AppInfo> originalData = new ArrayList<>();
+    private final List<AppInfo> data = new ArrayList<>();
+    private final List<AppInfo> originalData = new ArrayList<>();
 
     @Override
     public AppListAdapter.ViewHolder onCreateSDMViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
@@ -86,7 +85,7 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
         @BindView(R.id.icon_image) ImageView iconImage;
         @BindView(R.id.icon_placeholder) View iconPlaceholder;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

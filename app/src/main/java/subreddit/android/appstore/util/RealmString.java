@@ -6,15 +6,14 @@ import java.util.Collection;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
-
 public class RealmString extends RealmObject {
-    String aString;
+    private String aString;
 
     public RealmString() {
 
     }
 
-    public RealmString(String aString) {
+    private RealmString(String aString) {
         this.aString = aString;
     }
 

@@ -113,5 +113,4 @@ public class WikiRepositoryModule {
                 .build();
         return retrofit.create(TokenApi.class);
     }
-
 }

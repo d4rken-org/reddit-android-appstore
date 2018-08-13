@@ -19,18 +19,17 @@ import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.util.ui.BaseAdapter;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
 
-
 public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder> {
-    final List<AppTags> data = Arrays.asList(AppTags.values());
-    final FilterListener filterListener;
-    private SparseBooleanArray selectedItems = new SparseBooleanArray(AppTags.values().length);;
-    TagMap tagMap = new TagMap();
+    private final List<AppTags> data = Arrays.asList(AppTags.values());
+    private final FilterListener filterListener;
+    private SparseBooleanArray selectedItems = new SparseBooleanArray(AppTags.values().length);
+    private TagMap tagMap = new TagMap();
 
     interface FilterListener {
         void onNewFilterTags(Collection<AppTags> appTagses);
     }
 
-    public FilterListAdapter(FilterListener filterListener) {
+    FilterListAdapter(FilterListener filterListener) {
         this.filterListener = filterListener;
 
         setItemClickListener((view, position, itemId) -> {
@@ -65,7 +64,7 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
         holder.bind(tag, selectedItems.get(position), tagMap.getCount(tag));
     }
 
-    public AppTags getItem(int position) {
+    private AppTags getItem(int position) {
         return data.get(position);
     }
 
@@ -94,7 +93,7 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
         @BindView(R.id.tagcount) TextView tagCount;
         @BindView(R.id.checkbox) CheckBox checkBox;
 
-        public ViewHolder(final View itemView) {
+        ViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
@@ -123,8 +122,6 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
             int key = selectedItems.keyAt(i);
             if (selectedItems.get(key)) activeAppTagses.add(data.get(key));
         }
-
         return activeAppTagses;
     }
-
 }

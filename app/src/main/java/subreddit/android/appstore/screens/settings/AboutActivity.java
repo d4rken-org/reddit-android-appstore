@@ -1,5 +1,6 @@
 package subreddit.android.appstore.screens.settings;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -39,12 +40,9 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
     protected static final String BUG_URL = "https://github.com/d4rken/reddit-android-appstore/issues";
     GithubRepository githubRepository;
 
-    NavigationView.OnNavigationItemSelectedListener contributorListener = new NavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            openInChrome(GITHUB_URL + item.getTitle());
-            return false;
-        }
+    NavigationView.OnNavigationItemSelectedListener contributorListener = item -> {
+        openInChrome(GITHUB_URL + item.getTitle());
+        return false;
     };
 
     @Override
@@ -58,17 +56,17 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
                 Notices notices = new Notices();
                 notices.addNotice(new Notice("Fastscroll", "https://github.com/FutureMind/recycler-fast-scroll", "Copyright 2015 Future Mind", new ApacheSoftwareLicense20()));
                 notices.addNotice(new Notice("Glide", "https://github.com/bumptech/glide", null, new BSD2ClauseLicense()));
-                notices.addNotice(new Notice("RxJava", "https://github.com/ReactiveX/RxJava", "Copyright 2013 Netflix, Inc.", new ApacheSoftwareLicense20()));
+                notices.addNotice(new Notice("RxJava", "https://github.com/ReactiveX/RxJava", "Copyright 2016-present, RxJava Contributors", new ApacheSoftwareLicense20()));
                 notices.addNotice(new Notice("Tomorrow MVP", "https://github.com/michal-luszczuk/tomorrow-mvp", null, new ApacheSoftwareLicense20()));
-                notices.addNotice(new Notice("GSon", "https://github.com/google/gson", "Copyright 2008 Google Inc.", new ApacheSoftwareLicense20()));
+                notices.addNotice(new Notice("Gson", "https://github.com/google/gson", "Copyright 2008 Google Inc.", new ApacheSoftwareLicense20()));
                 notices.addNotice(new Notice("Dagger", "https://github.com/square/dagger", "Copyright 2012 Square, Inc.", new ApacheSoftwareLicense20()));
                 notices.addNotice(new Notice("Butterknife", "https://github.com/JakeWharton/butterknife", "Copyright 2013 Jake Wharton", new ApacheSoftwareLicense20()));
                 notices.addNotice(new Notice("Timber", "https://github.com/JakeWharton/timber", "Copyright 2013 Jake Wharton", new ApacheSoftwareLicense20()));
                 notices.addNotice(new Notice("Flow Layout", "https://github.com/blazsolar/FlowLayout", "Copyright 2013 Blaž Šolar", new ApacheSoftwareLicense20()));
-                notices.addNotice(new Notice("OkHttp", "http://square.github.io/okhttp/", "Copyright 2016 Square, Inc.", new ApacheSoftwareLicense20()));
+                notices.addNotice(new Notice("OkHttp", "https://github.com/square/okhttp", "Copyright 2016 Square, Inc.", new ApacheSoftwareLicense20()));
                 notices.addNotice(new Notice("Android Support Libraries", "https://github.com/android/platform_frameworks_support", null, new ApacheSoftwareLicense20()));
                 notices.addNotice(new Notice("LeakCanary", "https://github.com/square/leakcanary", "Copyright 2015 Square, Inc.", new ApacheSoftwareLicense20()));
-                notices.addNotice(new Notice("License Dialog", "https://github.com/PSDev/LicensesDialog", "Copyright 2013-2016 Philip Schiffer", new ApacheSoftwareLicense20()));
+                notices.addNotice(new Notice("License Dialog", "https://github.com/PSDev/LicensesDialog", "Copyright 2013-2017 Philip Schiffer", new ApacheSoftwareLicense20()));
                 new LicensesDialog.Builder(this)
                         .setNotices(notices)
                         .setTitle(R.string.licenses)
@@ -114,6 +112,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
         customTabsIntent.launchUrl(this, Uri.parse(url));
     }
 
+    @SuppressLint("CheckResult")
     private void listContributors() {
         githubRepository.getContributors()
                 .observeOn(Schedulers.io())

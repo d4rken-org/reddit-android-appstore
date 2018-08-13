@@ -17,18 +17,18 @@ public class CachedScrape extends RealmObject {
     public CachedScrape() {
     }
 
-    public CachedScrape(AppInfo appInfo, ScrapeResult scrapeResult) {
+    @PrimaryKey
+    int id;
+    private String scrapeResultClassName;
+    private String iconUrl;
+    private RealmList<RealmString> screenshotUrls;
+
+    CachedScrape(AppInfo appInfo, ScrapeResult scrapeResult) {
         this.id = appInfo.hashCode();
         this.scrapeResultClassName = scrapeResult.getClass().getName();
         this.iconUrl = scrapeResult.getIconUrl(ImgSize.dontCare(), ImgSize.dontCare());
         this.screenshotUrls = RealmString.fromCollection(scrapeResult.getScreenshotUrls());
     }
-
-    @PrimaryKey
-    int id;
-    String scrapeResultClassName;
-    String iconUrl;
-    RealmList<RealmString> screenshotUrls;
 
     public BaseScrapeResult toBaseScrapeResult() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Class<?> c = Class.forName(scrapeResultClassName);

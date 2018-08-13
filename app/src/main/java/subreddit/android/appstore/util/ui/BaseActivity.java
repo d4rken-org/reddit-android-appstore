@@ -11,16 +11,13 @@ import subreddit.android.appstore.AppStoreApp;
 import subreddit.android.appstore.screens.MainActivity;
 import timber.log.Timber;
 
-
 public class BaseActivity extends AppCompatActivity {
-
 
     /**
      * Use {@code 2} as initial capacity for the navigation and tag drawers in {@link MainActivity},
      * as it's the most used case
      */
     private final List<OnBackKeyPressedListener> onBackKeyPressedListeners = new ArrayList<>(2);
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

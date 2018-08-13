@@ -1,6 +1,5 @@
 package subreddit.android.appstore.util;
 
-
 public class Preconditions {
     /**
      * Ensures that an object reference passed as a parameter to the calling

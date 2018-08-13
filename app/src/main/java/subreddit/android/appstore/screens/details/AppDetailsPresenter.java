@@ -12,15 +12,14 @@ import subreddit.android.appstore.backend.scrapers.MediaScraper;
 import subreddit.android.appstore.backend.scrapers.ScrapeResult;
 import subreddit.android.appstore.screens.settings.SettingsActivity;
 
-
 public class AppDetailsPresenter implements AppDetailsContract.Presenter {
-    AppDetailsContract.View view;
+    private AppDetailsContract.View view;
     private final SharedPreferences preferences;
     private final MediaScraper mediaScraper;
-    AppInfo appInfoItem;
-    Disposable disposable;
+    private AppInfo appInfoItem;
+    private Disposable disposable;
 
-    public AppDetailsPresenter(SharedPreferences preferences, MediaScraper mediaScraper, AppInfo appInfoItem) {
+    AppDetailsPresenter(SharedPreferences preferences, MediaScraper mediaScraper, AppInfo appInfoItem) {
         this.preferences = preferences;
         this.mediaScraper = mediaScraper;
         this.appInfoItem = appInfoItem;
@@ -28,7 +27,6 @@ public class AppDetailsPresenter implements AppDetailsContract.Presenter {
 
     @Override
     public void onCreate(Bundle bundle) {
-
     }
 
     @Override
@@ -59,11 +57,9 @@ public class AppDetailsPresenter implements AppDetailsContract.Presenter {
 
                         @Override
                         public void onComplete() {
-
                         }
                     });
         }
-
     }
 
     @Override
@@ -74,11 +70,9 @@ public class AppDetailsPresenter implements AppDetailsContract.Presenter {
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-
     }
 
     @Override
     public void onDestroy() {
-
     }
 }

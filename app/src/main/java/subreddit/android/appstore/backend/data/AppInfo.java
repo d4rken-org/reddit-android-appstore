@@ -13,7 +13,6 @@ import java.util.List;
 
 import timber.log.Timber;
 
-
 public class AppInfo implements Comparable<AppInfo> {
     private final Collection<AppTags> appTagsCollection = new LinkedHashSet<>();
     private final Collection<Contact> contacts = new ArrayList<>();
@@ -25,12 +24,12 @@ public class AppInfo implements Comparable<AppInfo> {
     public AppInfo() {
     }
 
-    public void setCategories(List<String> categories) {
-        this.categories = categories;
-    }
-
     public List<String> getCategories() {
         return categories;
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
     }
 
     public String getPrimaryCategory() {
@@ -49,8 +48,16 @@ public class AppInfo implements Comparable<AppInfo> {
         return appName;
     }
 
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Collection<Contact> getContacts() {
@@ -65,23 +72,14 @@ public class AppInfo implements Comparable<AppInfo> {
         return appTagsCollection;
     }
 
-    public Collection<AppTags> addTag(AppTags tag) {
-        if(!appTagsCollection.contains(tag)){
+    public void addTag(AppTags tag) {
+        if (!appTagsCollection.contains(tag)) {
             appTagsCollection.add(tag);
         }
-        return appTagsCollection;
     }
 
     public void addContact(Contact contact) {
         this.contacts.add(contact);
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setAppName(String appName) {
-        this.appName = appName;
     }
 
     public void addDownload(Download download) {
@@ -129,6 +127,4 @@ public class AppInfo implements Comparable<AppInfo> {
         result = 31 * result + appName.hashCode();
         return result;
     }
-
 }
-

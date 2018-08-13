@@ -6,12 +6,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import java.util.Objects;
+
 import subreddit.android.appstore.util.ui.BaseFragment;
 
 /**
  * Forked from https://github.com/michal-luszczuk/tomorrow-mvp
  */
-public abstract class BasePresenterFragment<PresenterT extends BasePresenter<ViewT>, ViewT extends BaseView> extends BaseFragment
+public abstract class BasePresenterFragment<PresenterT extends BasePresenter<ViewT>,
+        ViewT extends BaseView> extends BaseFragment
         implements LoaderHelper.Callback<PresenterT> {
 
     private static final int LOADER_ID = 2048;
@@ -19,14 +22,14 @@ public abstract class BasePresenterFragment<PresenterT extends BasePresenter<Vie
     PresenterT presenter;
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(v, savedInstanceState);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        new LoaderHelper<PresenterT, ViewT>(getContext(), getLoaderManager(), LOADER_ID)
+        new LoaderHelper<PresenterT, ViewT>(Objects.requireNonNull(getContext()), getLoaderManager(), LOADER_ID)
                 .retrievePresenter(getPresenterFactory(), savedInstanceState, new LoaderHelper.Callback<PresenterT>() {
                     @Override
                     public void onPresenterReady(@NonNull PresenterT presenter) {
@@ -55,7 +58,7 @@ public abstract class BasePresenterFragment<PresenterT extends BasePresenter<Vie
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         presenter.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }
@@ -71,12 +74,10 @@ public abstract class BasePresenterFragment<PresenterT extends BasePresenter<Vie
 
     @Override
     public void onPresenterReady(@NonNull PresenterT presenter) {
-
     }
 
     @Override
     public void onPresenterDestroyed() {
-
     }
 
     @NonNull
