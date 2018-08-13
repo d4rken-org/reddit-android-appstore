@@ -8,5 +8,4 @@ public interface GithubRepository {
 
     Observable<GithubApi.Release> getLatestRelease();
     Observable<List<GithubApi.Contributor>> getContributors();
-
 }

@@ -1,6 +1,5 @@
 package subreddit.android.appstore.backend.scrapers;
 
-
 public class ImgSize {
     public static final int DONT_CARE = -1;
     private final int sizePixel;

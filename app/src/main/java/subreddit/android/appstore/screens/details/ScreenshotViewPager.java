@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import subreddit.android.appstore.R;
-import subreddit.android.appstore.screens.details.ScreenshotsAdapter;
 
 /**
  * Created by andrewadams on 2017-09-29.
@@ -33,7 +32,7 @@ public class ScreenshotViewPager extends ViewPager {
         if (screenshotsAdapter != null) {
             View currentView = screenshotsAdapter.getCurrentView();
             if (currentView != null) {
-                ImageView imageView = (ImageView) currentView.findViewById(R.id.gallery_image);
+                ImageView imageView = currentView.findViewById(R.id.gallery_image);
                 Drawable drawable = imageView.getDrawable();
                 if (drawable != null) {
                     Rect drawableBounds = drawable.getBounds();

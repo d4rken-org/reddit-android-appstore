@@ -1,6 +1,5 @@
 package subreddit.android.appstore.screens.navigation;
 
-
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -31,6 +30,18 @@ public class CategoryFilter implements Parcelable {
         this.newlyAdded = newlyAdded;
     }
 
+    public static final Creator<CategoryFilter> CREATOR = new Creator<CategoryFilter>() {
+        @Override
+        public CategoryFilter createFromParcel(Parcel in) {
+            return new CategoryFilter(in);
+        }
+
+        @Override
+        public CategoryFilter[] newArray(int size) {
+            return new CategoryFilter[size];
+        }
+    };
+
     @Nullable
     public String getPrimaryCategory() {
         return primaryCategory;
@@ -45,13 +56,6 @@ public class CategoryFilter implements Parcelable {
     public String getTertiaryCategory() {
         return tertiaryCategory;
     }
-
-
-    @Nullable
-    public String isNewlyAdded() {
-        return newlyAdded;
-    }
-
 
     protected CategoryFilter(Parcel in) {
         primaryCategory = in.readString();
@@ -68,25 +72,19 @@ public class CategoryFilter implements Parcelable {
         dest.writeString(newlyAdded);
     }
 
+    @Nullable
+    public String isNewlyAdded() {
+        return newlyAdded;
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
 
-    public static final Creator<CategoryFilter> CREATOR = new Creator<CategoryFilter>() {
-        @Override
-        public CategoryFilter createFromParcel(Parcel in) {
-            return new CategoryFilter(in);
-        }
-
-        @Override
-        public CategoryFilter[] newArray(int size) {
-            return new CategoryFilter[size];
-        }
-    };
-
     public String getFragmentTag() {
-        return String.format(Locale.US, "%s:%s:%s", primaryCategory, secondaryCategory, tertiaryCategory);
+        return String.format(Locale.US, "%s:%s:%s", primaryCategory,
+                secondaryCategory, tertiaryCategory);
     }
 
     @Override
@@ -96,14 +94,12 @@ public class CategoryFilter implements Parcelable {
 
         CategoryFilter that = (CategoryFilter) o;
 
-        if (primaryCategory==null ? that.primaryCategory!=null : !primaryCategory.equals(that.primaryCategory))
-            return false;
-        if (secondaryCategory==null ? that.secondaryCategory!=null : !secondaryCategory.equals(that.secondaryCategory))
-            return false;
-        if (tertiaryCategory==null ? that.tertiaryCategory!=null : !tertiaryCategory.equals(that.tertiaryCategory))
-            return false;
-        return (newlyAdded==null ? that.newlyAdded==null : newlyAdded.equals(that.newlyAdded));
-
+        return (primaryCategory == null ? that.primaryCategory == null :
+                primaryCategory.equals(that.primaryCategory)) && (secondaryCategory == null ?
+                that.secondaryCategory == null : secondaryCategory.equals(that.secondaryCategory)) &&
+                (tertiaryCategory == null ? that.tertiaryCategory == null :
+                        tertiaryCategory.equals(that.tertiaryCategory)) && (newlyAdded == null ?
+                that.newlyAdded == null : newlyAdded.equals(that.newlyAdded));
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -22,7 +23,6 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import timber.log.Timber;
-
 
 public class AppStoreApp extends Application {
     public static final String LOGPREFIX = "RAS:";
@@ -40,7 +40,7 @@ public class AppStoreApp extends Application {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree() {
                 @Override
-                protected void log(final int priority, final String tag, final String message,
+                protected void log(final int priority, final String tag, @NonNull final String message,
                                    final Throwable t) {
                     super.log(priority, LOGPREFIX + tag, message, t);
                 }
@@ -61,7 +61,7 @@ public class AppStoreApp extends Application {
             Realm realm = Realm.getDefaultInstance();
             realm.close();
             Realm.deleteRealm(new RealmConfiguration.Builder().build());
-            prefs.edit().putInt("APP_VERSION",BuildConfig.VERSION_CODE).commit();
+            prefs.edit().putInt("APP_VERSION", BuildConfig.VERSION_CODE).apply();
         }
     }
 
@@ -81,6 +81,7 @@ public class AppStoreApp extends Application {
         theme = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("theme", "0"));
         Intent i = getBaseContext().getPackageManager()
                 .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        assert i != null;
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
     }

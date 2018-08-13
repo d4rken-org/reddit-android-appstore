@@ -15,6 +15,7 @@ import com.bumptech.glide.util.Preconditions;
 
 import java.io.InputStream;
 import java.security.MessageDigest;
+import java.util.Objects;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -22,7 +23,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import subreddit.android.appstore.backend.scrapers.ImgSize;
 import subreddit.android.appstore.backend.scrapers.MediaScraper;
-
 
 public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStream> {
     private final MediaScraper mediaScraper;
@@ -33,9 +33,15 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
 
     @Nullable
     @Override
-    public LoadData<InputStream> buildLoadData(IconRequest iconRequest, int width, int height, Options options) {
+    public LoadData<InputStream> buildLoadData(@NonNull IconRequest iconRequest, int width,
+                                               int height, @NonNull Options options) {
         IconRequestKey requestKey = new IconRequestKey(iconRequest, width, height, options);
         return new LoadData<>(requestKey, new ScrapeResultFetcher(mediaScraper, iconRequest, width, height, options));
+    }
+
+    @Override
+    public boolean handles(@NonNull IconRequest file) {
+        return true;
     }
 
     static class IconRequestKey implements Key {
@@ -44,7 +50,7 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
         private final int height;
         private final Object object;
 
-        public IconRequestKey(@NonNull IconRequest iconRequest, int width, int height, @Nullable Object object) {
+        IconRequestKey(@NonNull IconRequest iconRequest, int width, int height, @Nullable Object object) {
             this.iconRequest = Preconditions.checkNotNull(iconRequest);
             this.width = width;
             this.height = height;
@@ -57,7 +63,7 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
         }
 
         @Override
-        public void updateDiskCacheKey(MessageDigest messageDigest) {
+        public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
             messageDigest.update(toString().getBytes(CHARSET));
         }
 
@@ -68,11 +74,8 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
 
             IconRequestKey that = (IconRequestKey) o;
 
-            if (width != that.width) return false;
-            if (height != that.height) return false;
-            if (!iconRequest.equals(that.iconRequest)) return false;
-            return object != null ? object.equals(that.object) : that.object == null;
-
+            return width == that.width && height == that.height && iconRequest.equals(that.iconRequest) &&
+                    (object != null ? object.equals(that.object) : that.object == null);
         }
 
         @Override
@@ -83,11 +86,6 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
             result = 31 * result + (object != null ? object.hashCode() : 0);
             return result;
         }
-    }
-
-    @Override
-    public boolean handles(IconRequest file) {
-        return true;
     }
 
     private static class ScrapeResultFetcher implements DataFetcher<InputStream> {
@@ -107,7 +105,7 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
         }
 
         @Override
-        public void loadData(Priority priority, final DataCallback<? super InputStream> callback) {
+        public void loadData(@NonNull Priority priority, @NonNull final DataCallback<? super InputStream> callback) {
             mediaScraper.get(iconRequest.getAppInfo())
                     .map(scrapeResult -> {
                         String iconUrl = scrapeResult.getIconUrl(ImgSize.px(width), ImgSize.px(height));
@@ -117,7 +115,7 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
                         //TODO: okhttp
                         OkHttpClient client = new OkHttpClient();
                         Request request = new Request.Builder().url(iconUrl).build();
-                        return client.newCall(request).execute().body().byteStream();
+                        return Objects.requireNonNull(client.newCall(request).execute().body()).byteStream();
                     })
                     .subscribe(new Observer<InputStream>() {
                         @Override
@@ -137,7 +135,6 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
 
                         @Override
                         public void onComplete() {
-
                         }
                     });
         }
@@ -170,8 +167,9 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
             this.mediaScraper = mediaScraper;
         }
 
+        @NonNull
         @Override
-        public ModelLoader<IconRequest, InputStream> build(MultiModelLoaderFactory multiFactory) {
+        public ModelLoader<IconRequest, InputStream> build(@NonNull MultiModelLoaderFactory multiFactory) {
             return new IconRequestModelLoader(mediaScraper);
         }
 

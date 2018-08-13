@@ -74,5 +74,4 @@ public class TokenRepository {
     void storeToken(@NonNull TokenApi.Token token) {
         preferences.edit().putString(PREF_KEY, gson.toJson(token)).apply();
     }
-
 }

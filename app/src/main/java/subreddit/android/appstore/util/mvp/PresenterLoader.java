@@ -5,12 +5,11 @@ import android.os.Bundle;
 
 import subreddit.android.appstore.util.ObjectRetainLoader;
 
-
 public class PresenterLoader<PresenterT extends BasePresenter<ViewT>, ViewT> extends ObjectRetainLoader<PresenterT> {
 
     private Bundle savedState;
 
-    public PresenterLoader(Context context, PresenterFactory<PresenterT> factory, Bundle savedState) {
+    PresenterLoader(Context context, PresenterFactory<PresenterT> factory, Bundle savedState) {
         super(context, factory);
         this.savedState = savedState;
     }

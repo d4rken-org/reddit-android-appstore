@@ -1,6 +1,5 @@
 package subreddit.android.appstore.screens.list;
 
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
@@ -10,9 +9,9 @@ import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.AppTags;
 
 public class TagMap {
-    final Map<AppTags, Integer> tagCounts = new HashMap<>();
+    private final Map<AppTags, Integer> tagCounts = new HashMap<>();
 
-    public TagMap() {
+    TagMap() {
     }
 
     public TagMap(Collection<AppInfo> appInfos) {

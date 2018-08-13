@@ -1,6 +1,5 @@
 package subreddit.android.appstore.backend.reddit;
 
-
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

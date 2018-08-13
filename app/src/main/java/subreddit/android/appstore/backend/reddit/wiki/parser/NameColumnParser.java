@@ -8,7 +8,6 @@ import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.data.Download;
 import timber.log.Timber;
 
-
 public class NameColumnParser extends BaseParser {
     static final Pattern NAME_PATTERN = Pattern.compile("^(?:\\[(.+)\\]\\((.+)\\))$");
 

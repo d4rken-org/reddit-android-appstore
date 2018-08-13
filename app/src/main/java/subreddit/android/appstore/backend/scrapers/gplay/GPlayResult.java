@@ -9,10 +9,9 @@ import java.util.Locale;
 import subreddit.android.appstore.backend.scrapers.BaseScrapeResult;
 import subreddit.android.appstore.backend.scrapers.ImgSize;
 
-
 public class GPlayResult extends BaseScrapeResult {
 
-    public GPlayResult(String iconUrl, Collection<String> screenshotUrls) {
+    GPlayResult(String iconUrl, Collection<String> screenshotUrls) {
         super(iconUrl, screenshotUrls);
     }
 

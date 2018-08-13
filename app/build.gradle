@@ -3,14 +3,14 @@ apply plugin: 'realm-android'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'jacoco'
 
-def gitSha() {
+/*def gitSha() {
     def p = 'git rev-parse --short HEAD'.execute([], project.rootDir)
     p.waitFor()
     if (p.exitValue() != 0) {
         throw new RuntimeException(p.errorStream.text)
     }
     return p.text.trim()
-}
+}*/
 
 def packageName = "subreddit.android.appstore"
 
@@ -29,19 +29,19 @@ android {
         }
     }
 
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.2'
 
     def versionMajor = 0
     def versionMinor = 9
-    def versionPatch = 0
+    def versionPatch = 1
     def versionBuild = 0
 
 
     defaultConfig {
         applicationId "${packageName}"
         minSdkVersion 16
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
     }
@@ -63,10 +63,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        applicationVariants.all { variant ->
+        applicationVariants.each { variant ->
             if (variant.buildType.name != "debug") {
-                variant.outputs.each { output ->
-                    output.outputFileName = "${packageName}-v" + defaultConfig.versionName + "(" + defaultConfig.versionCode + ")-" + variant.buildType.name.toUpperCase() + "-" + gitSha() + ".apk"
+                variant.outputs.each { output -> output.outputFileName = "${packageName}-v" + defaultConfig.versionName + "(" + defaultConfig.versionCode + ")-" + variant.buildType.name.toUpperCase() + "-" + gitSha() + ".apk"
                 }
             }
         }
@@ -96,9 +95,11 @@ android {
             outputs.upToDateWhen { false }
             showStandardStreams = true
         }
-
         jacoco {
             includeNoLocationClasses = true
+        }
+        tasks.withType(Test) {
+            jacoco.includeNoLocationClasses = true
         }
     }
 
@@ -155,7 +156,7 @@ tasks.withType(Test) {
     systemProperty "robolectric.logging", "stdout"
 }
 ext {
-    supportLibVersion = '27.1.1'
+    supportLibVersion = '28.0.0-rc01'
 }
 //noinspection GroovyAssignabilityCheck
 configurations.all {
@@ -166,7 +167,12 @@ configurations.all {
     resolutionStrategy.force "com.android.support:appcompat-v7:${supportLibVersion}"
     resolutionStrategy.force "com.android.support:design:${supportLibVersion}"
 }
+configurations {
+    cleanedAnnotations
+    compile.exclude group: 'org.jetbrains' , module:'annotations'
+}
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     // Support libs
     implementation "com.android.support:support-annotations:${supportLibVersion}"
     implementation "com.android.support:appcompat-v7:${supportLibVersion}"
@@ -177,7 +183,7 @@ dependencies {
     implementation "com.android.support:preference-v14:${supportLibVersion}"
     implementation "com.android.support:design:${supportLibVersion}"
 
-    // Recyclerview fast scroller
+    // RecyclerView fast scroller
     implementation 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
 
     // OKHttp
@@ -203,11 +209,12 @@ dependencies {
     // Gson
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    //Dagger
+    // Dagger
     implementation 'com.google.dagger:dagger:2.16'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
+    implementation 'com.google.dagger:dagger-android:2.16'
 
-    //Butterknife
+    // Butterknife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
@@ -226,7 +233,7 @@ dependencies {
     // jsoup HTML parser library @ https://jsoup.org/
     implementation 'org.jsoup:jsoup:1.11.3'
 
-    // Intrumentation tests (UI tests)
+    // Instrumentation tests (UI tests)
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -234,14 +241,14 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
     androidTestImplementation 'com.android.support.test.espresso.idling:idling-concurrent:3.0.2'
 
-    // Resolve conflicts with depdencies
+    // Resolve conflicts with dependencies
     androidTestImplementation "com.android.support:support-annotations:${supportLibVersion}"
 
-    //Leakcanary
+    // Leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
 
-    //License dialog
+    // License dialog
     implementation 'de.psdev.licensesdialog:licensesdialog:1.8.3'
 }

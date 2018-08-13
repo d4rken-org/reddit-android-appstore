@@ -8,15 +8,12 @@ import okhttp3.OkHttpClient;
 import subreddit.android.appstore.backend.scrapers.caching.ScrapeDiskCache;
 import subreddit.android.appstore.util.dagger.ApplicationScope;
 
-
 @Module
 public class ScraperModule {
 
     @Provides
     @ApplicationScope
-    ScrapeDiskCache provideScrapeDiskCache(Context context) {
-        return new ScrapeDiskCache(context);
-    }
+    ScrapeDiskCache provideScrapeDiskCache(Context context) { return new ScrapeDiskCache(context); }
 
     @Provides
     @ApplicationScope

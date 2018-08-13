@@ -30,6 +30,7 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -47,7 +48,6 @@ import subreddit.android.appstore.util.mvp.PresenterFactory;
 import subreddit.android.appstore.util.ui.BaseActivity;
 import subreddit.android.appstore.util.ui.BaseViewHolder;
 import subreddit.android.appstore.util.ui.DividerItemDecoration;
-
 
 public class AppListFragment extends BasePresenterFragment<AppListContract.Presenter, AppListContract.View>
         implements AppListContract.View, BaseViewHolder.ClickListener, FilterListAdapter.FilterListener, SwipeRefreshLayout.OnRefreshListener {
@@ -79,17 +79,19 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        DaggerAppListComponent.builder()
-                .appComponent(AppStoreApp.Injector.INSTANCE.getAppComponent())
-                .appListModule(new AppListModule(getArguments()))
-                .build().inject(this);
+        if (getArguments() != null) {
+            DaggerAppListComponent.builder()
+                    .appComponent(AppStoreApp.Injector.INSTANCE.getAppComponent())
+                    .appListModule(new AppListModule(getArguments()))
+                    .build().inject(this);
+        }
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_applist_layout, container, false);
         unbinder = ButterKnife.bind(this, layout);
         return layout;
@@ -101,9 +103,9 @@ public class AppListFragment extends BasePresenterFragment<AppListContract.Prese
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         appList.setLayoutManager(new LinearLayoutManager(getContext()));
-        appList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
+        appList.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL_LIST));
         appListAdapter = new AppListAdapter();
         appListAdapter.setHasStableIds(true);
         appListAdapter.setItemClickListener(this);

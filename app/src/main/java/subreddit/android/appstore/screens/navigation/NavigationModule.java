@@ -7,12 +7,12 @@ import subreddit.android.appstore.backend.reddit.wiki.WikiRepository;
 import subreddit.android.appstore.util.dagger.FragmentScope;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
 
-
 @Module
 public class NavigationModule {
     @Provides
     @FragmentScope
-    public PresenterFactory<NavigationContract.Presenter> providePresenterFactory(final WikiRepository wikiRepository, final GithubRepository githubRepository) {
+    public PresenterFactory<NavigationContract.Presenter> providePresenterFactory(
+            final WikiRepository wikiRepository, final GithubRepository githubRepository) {
         return new PresenterFactory<NavigationContract.Presenter>() {
             @Override
             public NavigationContract.Presenter create() {

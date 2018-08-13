@@ -13,12 +13,11 @@ import subreddit.android.appstore.backend.scrapers.MediaScraper;
 import subreddit.android.appstore.util.dagger.FragmentScope;
 import subreddit.android.appstore.util.mvp.PresenterFactory;
 
-
 @Module
 public class AppDetailsModule {
     private final AppInfo appInfo;
 
-    public AppDetailsModule(Activity activity) {
+    AppDetailsModule(Activity activity) {
         Gson gson = new GsonBuilder().create();
         appInfo = AppInfo.fromJson(gson, activity.getIntent().getStringExtra(AppDetailsActivity.ARG_KEY));
     }

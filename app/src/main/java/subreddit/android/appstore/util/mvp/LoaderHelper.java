@@ -13,9 +13,9 @@ import android.support.v4.content.Loader;
 public class LoaderHelper<PresenterT extends BasePresenter<ViewT>, ViewT extends BaseView> {
     private final int loaderId;
     private final LoaderManager loaderManager;
-    final Context context;
+    private final Context context;
 
-    public LoaderHelper(@NonNull Context context, @NonNull LoaderManager manager, int loaderId) {
+    LoaderHelper(@NonNull Context context, @NonNull LoaderManager manager, int loaderId) {
         this.context = context;
         this.loaderId = loaderId;
         this.loaderManager = manager;
@@ -32,25 +32,26 @@ public class LoaderHelper<PresenterT extends BasePresenter<ViewT>, ViewT extends
             retrievePresenterFromExistingLoaderAndInformListener((PresenterLoader) loader, factory.getTypeClazz(), presenterListener);
         } else {
             loaderManager.initLoader(loaderId, savedState, new LoaderManager.LoaderCallbacks<PresenterT>() {
+                @NonNull
                 @Override
                 public Loader<PresenterT> onCreateLoader(int id, Bundle args) {
                     return new PresenterLoader<>(context, factory, args);
                 }
 
                 @Override
-                public void onLoadFinished(Loader<PresenterT> loader, PresenterT presenter) {
+                public void onLoadFinished(@NonNull Loader<PresenterT> loader, PresenterT presenter) {
                     presenterListener.onPresenterReady(presenter);
                 }
 
                 @Override
-                public void onLoaderReset(Loader<PresenterT> loader) {
+                public void onLoaderReset(@NonNull Loader<PresenterT> loader) {
                     presenterListener.onPresenterDestroyed();
                 }
             });
         }
     }
 
-    protected void retrievePresenterFromExistingLoaderAndInformListener(
+    private void retrievePresenterFromExistingLoaderAndInformListener(
             @NonNull PresenterLoader loader,
             @NonNull Class<? extends PresenterT> presenterClazz,
             @NonNull Callback<PresenterT> presenterListener) {
@@ -83,7 +84,6 @@ public class LoaderHelper<PresenterT extends BasePresenter<ViewT>, ViewT extends
 
     public interface Callback<PresenterT extends BasePresenter<?>> {
         void onPresenterReady(@NonNull PresenterT presenter);
-
         void onPresenterDestroyed();
     }
 }

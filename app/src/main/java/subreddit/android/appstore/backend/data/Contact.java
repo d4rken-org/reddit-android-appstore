@@ -1,15 +1,6 @@
 package subreddit.android.appstore.backend.data;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
-import java.util.Locale;
-
-import timber.log.Timber;
-
 
 public class Contact {
 
@@ -30,10 +21,8 @@ public class Contact {
         return type;
     }
 
-
     @NonNull
     public String getTarget() {
         return target;
     }
-
 }

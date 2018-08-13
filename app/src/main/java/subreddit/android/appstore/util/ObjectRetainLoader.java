@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.content.Loader;
 
-
 public class ObjectRetainLoader<TypeT> extends Loader<TypeT> {
 
     private TypedObjectFactory<TypeT> typedObjectFactory;

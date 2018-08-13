@@ -1,6 +1,5 @@
 package subreddit.android.appstore.backend.github;
 
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -18,7 +17,7 @@ public class FakeGithubRepository implements GithubRepository {
         release.releaseDescription = "This update fixes x, x, x";
         release.assets = new ArrayList<>();
         GithubApi.Release.Assets a = new GithubApi.Release.Assets();
-        a.downloadUrl = "https://github.com/d4rken/reddit-android-appstore/releases/download/v0.6.0/rAndroid_AppStore-v0.6.0.6000.-RELEASE-ee4ee75.apk";
+        a.downloadUrl = "https://github.com/d4rken/reddit-android-appstore/releases";
         release.assets.add(a);
 
         return Observable.just(release);

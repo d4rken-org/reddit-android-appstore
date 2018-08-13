@@ -1,6 +1,5 @@
 package subreddit.android.appstore.backend.data;
 
-
 public enum AppTags {
     // Price
     FREE, PAID,

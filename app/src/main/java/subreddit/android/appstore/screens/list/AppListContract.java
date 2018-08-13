@@ -8,7 +8,6 @@ import subreddit.android.appstore.backend.data.AppTags;
 import subreddit.android.appstore.util.mvp.BasePresenter;
 import subreddit.android.appstore.util.mvp.BaseView;
 
-
 public interface AppListContract {
     interface View extends BaseView {
 
@@ -28,6 +27,5 @@ public interface AppListContract {
     interface Presenter extends BasePresenter<View> {
 
         void refreshData();
-
     }
 }

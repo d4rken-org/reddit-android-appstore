@@ -9,7 +9,8 @@ import subreddit.android.appstore.util.ui.BaseActivity;
 /**
  * Forked from https://github.com/michal-luszczuk/tomorrow-mvp
  */
-public abstract class BasePresenterActivity<PresenterT extends BasePresenter<ViewT>, ViewT extends BaseView> extends BaseActivity
+public abstract class BasePresenterActivity<PresenterT extends BasePresenter<ViewT>,
+        ViewT extends BaseView> extends BaseActivity
         implements LoaderHelper.Callback<PresenterT> {
 
     private static final int LOADER_ID = 2016;
@@ -63,12 +64,10 @@ public abstract class BasePresenterActivity<PresenterT extends BasePresenter<Vie
 
     @Override
     public void onPresenterReady(@NonNull PresenterT presenter) {
-
     }
 
     @Override
     public void onPresenterDestroyed() {
-
     }
 
     @NonNull

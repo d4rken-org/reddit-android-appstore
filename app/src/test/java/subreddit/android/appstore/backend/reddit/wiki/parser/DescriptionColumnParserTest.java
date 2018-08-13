@@ -4,10 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +17,9 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 public class DescriptionColumnParserTest {
+    /**
+     *
+     */
     @Mock
     EncodingFixer encodingFixer;
     private DescriptionColumnParser parser;
@@ -26,26 +27,17 @@ public class DescriptionColumnParserTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        when(encodingFixer.fixHtmlEscapes(anyString())).then(new Answer<String>() {
-            public String answer(InvocationOnMock invocation) throws Throwable {
-                return invocation.getArgument(0);
-            }
-        });
-        when(encodingFixer.convertMarkdownToHtml(anyString())).then(new Answer<String>() {
-            public String answer(InvocationOnMock invocation) throws Throwable {
-                return invocation.getArgument(0);
-            }
-        });
-        when(encodingFixer.convertSubredditsToLinks(anyString())).then(new Answer<String>() {
-            public String answer(InvocationOnMock invocation) throws Throwable {
-                return invocation.getArgument(0);
-            }
-        });
+        when(encodingFixer.fixHtmlEscapes(anyString())).then((Answer<String>) invocation ->
+                invocation.getArgument(0));
+        when(encodingFixer.convertMarkdownToHtml(anyString())).then((Answer<String>) invocation ->
+                invocation.getArgument(0));
+        when(encodingFixer.convertSubredditsToLinks(anyString())).then((Answer<String>) invocation ->
+                invocation.getArgument(0));
         parser = new DescriptionColumnParser(encodingFixer);
     }
 
     @Test
-    public void testParse() throws IOException {
+    public void testParse() {
         String rawDescriptionData = "This is a description";
         Map<AppParser.Column, String> rawColumnMap = new HashMap<>();
         rawColumnMap.put(AppParser.Column.DESCRIPTION, rawDescriptionData);
