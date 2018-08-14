@@ -59,8 +59,7 @@ public class LiveWikiRepository implements WikiRepository {
                 .flatMap(response -> {
                     Timber.d(response.toString());
                     long timeStart = System.currentTimeMillis();
-                    Collection<AppInfo> infos = new ArrayList<>();
-                    infos.addAll(bodyParser.parseBody(response.data.content_md));
+                    Collection<AppInfo> infos = new ArrayList<>(bodyParser.parseBody(response.data.content_md));
                     long timeStop = System.currentTimeMillis();
                     Timber.d("Initial parse: Parsed %d items in %dms", infos.size(), (timeStop - timeStart));
 
@@ -105,6 +104,4 @@ public class LiveWikiRepository implements WikiRepository {
         this.authString = authString;
         return authString;
     }
-
-
 }

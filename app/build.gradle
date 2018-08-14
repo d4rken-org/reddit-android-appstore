@@ -37,7 +37,6 @@ android {
     def versionPatch = 1
     def versionBuild = 0
 
-
     defaultConfig {
         applicationId "${packageName}"
         minSdkVersion 16
@@ -45,9 +44,12 @@ android {
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
     }
+
     lintOptions {
+        disable 'MissingTranslation'
         abortOnError false
     }
+
     buildTypes {
         debug {
             minifyEnabled false
@@ -71,15 +73,14 @@ android {
             }
         }
     }
+
     flavorDimensions "default"
     productFlavors {
         mock {
             applicationIdSuffix = ".mock"
         }
         //noinspection GroovyMissingReturnStatement
-        prod {
-
-        }
+        prod {}
     }
 
     // Remove mockRelease as it's not needed.
@@ -157,9 +158,11 @@ tasks.coveralls {
 tasks.withType(Test) {
     systemProperty "robolectric.logging", "stdout"
 }
+
 ext {
     supportLibVersion = '28.0.0-rc01'
 }
+
 //noinspection GroovyAssignabilityCheck
 configurations.all {
     //noinspection GroovyAssignabilityCheck
@@ -169,10 +172,12 @@ configurations.all {
     resolutionStrategy.force "com.android.support:appcompat-v7:${supportLibVersion}"
     resolutionStrategy.force "com.android.support:design:${supportLibVersion}"
 }
+
 configurations {
     cleanedAnnotations
     compile.exclude group: 'org.jetbrains' , module:'annotations'
 }
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // Support libs

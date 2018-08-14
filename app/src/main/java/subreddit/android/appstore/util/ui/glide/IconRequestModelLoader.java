@@ -68,11 +68,8 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
 
             IconRequestKey that = (IconRequestKey) o;
 
-            if (width != that.width) return false;
-            if (height != that.height) return false;
-            if (!iconRequest.equals(that.iconRequest)) return false;
-            return object != null ? object.equals(that.object) : that.object == null;
-
+            return width == that.width && height == that.height && iconRequest.equals(that.iconRequest) &&
+                    (object != null ? object.equals(that.object) : that.object == null);
         }
 
         @Override
@@ -137,7 +134,6 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
 
                         @Override
                         public void onComplete() {
-
                         }
                     });
         }
