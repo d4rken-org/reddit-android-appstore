@@ -1,7 +1,6 @@
 package subreddit.android.appstore.screens.details;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -17,7 +16,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -115,14 +113,11 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
                         .setTitle(R.string.flag)
                         .setMessage(R.string.flag_text)
                         .setNegativeButton(android.R.string.cancel, null)
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                if (flagMessage.getText().toString().isEmpty()) {
-                                    Toast.makeText(getContext(), getContext().getResources().getString(R.string.no_message), Toast.LENGTH_LONG).show();
-                                } else {
-                                    openInChrome(REDDIT_MSG_URL_HEADER + "*****" + collapsingToolbar.getTitle() + " REPORT" + "*****" + "%0A" + (flagMessage.getText().toString().trim()));
-                                }
+                        .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                            if (flagMessage.getText().toString().isEmpty()) {
+                                Toast.makeText(getContext(), getContext().getResources().getString(R.string.no_message), Toast.LENGTH_LONG).show();
+                            } else {
+                                openInChrome(REDDIT_MSG_URL_HEADER + "*****" + collapsingToolbar.getTitle() + " REPORT" + "*****" + "%0A" + (flagMessage.getText().toString().trim()));
                             }
                         })
                         .setView(flagMessage)
@@ -139,14 +134,10 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         unbinder = ButterKnife.bind(this, layout);
         toolbar.setContentInsetStartWithNavigation(0);
 
-        appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                float scrollRange = (float) appBarLayout.getTotalScrollRange();
-                fadeHeaderItems(scrollRange, verticalOffset);
-            }
+        appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            float scrollRange = (float) appBarLayout.getTotalScrollRange();
+            fadeHeaderItems(scrollRange, verticalOffset);
         });
-
         return layout;
     }
 
