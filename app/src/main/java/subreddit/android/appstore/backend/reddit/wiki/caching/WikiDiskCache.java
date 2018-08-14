@@ -1,6 +1,5 @@
 package subreddit.android.appstore.backend.reddit.wiki.caching;
 
-
 import android.content.Context;
 
 import com.google.gson.Gson;
@@ -10,9 +9,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import io.realm.RealmResults;
