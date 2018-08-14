@@ -68,7 +68,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             if (preference.getKey().equals("core.options.savetagfilters")) {
                 if (!((Boolean) o)) {
                     deleteSavedTagFilters();
-                    Timber.d("Save selected tags is now " + o);
+                    Timber.d("Save selected tags is now %s", o);
                 }
                 return true;
             }
@@ -76,11 +76,9 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             new AlertDialog.Builder(getActivity())
                     .setMessage(R.string.restart)
                     .setNegativeButton(R.string.later, null)
-                    .setPositiveButton(
-                            android.R.string.ok,
-                            (dialogInterface, i) -> ((AppStoreApp) getActivity().getApplication()).restart())
+                    .setPositiveButton(android.R.string.ok, (dialogInterface, i) ->
+                            ((AppStoreApp) getActivity().getApplication()).restart())
                     .show();
-
             return true;
         }
 
@@ -110,6 +108,5 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
             editor.commit();
         }
-
     }
 }
