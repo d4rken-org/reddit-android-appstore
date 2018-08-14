@@ -11,7 +11,6 @@ public class RealmString extends RealmObject {
     String aString;
 
     public RealmString() {
-
     }
 
     public RealmString(String aString) {

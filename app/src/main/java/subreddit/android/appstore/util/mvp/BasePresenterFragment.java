@@ -11,7 +11,8 @@ import subreddit.android.appstore.util.ui.BaseFragment;
 /**
  * Forked from https://github.com/michal-luszczuk/tomorrow-mvp
  */
-public abstract class BasePresenterFragment<PresenterT extends BasePresenter<ViewT>, ViewT extends BaseView> extends BaseFragment
+public abstract class BasePresenterFragment<PresenterT extends BasePresenter<ViewT>,
+        ViewT extends BaseView> extends BaseFragment
         implements LoaderHelper.Callback<PresenterT> {
 
     private static final int LOADER_ID = 2048;
@@ -71,12 +72,10 @@ public abstract class BasePresenterFragment<PresenterT extends BasePresenter<Vie
 
     @Override
     public void onPresenterReady(@NonNull PresenterT presenter) {
-
     }
 
     @Override
     public void onPresenterDestroyed() {
-
     }
 
     @NonNull

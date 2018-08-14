@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
 public class AppInfoTest {
 
     @Test
-    public void testCompareSortsIgnoringCase() throws Exception {
+    public void testCompareSortsIgnoringCase() {
         // Given
         AppInfo lowerCaseNameApp = new AppInfo();
         lowerCaseNameApp.setAppName("apple");
@@ -28,5 +28,4 @@ public class AppInfoTest {
         // Then
         assertThat("Sorting places lowercase letters after uppercase", difference, is(lessThan(0)));
     }
-
 }

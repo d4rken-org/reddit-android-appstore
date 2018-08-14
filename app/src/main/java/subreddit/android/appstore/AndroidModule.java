@@ -26,6 +26,4 @@ public class AndroidModule {
     public SharedPreferences providePreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
-
-
 }

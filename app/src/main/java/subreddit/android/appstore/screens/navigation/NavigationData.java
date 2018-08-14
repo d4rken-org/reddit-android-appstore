@@ -1,6 +1,5 @@
 package subreddit.android.appstore.screens.navigation;
 
-
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import subreddit.android.appstore.backend.data.AppInfo;
+
 
 public class NavigationData {
     private final List<CategoryFilter> primaryCategories = new ArrayList<>();

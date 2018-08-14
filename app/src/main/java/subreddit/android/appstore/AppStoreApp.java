@@ -23,7 +23,6 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import timber.log.Timber;
 
-
 public class AppStoreApp extends Application {
     public static final String LOGPREFIX = "RAS:";
     public static final String GITHUB_SIGNATURE = "FC4E2523E3509BA56E6AFDC36004958E2E94EAB2";

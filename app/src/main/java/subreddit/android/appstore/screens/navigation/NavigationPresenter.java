@@ -32,12 +32,10 @@ public class NavigationPresenter implements NavigationContract.Presenter {
 
     @Override
     public void onCreate(Bundle bundle) {
-
     }
 
     @Override
     public void onAttachView(NavigationContract.View view) {
-
         this.view = view;
         categoryUpdater = repository.getAppList()
                 .observeOn(Schedulers.computation())
@@ -80,7 +78,6 @@ public class NavigationPresenter implements NavigationContract.Presenter {
 
                     @Override
                     public void onComplete() {
-
                     }
                 });
     }
@@ -94,12 +91,10 @@ public class NavigationPresenter implements NavigationContract.Presenter {
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-
     }
 
     @Override
     public void onDestroy() {
-
     }
 
     @Override

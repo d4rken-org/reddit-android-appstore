@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ public class PriceColumnParserTest {
     }
 
     @Test
-    public void testParse() throws IOException {
+    public void testParse() {
         String rawPriceData = "Paid";
         Map<AppParser.Column, String> rawColumnMap = new HashMap<>();
         rawColumnMap.put(AppParser.Column.PRICE, rawPriceData);
@@ -42,8 +41,5 @@ public class PriceColumnParserTest {
         parser.parse(appInfo, rawColumnMap);
         assertTrue(appInfo.getTags().contains(AppTags.FREE));
         assertFalse(appInfo.getTags().contains(AppTags.PAID));
-
     }
-
-
 }

@@ -8,7 +8,6 @@ import okhttp3.OkHttpClient;
 import subreddit.android.appstore.backend.scrapers.caching.ScrapeDiskCache;
 import subreddit.android.appstore.util.dagger.ApplicationScope;
 
-
 @Module
 public class ScraperModule {
 

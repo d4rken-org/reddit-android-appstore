@@ -83,7 +83,6 @@ public class LoaderHelper<PresenterT extends BasePresenter<ViewT>, ViewT extends
 
     public interface Callback<PresenterT extends BasePresenter<?>> {
         void onPresenterReady(@NonNull PresenterT presenter);
-
         void onPresenterDestroyed();
     }
 }

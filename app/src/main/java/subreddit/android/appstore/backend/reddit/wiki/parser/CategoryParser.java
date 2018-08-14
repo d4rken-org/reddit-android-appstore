@@ -15,7 +15,6 @@ public class CategoryParser {
         this.encodingFixer = encodingFixer;
     }
 
-
     public void parse(AppInfo appInfo, List<String> rawCategories) {
         List<String> processedCategories = new ArrayList<>();
         for (String unprocessed : rawCategories) processedCategories.add(encodingFixer.fixHtmlEscapes(unprocessed));

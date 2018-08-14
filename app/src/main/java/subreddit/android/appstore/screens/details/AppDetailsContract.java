@@ -19,6 +19,5 @@ public interface AppDetailsContract {
     }
 
     interface Presenter extends BasePresenter<View> {
-
     }
 }

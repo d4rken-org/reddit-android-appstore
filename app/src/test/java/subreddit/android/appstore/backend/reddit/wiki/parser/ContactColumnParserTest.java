@@ -1,12 +1,10 @@
 package subreddit.android.appstore.backend.reddit.wiki.parser;
 
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +14,7 @@ import subreddit.android.appstore.backend.data.Contact;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertFalse;
+
 
 public class ContactColumnParserTest {
     @Mock EncodingFixer encodingFixer;
@@ -28,7 +27,7 @@ public class ContactColumnParserTest {
     }
 
     @Test
-    public void testParse() throws IOException {
+    public void testParse() {
         String rawContactData = "/u/someuser1 thisismail1@gmail.com " +
                 "Twitter: [@twitteraccount](https://twitter.com/twitteraccount) " +
                 "Instagram: [@instagramaccount](http://instagram.com/instagramaccount) " +

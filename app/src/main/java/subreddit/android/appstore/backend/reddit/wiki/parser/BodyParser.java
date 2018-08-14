@@ -109,5 +109,4 @@ public class BodyParser {
         }
         return appInfos;
     }
-
 }

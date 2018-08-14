@@ -31,5 +31,4 @@ public class GithubRepositoryModule {
                 .build();
         return retrofit.create(GithubApi.class);
     }
-
 }

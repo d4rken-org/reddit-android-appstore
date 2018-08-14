@@ -129,6 +129,4 @@ public class AppInfo implements Comparable<AppInfo> {
         result = 31 * result + appName.hashCode();
         return result;
     }
-
 }
-
