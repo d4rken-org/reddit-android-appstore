@@ -50,6 +50,4 @@ public abstract class BaseAdapter<ViewHolderT extends BaseViewHolder> extends Re
     public void onViewRecycled(ViewHolderT holder) {
         super.onViewRecycled(holder);
     }
-
 }
-

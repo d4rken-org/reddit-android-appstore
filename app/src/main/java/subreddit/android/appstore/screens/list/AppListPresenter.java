@@ -38,7 +38,6 @@ public class AppListPresenter implements AppListContract.Presenter {
 
     @Override
     public void onCreate(Bundle bundle) {
-
     }
 
     @Override
@@ -75,17 +74,11 @@ public class AppListPresenter implements AppListContract.Presenter {
                     if (saveTagFiltersSelected()) {
                         AppListPresenter.this.view.restoreSelectedTags(getSavedTagFilters());
                     }
-
                 });
 
         tagUpdater = filteredData
                 .observeOn(Schedulers.computation())
-                .map(new Function<Collection<AppInfo>, TagMap>() {
-                    @Override
-                    public TagMap apply(Collection<AppInfo> appInfos) throws Exception {
-                        return new TagMap(appInfos);
-                    }
-                })
+                .map((Function<Collection<AppInfo>, TagMap>) TagMap::new)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(tagMap -> {
                     Timber.d("updateTagCount(%s)", tagMap);
@@ -113,14 +106,11 @@ public class AppListPresenter implements AppListContract.Presenter {
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-
     }
 
     @Override
     public void onDestroy() {
-
     }
-
 
     @Override
     public void refreshData() {
@@ -141,7 +131,6 @@ public class AppListPresenter implements AppListContract.Presenter {
                 appTags.add(data.get(i));
             }
         }
-
         return appTags;
     }
 
@@ -154,7 +143,6 @@ public class AppListPresenter implements AppListContract.Presenter {
                 editor.putBoolean("savedTags_" + i, true);
             }
         }
-
         editor.commit();
     }
 }

@@ -26,8 +26,6 @@ public interface AppListContract {
     }
 
     interface Presenter extends BasePresenter<View> {
-
         void refreshData();
-
     }
 }

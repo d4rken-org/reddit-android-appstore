@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ public class DeviceColumnParserTest {
     }
 
     @Test
-    public void testParse() throws IOException {
+    public void testParse() {
         String rawDeviceData = "Phone";
         Map<AppParser.Column, String> rawColumnMap = new HashMap<>();
         rawColumnMap.put(AppParser.Column.DEVICE, rawDeviceData);

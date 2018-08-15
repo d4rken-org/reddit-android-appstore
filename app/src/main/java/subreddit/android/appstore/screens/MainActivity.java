@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.View;
 
 import butterknife.BindView;
@@ -64,5 +63,4 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         toolbar.setTitle(filter.getName(this));
     }
-
 }

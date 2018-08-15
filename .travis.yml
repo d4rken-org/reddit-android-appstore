@@ -8,20 +8,23 @@ env:
 language: android
 jdk:
   - oraclejdk8
+
 android:
   components:
+    - tools
     - platform-tools
     - tools
-    - build-tools-27.0.3
+    - build-tools-28.0.2
     - android-22
     - android-25
-    - android-27
+    - android-28
     - extra-google-m2repository
     - extra-android-m2repository
     - sys-img-armeabi-v7a-android-22
+
   licenses:
-    - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
+    - 'android-sdk-preview-license-.+'
     - 'google-gdk-license-.+'
 
 before_install:
@@ -29,7 +32,7 @@ before_install:
 
 before_script:
   - echo no | android create avd --force -n test -t $API --abi $ABI
-  - emulator -avd test -no-skin -no-audio -no-window &
+  - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 

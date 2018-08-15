@@ -31,5 +31,4 @@ public class HttpModule {
         builder.addInterceptor(userAgent);
         return builder.build();
     }
-
 }

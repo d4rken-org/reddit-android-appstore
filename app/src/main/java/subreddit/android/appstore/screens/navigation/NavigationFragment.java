@@ -47,7 +47,6 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     @BindView(R.id.update_banner) View updateBanner;
     OnCategorySelectedListener onCategorySelectedListener;
 
-
     public static NavigationFragment newInstance() {
         return new NavigationFragment();
     }
@@ -205,7 +204,6 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
                 }
         }
 
-
         for (int i = 0; i < navigationView.getMenu().size(); i++) {
             MenuItem item = navigationView.getMenu().getItem(i);
             CategoryFilter filter = menuItemCategoryFilterMap.get(item);
@@ -231,7 +229,6 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
         this.onCategorySelectedListener = onCategorySelectedListener;
     }
 
-
     public interface OnCategorySelectedListener {
         void onCategorySelected(CategoryFilter filter);
     }
@@ -245,5 +242,4 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
         }
         return false;
     }
-
 }

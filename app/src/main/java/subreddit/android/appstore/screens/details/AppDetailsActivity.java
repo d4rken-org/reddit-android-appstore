@@ -1,10 +1,7 @@
 package subreddit.android.appstore.screens.details;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import subreddit.android.appstore.R;
 import subreddit.android.appstore.util.ui.BaseActivity;

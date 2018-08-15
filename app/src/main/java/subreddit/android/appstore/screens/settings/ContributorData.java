@@ -16,7 +16,4 @@ public class ContributorData {
     public ArrayList<String> getContributors() {
         return contributors;
     }
-
-
-
 }

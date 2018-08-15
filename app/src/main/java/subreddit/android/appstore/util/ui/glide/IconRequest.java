@@ -1,9 +1,9 @@
 package subreddit.android.appstore.util.ui.glide;
 
-
 import java.util.Locale;
 
 import subreddit.android.appstore.backend.data.AppInfo;
+
 
 public class IconRequest {
     private final AppInfo appInfo;
@@ -22,7 +22,6 @@ public class IconRequest {
         IconRequest that = (IconRequest) o;
 
         return appInfo.equals(that.appInfo);
-
     }
 
     @Override

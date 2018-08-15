@@ -28,14 +28,11 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         clickListener = listener;
     }
 
-    public View.OnClickListener buildWrapperForAdapterClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (clickListener == null) return;
-                if (getAdapterPosition() == RecyclerView.NO_POSITION) return;
-                clickListener.onItemClick(v, getAdapterPosition(), getItemId());
-            }
+    private View.OnClickListener buildWrapperForAdapterClickListener() {
+        return v -> {
+            if (clickListener == null) return;
+            if (getAdapterPosition() == RecyclerView.NO_POSITION) return;
+            clickListener.onItemClick(v, getAdapterPosition(), getItemId());
         };
     }
 
@@ -106,5 +103,4 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     public interface LongClickListener {
         boolean onItemLongClick(View view, int position, long itemId);
     }
-
 }

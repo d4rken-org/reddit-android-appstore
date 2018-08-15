@@ -42,7 +42,7 @@ public class FakeWikiRepository implements WikiRepository {
             AppInfo app2 = new AppInfo();
             app2.setAppName("Awesome app 2");
             app2.setDescription("This is awesome app 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-            app2.setCategories(new ArrayList<String>(Arrays.asList("primary", "secondary", "tertiary")));
+            app2.setCategories(new ArrayList<>(Arrays.asList("primary", "secondary", "tertiary")));
             app2.addTag(AppTags.TABLET);
             app2.addTag(AppTags.WEAR);
             app2.addTag(AppTags.PAID);
@@ -55,7 +55,7 @@ public class FakeWikiRepository implements WikiRepository {
             app3.setDescription(
                     encodingFixer.convertMarkdownToHtml("Tutorial **screencast** for [Propellerheads Reason](https://www.propellerheads.se/products/reason/)")
             );
-            app3.setCategories(new ArrayList<String>(Arrays.asList("Testing", "Examples", "Descriptions")));
+            app3.setCategories(new ArrayList<>(Arrays.asList("Testing", "Examples", "Descriptions")));
             app3.addTag(AppTags.WEAR);
             app3.addTag(AppTags.PAID);
             app3.addTag(AppTags.NEW);
@@ -67,7 +67,7 @@ public class FakeWikiRepository implements WikiRepository {
             app4.setDescription(
                     encodingFixer.convertSubredditsToLinks("Wow! /r/Android is the bestest ever.")
             );
-            app4.setCategories(new ArrayList<String>(Arrays.asList("Testing", "Examples", "Descriptions")));
+            app4.setCategories(new ArrayList<>(Arrays.asList("Testing", "Examples", "Descriptions")));
             app4.addTag(AppTags.WEAR);
             app4.addTag(AppTags.PAID);
             app4.addTag(AppTags.NEW);
@@ -77,7 +77,7 @@ public class FakeWikiRepository implements WikiRepository {
                 AppInfo randomApp = new AppInfo();
                 randomApp.setAppName(UUID.randomUUID().toString() + " app");
                 randomApp.setDescription(UUID.randomUUID().toString() + "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-                randomApp.setCategories(new ArrayList<String>(Arrays.asList("primary", "secondary", "tertiary")));
+                randomApp.setCategories(new ArrayList<>(Arrays.asList("primary", "secondary", "tertiary")));
                 for (int j = 0; j < 7; j++) {
                     //randomApp.addTag(randomEnum(AppTags.class));
                     randomApp.addTag(AppTags.WEAR);

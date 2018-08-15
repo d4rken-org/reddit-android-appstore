@@ -28,7 +28,6 @@ public class AppDetailsPresenter implements AppDetailsContract.Presenter {
 
     @Override
     public void onCreate(Bundle bundle) {
-
     }
 
     @Override
@@ -59,11 +58,9 @@ public class AppDetailsPresenter implements AppDetailsContract.Presenter {
 
                         @Override
                         public void onComplete() {
-
                         }
                     });
         }
-
     }
 
     @Override
@@ -74,11 +71,9 @@ public class AppDetailsPresenter implements AppDetailsContract.Presenter {
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-
     }
 
     @Override
     public void onDestroy() {
-
     }
 }

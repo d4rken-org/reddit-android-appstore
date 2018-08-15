@@ -13,5 +13,4 @@ import subreddit.android.appstore.screens.MainActivity;
 public class AppListTest {
     @Rule
     public ActivityTestRule<MainActivity> testRule = new ActivityTestRule<>(MainActivity.class);
-
 }

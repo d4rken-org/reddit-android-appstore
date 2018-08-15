@@ -1,6 +1,5 @@
 package subreddit.android.appstore.backend.scrapers;
 
-
 import android.support.annotation.NonNull;
 import android.support.v4.util.LruCache;
 
@@ -12,6 +11,7 @@ import subreddit.android.appstore.backend.data.Download;
 import subreddit.android.appstore.backend.scrapers.caching.ScrapeDiskCache;
 import subreddit.android.appstore.backend.scrapers.gplay.GPlayScraper;
 import timber.log.Timber;
+
 
 public class LiveMediaScraper implements MediaScraper {
     final LruCache<AppInfo, Observable<ScrapeResult>> scrapeCache = new LruCache<>(1);
