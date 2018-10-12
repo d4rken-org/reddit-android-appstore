@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">/r/Android App store</string>
+    <string name="button_refresh">Yenile</string>
+    <string name="button_filter">Filtre</string>
+    <string name="button_search">Ara</string>
+    <string name="screen_details">Ayrıntılar</string>
+    <string name="button_contact">Geliştirici ile iletişime geç</string>
+    <string name="button_download">İndir</string>
+    <string name="gplay">Google Play</string>
+    <string name="fdroid">F-Droid</string>
+    <string name="website">Websitesi</string>
+    <string name="mail">E-Mail</string>
+    <string name="reddit">Reddit</string>
+    <string name="twitter">Twitter</string>
+    <string name="instagram">Instagram</string>
+    <string name="hint_type_to_filter">Filtreleri yazınız</string>
+    <string name="button_about">Hakkında</string>
+    <string name="text_contributors">Katkıda bulunanlar</string>
+    <string name="licenses">Lisanslar</string>
+    <string name="version">Versiyon</string>
+    <string name="bugreport">Hata bildir</string>
+    <string name="settings">Ayarlar</string>
+    <string name="more">Daha fazla</string>
+    <string name="appearance">Görünüm</string>
+    <string name="preference_theme">Tema</string>
+    <string name="preference_theme_desc">Kullanılacak tema</string>
+    <string name="restart">Temanın aktif olması için yeniden başlatma gereklidir</string>
+    <string name="later">Sonra</string>
+    <string name="app_category_everything">Tümü</string>
+    <string name="app_category_new">Yeni</string>
+    <string name="view_update">Görüntüle</string>
+    <string name="error">Repo alınırken hata oluştu</string>
+    <string name="options">Seçenkler</string>
+    <string name="screenshots">Ekran alıntısı</string>
+    <string name="options_loadmedia_title"><![CDATA[İkonlar & Ekran alıntısı]]></string>
+    <string name="options_loadmedia_summary">Uygulama ikonlarını ve ekran alıntılarını yükle</string>
+    <string name="options_savetagfilters_title">Seçili etiket filtrelerini kaydet</string>
+    <string name="options_savetagfilters_summary">Aygnı etiketleri her zaman filtrele</string>
+    <string name="update">Güncelleme mevcut</string>
+    <string name="update_error">Güncellemeler kontrol edilirken hata oluştu</string>
+    <string name="update_confirm">Güncelle</string>
+    <string name="cancel">Vazgeç</string>
+    <string name="flag">Uygulamayı bildir</string>
+    <string name="no_message">Lütfen bir mesaj giriniz</string>
+    <string name="no_email_client">Kullanılabilir bir email istemcisi yok</string>
+    <string name="flag_text">Lütfen bu uygulamayı neden bildirdiğinizi açıklayınız. r/Android moderatör ekibine özel mesaj göndermek için Reddit\'e yönlendiriliceksiniz</string>
+    <string name="error_contributors">Katkıda bulunanlar alınırken hata oluştu.</string>
+    <string name="build_from_fdroid">Not: Eğer bu uygulamayı F-Droid\'den indirdiyseniz, indirme linki yeniden yükleme gerektirmektedir.</string>
+    <plurals name="x_items">
+        <item quantity="one">%s öğe</item>
+        <item quantity="other">%s öğeler</item>
+    </plurals>
+    <string-array name="themes">
+        <item>Açık</item>
+        <item>Koyu</item>
+        <item>AMOLED</item>
+    </string-array>
+    <string-array name="themesValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="no_download_client">Bu indirme için herhangi bir istemci bulunmamakta</string>
+    <string name="submitapp">Bir uygulama gönder</string>
+</resources>
