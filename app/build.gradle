@@ -15,7 +15,7 @@ def gitSha() {
 def packageName = "subreddit.android.appstore"
 
 android {
-    def signingPropFile = new File(System.properties['user.home'], ".signing/${packageName}/signing.properties")
+    def signingPropFile = new File(System.properties['user.home'], ".appconfig/${packageName}/signing.properties")
     if (signingPropFile.canRead()) {
         Properties signingProps = new Properties()
         signingProps.load(new FileInputStream(signingPropFile))
@@ -29,19 +29,19 @@ android {
         }
     }
 
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     def versionMajor = 0
     def versionMinor = 9
-    def versionPatch = 0
+    def versionPatch = 1
     def versionBuild = 0
 
 
     defaultConfig {
         applicationId "${packageName}"
         minSdkVersion 16
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
     }
@@ -84,7 +84,7 @@ android {
 
     // Remove mockRelease as it's not needed.
     android.variantFilter { variant ->
-        if (variant.buildType.name.equals('release') && variant.getFlavors().get(0).name.equals('mock')) {
+        if (variant.buildType.name == 'release' && variant.getFlavors().get(0).name == 'mock') {
             variant.setIgnore(true)
         }
     }
@@ -155,16 +155,21 @@ tasks.withType(Test) {
     systemProperty "robolectric.logging", "stdout"
 }
 ext {
-    supportLibVersion = '27.1.1'
+    supportLibVersion = '28.0.0'
 }
 //noinspection GroovyAssignabilityCheck
-configurations.all {
-    //noinspection GroovyAssignabilityCheck
-    resolutionStrategy.force "com.android.support:recyclerview-v7:${supportLibVersion}"
-    resolutionStrategy.force "com.android.support:support-annotations:${supportLibVersion}"
-    resolutionStrategy.force "com.android.support:support-v4:${supportLibVersion}"
-    resolutionStrategy.force "com.android.support:appcompat-v7:${supportLibVersion}"
-    resolutionStrategy.force "com.android.support:design:${supportLibVersion}"
+configurations {
+    all {
+        //noinspection GroovyAssignabilityCheck
+//        resolutionStrategy.force "com.android.support:recyclerview-v7:${supportLibVersion}"
+//        resolutionStrategy.force "com.android.support:support-annotations:${supportLibVersion}"
+        resolutionStrategy.force "com.android.support:support-v4:${supportLibVersion}"
+//        resolutionStrategy.force "com.android.support:appcompat-v7:${supportLibVersion}"
+//        resolutionStrategy.force "com.android.support:design:${supportLibVersion}"
+    }
+    // https://stackoverflow.com/questions/49811851
+    cleanedAnnotations
+    compile.exclude group: 'org.jetbrains' , module:'annotations'
 }
 dependencies {
     // Support libs
@@ -198,21 +203,21 @@ dependencies {
 
     // RX
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.17'
 
     // Gson
-    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
 
     //Dagger
-    implementation 'com.google.dagger:dagger:2.13'
-    annotationProcessor "com.google.dagger:dagger-compiler:2.13"
+    implementation 'com.google.dagger:dagger:2.16'
+    annotationProcessor "com.google.dagger:dagger-compiler:2.16"
 
     //Butterknife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     // Timber
-    implementation 'com.jakewharton.timber:timber:4.7.0'
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 
     // Hamcrest
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
