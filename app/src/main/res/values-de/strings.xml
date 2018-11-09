@@ -9,9 +9,9 @@
     <string name="button_filter">Filter</string>
     <string name="button_refresh">Aktualisieren</string>
     <string name="button_search">Suchen</string>
-    <string name="data_option_loadmedia_summary">Lade App-Icons und Bildschirmfotos</string>
-    <string name="data_option_loadmedia_title">App-Icons &amp; Bildschirmfotos</string>
-    <string name="data_options">Dateioptionen</string>
+    <string name="options_loadmedia_summary">Lade App-Icons und Bildschirmfotos</string>
+    <string name="options_loadmedia_title">App-Icons &amp; Bildschirmfotos</string>
+    <string name="options">Optionen</string>
     <string name="error">Fehler beim Herunterladen des Repositorys</string>
     <string name="fdroid">F-Droid</string>
     <string name="flag">App melden</string>
