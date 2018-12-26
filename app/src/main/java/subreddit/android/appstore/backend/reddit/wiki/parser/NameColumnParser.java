@@ -10,7 +10,7 @@ import timber.log.Timber;
 
 
 public class NameColumnParser extends BaseParser {
-    static final Pattern NAME_PATTERN = Pattern.compile("^(?:\\[(.+)\\]\\((.+)\\))$");
+    static final Pattern NAME_PATTERN = Pattern.compile("^(?:\\[(.+)]\\((.+)\\))$");
 
     public NameColumnParser(EncodingFixer encodingFixer) {
         super(encodingFixer);
@@ -28,7 +28,7 @@ public class NameColumnParser extends BaseParser {
         if (matcher.matches()) {
             appName = matcher.group(1);
 
-            downloadUrl = matcher.group(2).replaceAll(" ","");
+            downloadUrl = matcher.group(2).replaceAll(" ", "");
             // TODO more parsing of different types
             if (downloadUrl.contains("://play.google.com/store") || downloadUrl.contains("://market.android.com")) {
                 downloadType = Download.Type.GPLAY;

@@ -25,7 +25,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     public static final String PREF_KEY_LOAD_MEDIA = "core.options.loadmedia";
     public static final String PREF_KEY_SAVE_TAG_FILTERS = "core.options.savetagfilters";
     protected static final String SUBMIT_APP_URL = "https://androidflair.github.io/wikiapps/";
-    @BindView(R.id.settings_toolbar) Toolbar mToolbar;
+    @BindView(R.id.settings_toolbar)
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         finish();
     }
 
-    public static class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
+    public static class SettingsFragment extends PreferenceFragmentCompat
+            implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -76,9 +78,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             new AlertDialog.Builder(getActivity())
                     .setMessage(R.string.restart)
                     .setNegativeButton(R.string.later, null)
-                    .setPositiveButton(
-                            android.R.string.ok,
-                            (dialogInterface, i) -> ((AppStoreApp) getActivity().getApplication()).restart())
+                    .setPositiveButton(android.R.string.ok, (dialogInterface, i) ->
+                            ((AppStoreApp) getActivity().getApplication()).restart())
                     .show();
 
             return true;
@@ -104,12 +105,11 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             SharedPreferences.Editor editor = prefs.edit();
 
             editor.remove("savedTags_size");
-            for(int i = 0; i < AppTags.values().length; i++) {
+            for (int i = 0; i < AppTags.values().length; i++) {
                 editor.remove("savedTags_" + i);
             }
 
-            editor.commit();
+            editor.apply();
         }
-
     }
 }

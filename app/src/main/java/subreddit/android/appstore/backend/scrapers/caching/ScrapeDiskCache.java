@@ -4,9 +4,6 @@ package subreddit.android.appstore.backend.scrapers.caching;
 import android.content.Context;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.functions.Function;
 import io.realm.Realm;
 import subreddit.android.appstore.backend.data.AppInfo;
 import subreddit.android.appstore.backend.scrapers.ScrapeResult;
@@ -29,7 +26,10 @@ public class ScrapeDiskCache {
         return Observable.<CachedScrape>create(
                 emitter -> {
                     Realm realm = Realm.getDefaultInstance();
-                    CachedScrape cachedScrape = realm.where(CachedScrape.class).equalTo("id", appInfo.hashCode()).findFirst();
+                    CachedScrape cachedScrape = realm
+                            .where(CachedScrape.class)
+                            .equalTo("id", appInfo.hashCode())
+                            .findFirst();
                     if (cachedScrape != null) emitter.onNext(cachedScrape);
                     emitter.onComplete();
                 })

@@ -27,7 +27,8 @@ import subreddit.android.appstore.backend.github.GithubRepository;
 import subreddit.android.appstore.util.ui.BaseActivity;
 import timber.log.Timber;
 
-public class AboutActivity extends BaseActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class AboutActivity extends BaseActivity
+        implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.app_nav)
     NavigationView app_nav;
     @BindView(R.id.contributor_nav)
@@ -39,12 +40,9 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
     protected static final String BUG_URL = "https://github.com/d4rken/reddit-android-appstore/issues";
     GithubRepository githubRepository;
 
-    NavigationView.OnNavigationItemSelectedListener contributorListener = new NavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            openInChrome(GITHUB_URL + item.getTitle());
-            return false;
-        }
+    NavigationView.OnNavigationItemSelectedListener contributorListener = item -> {
+        openInChrome(GITHUB_URL + item.getTitle());
+        return false;
     };
 
     @Override
@@ -126,7 +124,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener,
                     return contributorData;
                 })
                 .subscribe(contributorData -> {
-                    if (contributorData.getContributors().size() <1) {
+                    if (contributorData.getContributors().size() < 1) {
                         contributor_nav.getMenu().add("Error").setTitle(R.string.error_contributors);
                         return;
                     }

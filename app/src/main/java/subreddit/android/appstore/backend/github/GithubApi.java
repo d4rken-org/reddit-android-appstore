@@ -18,21 +18,28 @@ public interface GithubApi {
     Observable<List<Contributor>> getContributors();
 
     class Release {
-        @SerializedName("url") public String releaseUrl;
-        @SerializedName("tag_name") public String tagName;
-        @SerializedName("name") public String releaseName;
-        @SerializedName("body") public String releaseDescription;
+        @SerializedName("url")
+        public String releaseUrl;
+        @SerializedName("tag_name")
+        public String tagName;
+        @SerializedName("name")
+        public String releaseName;
+        @SerializedName("body")
+        public String releaseDescription;
         public boolean prerelease;
-        @SerializedName("published_at") public Date publishDate;
+        @SerializedName("published_at")
+        public Date publishDate;
         public List<Assets> assets;
 
         public static class Assets {
-            @SerializedName("browser_download_url") public String downloadUrl;
+            @SerializedName("browser_download_url")
+            public String downloadUrl;
             public long size;
         }
     }
 
     class Contributor {
-        @SerializedName("login") public String username;
+        @SerializedName("login")
+        public String username;
     }
 }

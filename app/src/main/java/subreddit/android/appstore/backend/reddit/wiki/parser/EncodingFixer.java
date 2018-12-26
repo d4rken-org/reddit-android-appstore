@@ -6,9 +6,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EncodingFixer {
-    private static final Pattern URL_MARKDOWN_PATTERN = Pattern.compile("(\\[(.*?)\\]\\s{0,1}\\((http.*?)\\))");
+    private static final Pattern URL_MARKDOWN_PATTERN = Pattern.compile("(\\[(.*?)]\\s?\\((http.*?)\\))");
     private static final Pattern BOLD_MARKDOWN_PATTERN = Pattern.compile("(\\*\\*(.*?)\\*\\*)");
-    private static final Pattern SUBREDDIT_PATTERN = Pattern.compile("(\\/r\\/.*?(?!\\S))");
+    private static final Pattern SUBREDDIT_PATTERN = Pattern.compile("(/r/.*?(?!\\S))");
 
     public String fixHtmlEscapes(String input) {
         //noinspection deprecation

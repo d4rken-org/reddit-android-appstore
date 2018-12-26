@@ -1,7 +1,6 @@
 package subreddit.android.appstore.screens.details;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -17,7 +16,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,22 +53,35 @@ import timber.log.Timber;
 
 
 public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract.Presenter, AppDetailsContract.View>
-        implements AppDetailsContract.View, ScreenshotsAdapter.ScreenshotClickedListener, View.OnClickListener, Toolbar.OnMenuItemClickListener {
-    @BindView(R.id.download_fab) FloatingActionButton downloadButton;
-    @BindView(R.id.details_toolbar) Toolbar toolbar;
-    @BindView(R.id.collapsingToolbar) CollapsingToolbarLayout collapsingToolbar;
-    @BindView(R.id.appbar) AppBarLayout appBar;
+        implements AppDetailsContract.View, ScreenshotsAdapter.ScreenshotClickedListener,
+        View.OnClickListener, Toolbar.OnMenuItemClickListener {
+    @BindView(R.id.download_fab)
+    FloatingActionButton downloadButton;
+    @BindView(R.id.details_toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.collapsingToolbar)
+    CollapsingToolbarLayout collapsingToolbar;
+    @BindView(R.id.appbar)
+    AppBarLayout appBar;
 
-    @BindView(R.id.icon_frame) View iconFrame;
-    @BindView(R.id.icon_image) ImageView iconImage;
-    @BindView(R.id.icon_placeholder) View iconPlaceholder;
-    @BindView(R.id.title_secondary) TextView secondaryTitle;
-    @BindView(R.id.tag_container) FlowLayout tagContainer;
+    @BindView(R.id.icon_frame)
+    View iconFrame;
+    @BindView(R.id.icon_image)
+    ImageView iconImage;
+    @BindView(R.id.icon_placeholder)
+    View iconPlaceholder;
+    @BindView(R.id.title_secondary)
+    TextView secondaryTitle;
+    @BindView(R.id.tag_container)
+    FlowLayout tagContainer;
 
-    @BindView(R.id.screenshot_pager) ScreenshotViewPager screenshotPager;
-    @BindView(R.id.description) TextView description;
+    @BindView(R.id.screenshot_pager)
+    ScreenshotViewPager screenshotPager;
+    @BindView(R.id.description)
+    TextView description;
 
-    private static final String REDDIT_MSG_URL_HEADER = "https://www.reddit.com/message/compose/?to=/r/Android&subject=**RAS Flag Report**&message=";
+    private static final String REDDIT_MSG_URL_HEADER =
+            "https://www.reddit.com/message/compose/?to=/r/Android&subject=**RAS Flag Report**&message=";
 
     private List<String> contactItems = new ArrayList<>();
     private List<String> downloadItems = new ArrayList<>();
@@ -110,19 +121,20 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
                 break;
             }
             case R.id.menu_flag: {
-                EditText flagMessage = ((EditText) getActivity().getLayoutInflater().inflate(R.layout.dialog_flag, null));
+                EditText flagMessage = ((EditText) getActivity()
+                        .getLayoutInflater().inflate(R.layout.dialog_flag, null));
                 Dialog d = new AlertDialog.Builder(getContext())
                         .setTitle(R.string.flag)
                         .setMessage(R.string.flag_text)
                         .setNegativeButton(android.R.string.cancel, null)
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                if (flagMessage.getText().toString().isEmpty()) {
-                                    Toast.makeText(getContext(), getContext().getResources().getString(R.string.no_message), Toast.LENGTH_LONG).show();
-                                } else {
-                                    openInChrome(REDDIT_MSG_URL_HEADER + "*****" + collapsingToolbar.getTitle() + " REPORT" + "*****" + "%0A" + (flagMessage.getText().toString().trim()));
-                                }
+                        .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                            if (flagMessage.getText().toString().isEmpty()) {
+                                Toast.makeText(getContext(), getContext().getResources()
+                                        .getString(R.string.no_message), Toast.LENGTH_LONG).show();
+                            } else {
+                                openInChrome(REDDIT_MSG_URL_HEADER + "*****" +
+                                        collapsingToolbar.getTitle() + " REPORT" + "*****" +
+                                        "%0A" + (flagMessage.getText().toString().trim()));
                             }
                         })
                         .setView(flagMessage)
@@ -134,17 +146,15 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_appdetails_layout, container, false);
         unbinder = ButterKnife.bind(this, layout);
         toolbar.setContentInsetStartWithNavigation(0);
 
-        appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                float scrollRange = (float) appBarLayout.getTotalScrollRange();
-                fadeHeaderItems(scrollRange, verticalOffset);
-            }
+        appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            float scrollRange = (float) appBarLayout.getTotalScrollRange();
+            fadeHeaderItems(scrollRange, verticalOffset);
         });
 
         return layout;
@@ -182,7 +192,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         } else {
             new AlertDialog.Builder(getContext())
                     .setItems(
-                            downloadItems.toArray(new CharSequence[downloadItems.size()]),
+                            downloadItems.toArray(new CharSequence[0]),
                             (dialogInterface, i) -> openDownload(downloads.get(i)))
                     .show();
         }
@@ -194,7 +204,7 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         } else {
             new AlertDialog.Builder(getContext())
                     .setItems(
-                            contactItems.toArray(new CharSequence[contactItems.size()]),
+                            contactItems.toArray(new CharSequence[0]),
                             (dialogInterface, i) -> openContact(contacts.get(i)))
                     .show();
         }
@@ -213,7 +223,8 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
         switch (c.getType()) {
             case EMAIL:
                 try {
-                    startActivity(new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", c.getTarget(), null)));
+                    startActivity(new Intent(Intent.ACTION_SENDTO,
+                            Uri.fromParts("mailto", c.getTarget(), null)));
                 } catch (Exception e) {
                     Timber.e(e, "Problem launching intent for Email contact");
                     displayToast(R.string.no_email_client);
@@ -225,7 +236,8 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
                 openInChrome(c.getTarget());
                 break;
             case REDDIT_USERNAME:
-                openInChrome(String.format(Locale.US, "http://www.reddit.com/message/compose/?to=%s", c.getTarget()));
+                openInChrome(String.format(Locale.US,
+                        "https://www.reddit.com/message/compose/?to=%s", c.getTarget()));
                 break;
             default:
                 openInChrome(c.getTarget());
@@ -252,9 +264,11 @@ public class AppDetailsFragment extends BasePresenterFragment<AppDetailsContract
 
         tagContainer.removeAllViews();
         for (AppTags appTags : appInfo.getTags()) {
-            TextView tv = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.view_tagtemplate, tagContainer, false);
+            TextView tv = (TextView) LayoutInflater.from(getContext())
+                    .inflate(R.layout.view_tagtemplate, tagContainer, false);
             tv.setText(appTags.name());
-            FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.setMargins(0, 0, 8, 0);
             tv.setLayoutParams(params);
             tagContainer.addView(tv);

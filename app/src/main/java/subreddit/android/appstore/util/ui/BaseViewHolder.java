@@ -29,13 +29,10 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     public View.OnClickListener buildWrapperForAdapterClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (clickListener == null) return;
-                if (getAdapterPosition() == RecyclerView.NO_POSITION) return;
-                clickListener.onItemClick(v, getAdapterPosition(), getItemId());
-            }
+        return v -> {
+            if (clickListener == null) return;
+            if (getAdapterPosition() == RecyclerView.NO_POSITION) return;
+            clickListener.onItemClick(v, getAdapterPosition(), getItemId());
         };
     }
 

@@ -63,7 +63,8 @@ public class TokenRepository {
         TokenApi.Token token = null;
         try {
             token = gson.fromJson(preferences.getString(PREF_KEY, null), TokenApi.Token.class);
-        } catch (JsonSyntaxException ignore) {}
+        } catch (JsonSyntaxException ignore) {
+        }
         if (token != null && token.isExpired()) {
             Timber.d("TokenApi expired!");
             return null;

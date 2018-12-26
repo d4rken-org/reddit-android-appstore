@@ -23,7 +23,7 @@ import subreddit.android.appstore.util.ui.BaseViewHolder;
 public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder> {
     final List<AppTags> data = Arrays.asList(AppTags.values());
     final FilterListener filterListener;
-    private SparseBooleanArray selectedItems = new SparseBooleanArray(AppTags.values().length);;
+    private SparseBooleanArray selectedItems = new SparseBooleanArray(AppTags.values().length);
     TagMap tagMap = new TagMap();
 
     interface FilterListener {
@@ -90,9 +90,12 @@ public class FilterListAdapter extends BaseAdapter<FilterListAdapter.ViewHolder>
     }
 
     static class ViewHolder extends BaseViewHolder {
-        @BindView(R.id.tagname) TextView tagName;
-        @BindView(R.id.tagcount) TextView tagCount;
-        @BindView(R.id.checkbox) CheckBox checkBox;
+        @BindView(R.id.tagname)
+        TextView tagName;
+        @BindView(R.id.tagcount)
+        TextView tagCount;
+        @BindView(R.id.checkbox)
+        CheckBox checkBox;
 
         public ViewHolder(final View itemView) {
             super(itemView);

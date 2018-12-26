@@ -40,8 +40,8 @@ public class AppStoreApp extends Application {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree() {
                 @Override
-                protected void log(final int priority, final String tag, final String message,
-                                   final Throwable t) {
+                protected void log(final int priority, final String tag,
+                                   final String message, final Throwable t) {
                     super.log(priority, LOGPREFIX + tag, message, t);
                 }
             });
@@ -55,13 +55,13 @@ public class AppStoreApp extends Application {
 
     private void clearCache() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getInt("APP_VERSION",0)<BuildConfig.VERSION_CODE) {
+        if (prefs.getInt("APP_VERSION", 0) < BuildConfig.VERSION_CODE) {
             Timber.e("New release on %s, clearing cache database", BuildConfig.VERSION_NAME);
             Realm.init(getApplicationContext());
             Realm realm = Realm.getDefaultInstance();
             realm.close();
             Realm.deleteRealm(new RealmConfiguration.Builder().build());
-            prefs.edit().putInt("APP_VERSION",BuildConfig.VERSION_CODE).commit();
+            prefs.edit().putInt("APP_VERSION", BuildConfig.VERSION_CODE).apply();
         }
     }
 
@@ -78,7 +78,8 @@ public class AppStoreApp extends Application {
     }
 
     public void restart() {
-        theme = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("theme", "0"));
+        theme = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(
+                this).getString("theme", "0"));
         Intent i = getBaseContext().getPackageManager()
                 .getLaunchIntentForPackage(getBaseContext().getPackageName());
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -111,7 +112,8 @@ public class AppStoreApp extends Application {
     public static List<String> getSignatures(Context context, String packageName) {
         List<String> foundSignatures = new ArrayList<>();
         try {
-            final Signature[] signatures = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_SIGNATURES).signatures;
+            final Signature[] signatures =
+                    context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_SIGNATURES).signatures;
             for (final Signature sig : signatures) {
                 final byte[] rawCert = sig.toByteArray();
                 InputStream certStream = new ByteArrayInputStream(rawCert);
@@ -122,7 +124,9 @@ public class AppStoreApp extends Application {
                 byte[] publicKey = md.digest(x509Cert.getEncoded());
                 foundSignatures.add(bytesToHex(publicKey).toUpperCase());
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return foundSignatures;
     }
 

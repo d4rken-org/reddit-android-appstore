@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -55,7 +52,8 @@ public class WikiDiskCache {
                 .map(cachedAppInfos -> {
                     Collection<AppInfo> appInfos = new ArrayList<>();
                     Timber.d("Returned %d AppInfos from cache", cachedAppInfos.size());
-                    for (CachedAppInfo cachedAppInfo : cachedAppInfos) appInfos.add(cachedAppInfo.toAppInfo(gson));
+                    for (CachedAppInfo cachedAppInfo : cachedAppInfos)
+                        appInfos.add(cachedAppInfo.toAppInfo(gson));
                     return appInfos;
                 });
     }

@@ -52,11 +52,16 @@ import subreddit.android.appstore.util.ui.DividerItemDecoration;
 public class AppListFragment extends BasePresenterFragment<AppListContract.Presenter, AppListContract.View>
         implements AppListContract.View, BaseViewHolder.ClickListener, FilterListAdapter.FilterListener, SwipeRefreshLayout.OnRefreshListener {
     static final String ARG_KEY_CATEGORYFILTER = "categoryFilter";
-    @BindView(R.id.list_appinfos) RecyclerView appList;
-    @BindView(R.id.drawerlayout) DrawerLayout drawerLayout;
-    @BindView(R.id.list_tagfilter) RecyclerView filterList;
-    @BindView(R.id.appinfos_fastscroll) FastScroller fastscroller;
-    @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefresh;
+    @BindView(R.id.list_appinfos)
+    RecyclerView appList;
+    @BindView(R.id.drawerlayout)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.list_tagfilter)
+    RecyclerView filterList;
+    @BindView(R.id.appinfos_fastscroll)
+    FastScroller fastscroller;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefresh;
 
     @Inject
     PresenterFactory<AppListContract.Presenter> presenterFactory;

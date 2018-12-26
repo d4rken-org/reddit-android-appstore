@@ -18,7 +18,8 @@ public class CategoryParser {
 
     public void parse(AppInfo appInfo, List<String> rawCategories) {
         List<String> processedCategories = new ArrayList<>();
-        for (String unprocessed : rawCategories) processedCategories.add(encodingFixer.fixHtmlEscapes(unprocessed));
+        for (String unprocessed : rawCategories)
+            processedCategories.add(encodingFixer.fixHtmlEscapes(unprocessed));
         appInfo.setCategories(processedCategories);
     }
 }

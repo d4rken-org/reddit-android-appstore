@@ -6,7 +6,7 @@ public class ContributorData {
     private ArrayList<String> contributors;
 
     public ContributorData() {
-        contributors = new ArrayList<String>();
+        contributors = new ArrayList<>();
     }
 
     public void addContributor(String name) {
@@ -16,7 +16,6 @@ public class ContributorData {
     public ArrayList<String> getContributors() {
         return contributors;
     }
-
 
 
 }

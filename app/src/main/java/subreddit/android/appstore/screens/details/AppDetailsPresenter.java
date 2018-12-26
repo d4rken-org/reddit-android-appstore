@@ -74,11 +74,9 @@ public class AppDetailsPresenter implements AppDetailsContract.Presenter {
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-
     }
 
     @Override
     public void onDestroy() {
-
     }
 }

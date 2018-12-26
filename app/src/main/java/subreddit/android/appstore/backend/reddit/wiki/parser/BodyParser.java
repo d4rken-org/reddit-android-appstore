@@ -25,12 +25,9 @@ public class BodyParser {
     }
 
     public Collection<AppInfo> parseBody(String bodyString) {
-        Collection<AppInfo> parsedOutput = new ArrayList<>();
         List<String> lines = Arrays.asList(bodyString.split("\n"));
 
-        parsedOutput.addAll(parseCategoryBlocks(new ArrayList<>(), lines));
-
-        return parsedOutput;
+        return new ArrayList<>(parseCategoryBlocks(new ArrayList<>(), lines));
     }
 
     private static final Pattern CATEGORY_PATTERN = Pattern.compile("^(#+)(?:\\s*+)(.+?)$");
@@ -61,7 +58,8 @@ public class BodyParser {
                 if (currentCategory != null) {
                     List<String> newCategories = new ArrayList<>(categories);
                     newCategories.add(currentCategory);
-                    parsedOutput.addAll(parseCategoryBlocks(newCategories, block.subList(currentBlockStart, block.size())));
+                    parsedOutput.addAll(parseCategoryBlocks(
+                            newCategories, block.subList(currentBlockStart, block.size())));
                 } else {
                     parsedOutput.addAll(parseAppBlock(categories, block));
                 }
@@ -70,7 +68,7 @@ public class BodyParser {
         return parsedOutput;
     }
 
-    private static final Pattern COLUMN_LINE_PATTERN = Pattern.compile("^(?:\\:-+\\|){5}$");
+    private static final Pattern COLUMN_LINE_PATTERN = Pattern.compile("^(?::-+\\|){5}$");
 
     // i.e. "## Action" blocks
     private Collection<AppInfo> parseAppBlock(List<String> categories, List<String> block) {

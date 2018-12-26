@@ -41,10 +41,14 @@ import subreddit.android.appstore.util.mvp.PresenterFactory;
 public class NavigationFragment extends BasePresenterFragment<NavigationContract.Presenter, NavigationContract.View>
         implements NavigationContract.View, NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.footer_nav) NavigationView navFooter;
-    @BindView(R.id.header_version_text) TextView versionText;
-    @BindView(R.id.navigationview) NavigationView navigationView;
-    @BindView(R.id.update_banner) View updateBanner;
+    @BindView(R.id.footer_nav)
+    NavigationView navFooter;
+    @BindView(R.id.header_version_text)
+    TextView versionText;
+    @BindView(R.id.navigationview)
+    NavigationView navigationView;
+    @BindView(R.id.update_banner)
+    View updateBanner;
     OnCategorySelectedListener onCategorySelectedListener;
 
 
@@ -193,18 +197,17 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
             MenuItem primaryItem = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, primaryFilter.getName(getContext()));
             menuItemCategoryFilterMap.put(primaryItem, primaryFilter);
 
-                for (CategoryFilter secondaryFilter : navigationData.getSecondaryCategories().get(primaryFilter)) {
-                    int secondGroupId = navigationData.getSecondaryCategories().get(primaryFilter).indexOf(secondaryFilter) + 1000;
-                    MenuItem secondaryItem = menu.add(groupId, Menu.NONE, Menu.NONE, "   " + secondaryFilter.getName(getContext()));
-                    menuItemCategoryFilterMap.put(secondaryItem, secondaryFilter);
-                    for (CategoryFilter tertiaryFilter : navigationData.getTertiaryCategories().get(secondaryFilter)) {
-                        MenuItem tertiaryItem = menu.add(secondGroupId, Menu.NONE, Menu.NONE, "      " + tertiaryFilter.getName(getContext()));
-                        menuItemCategoryFilterMap.put(tertiaryItem, tertiaryFilter);
-                        tertiaryItem.setVisible(false);
-                    }
+            for (CategoryFilter secondaryFilter : navigationData.getSecondaryCategories().get(primaryFilter)) {
+                int secondGroupId = navigationData.getSecondaryCategories().get(primaryFilter).indexOf(secondaryFilter) + 1000;
+                MenuItem secondaryItem = menu.add(groupId, Menu.NONE, Menu.NONE, "   " + secondaryFilter.getName(getContext()));
+                menuItemCategoryFilterMap.put(secondaryItem, secondaryFilter);
+                for (CategoryFilter tertiaryFilter : navigationData.getTertiaryCategories().get(secondaryFilter)) {
+                    MenuItem tertiaryItem = menu.add(secondGroupId, Menu.NONE, Menu.NONE, "      " + tertiaryFilter.getName(getContext()));
+                    menuItemCategoryFilterMap.put(tertiaryItem, tertiaryFilter);
+                    tertiaryItem.setVisible(false);
                 }
+            }
         }
-
 
         for (int i = 0; i < navigationView.getMenu().size(); i++) {
             MenuItem item = navigationView.getMenu().getItem(i);

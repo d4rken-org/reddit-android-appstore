@@ -22,10 +22,11 @@ public class UserAgentInterceptor implements Interceptor {
         try {
             packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
-            Timber.e(e, null);
+            Timber.e(e);
             throw new RuntimeException(e);
         }
-        this.userAgent = String.format(Locale.US, "android:%s:%s", packageInfo.packageName, packageInfo.versionName);
+        this.userAgent =
+                String.format(Locale.US, "android:%s:%s", packageInfo.packageName, packageInfo.versionName);
     }
 
     @Override

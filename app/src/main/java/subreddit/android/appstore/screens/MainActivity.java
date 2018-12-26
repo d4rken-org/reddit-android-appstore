@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.View;
 
 import butterknife.BindView;
@@ -17,9 +16,12 @@ import subreddit.android.appstore.screens.navigation.NavigationFragment;
 import subreddit.android.appstore.util.ui.BaseActivity;
 
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, NavigationFragment.OnCategorySelectedListener {
-    @BindView(R.id.main_drawer) DrawerLayout drawerLayout;
-    @BindView(R.id.applist_toolbar) Toolbar toolbar;
+public class MainActivity extends BaseActivity
+        implements View.OnClickListener, NavigationFragment.OnCategorySelectedListener {
+    @BindView(R.id.main_drawer)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.applist_toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +59,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         Fragment contentFragment = getSupportFragmentManager().findFragmentByTag(filter.getFragmentTag());
         if (contentFragment == null) {
             contentFragment = AppListFragment.newInstance(filter);
-            getSupportFragmentManager().beginTransaction().replace(R.id.contentFrame, contentFragment, filter.getFragmentTag()).commit();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.contentFrame, contentFragment, filter.getFragmentTag())
+                    .commit();
         }
-        if (filter.getTertiaryCategory()!=null) {
+        if (filter.getTertiaryCategory() != null) {
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         toolbar.setTitle(filter.getName(this));

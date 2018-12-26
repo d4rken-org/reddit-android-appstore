@@ -13,7 +13,9 @@ import subreddit.android.appstore.util.dagger.ApplicationScope;
 public class AndroidModule {
     private final AppStoreApp app;
 
-    public AndroidModule(AppStoreApp app) {this.app = app;}
+    public AndroidModule(AppStoreApp app) {
+        this.app = app;
+    }
 
     @Provides
     @ApplicationScope
@@ -26,6 +28,4 @@ public class AndroidModule {
     public SharedPreferences providePreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
-
-
 }

@@ -52,7 +52,8 @@ public class NavigationPresenter implements NavigationContract.Presenter {
                     NavigationPresenter.this.view.showNavigationItems(navigationData, currentCategoryFilter);
                 });
 
-        githubRepository.getLatestRelease()
+        githubRepository
+                .getLatestRelease()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<GithubApi.Release>() {
@@ -66,7 +67,8 @@ public class NavigationPresenter implements NavigationContract.Presenter {
                     public void onNext(GithubApi.Release release) {
                         NavigationPresenter.this.release = release;
                         if (VersionHelper.versionCompare(BuildConfig.VERSION_NAME, release.tagName) < 0) {
-                            Timber.d("Update available, current: %s, new: %s", BuildConfig.VERSION_NAME, release.tagName);
+                            Timber.d("Update available, current: %s, new: %s",
+                                    BuildConfig.VERSION_NAME, release.tagName);
                             view.showUpdateSnackbar(release);
                             view.enableUpdateAvailableText(release);
                         } else Timber.d("No newer version available");
@@ -94,12 +96,10 @@ public class NavigationPresenter implements NavigationContract.Presenter {
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-
     }
 
     @Override
     public void onDestroy() {
-
     }
 
     @Override

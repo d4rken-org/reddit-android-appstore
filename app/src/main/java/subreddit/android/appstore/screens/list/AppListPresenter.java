@@ -38,7 +38,6 @@ public class AppListPresenter implements AppListContract.Presenter {
 
     @Override
     public void onCreate(Bundle bundle) {
-
     }
 
     @Override
@@ -50,7 +49,7 @@ public class AppListPresenter implements AppListContract.Presenter {
                 .map(appInfos -> {
                     ArrayList<AppInfo> data = new ArrayList<>(appInfos);
                     List<AppInfo> filteredData1 = new ArrayList<>();
-                    Timber.d("Filtering to %s %s %s %s",categoryFilter.getPrimaryCategory(), categoryFilter.getSecondaryCategory(), categoryFilter.getTertiaryCategory(), categoryFilter.isNewlyAdded());
+                    Timber.d("Filtering to %s %s %s %s", categoryFilter.getPrimaryCategory(), categoryFilter.getSecondaryCategory(), categoryFilter.getTertiaryCategory(), categoryFilter.isNewlyAdded());
                     for (AppInfo app : data) {
                         if (app.getTags().contains(AppTags.NEW) && categoryFilter.isNewlyAdded() != null) {
                             filteredData1.add(app);
@@ -80,12 +79,7 @@ public class AppListPresenter implements AppListContract.Presenter {
 
         tagUpdater = filteredData
                 .observeOn(Schedulers.computation())
-                .map(new Function<Collection<AppInfo>, TagMap>() {
-                    @Override
-                    public TagMap apply(Collection<AppInfo> appInfos) throws Exception {
-                        return new TagMap(appInfos);
-                    }
-                })
+                .map((Function<Collection<AppInfo>, TagMap>) TagMap::new)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(tagMap -> {
                     Timber.d("updateTagCount(%s)", tagMap);
@@ -95,7 +89,7 @@ public class AppListPresenter implements AppListContract.Presenter {
         filteredData
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(appInfos -> {
-                    if (appInfos.size()<1) {
+                    if (appInfos.size() < 1) {
                         view.showError();
                     }
                 });
@@ -155,6 +149,6 @@ public class AppListPresenter implements AppListContract.Presenter {
             }
         }
 
-        editor.commit();
+        editor.apply();
     }
 }

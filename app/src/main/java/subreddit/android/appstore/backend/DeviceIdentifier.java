@@ -10,7 +10,9 @@ public class DeviceIdentifier {
     static final String PREF_KEY = "device.uuid";
     final Context context;
 
-    public DeviceIdentifier(Context context) {this.context = context;}
+    public DeviceIdentifier(Context context) {
+        this.context = context;
+    }
 
     public String getUUID() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

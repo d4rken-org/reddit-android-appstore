@@ -71,12 +71,10 @@ public abstract class BasePresenterFragment<PresenterT extends BasePresenter<Vie
 
     @Override
     public void onPresenterReady(@NonNull PresenterT presenter) {
-
     }
 
     @Override
     public void onPresenterDestroyed() {
-
     }
 
     @NonNull

@@ -59,8 +59,7 @@ public class LiveWikiRepository implements WikiRepository {
                 .flatMap(response -> {
                     Timber.d(response.toString());
                     long timeStart = System.currentTimeMillis();
-                    Collection<AppInfo> infos = new ArrayList<>();
-                    infos.addAll(bodyParser.parseBody(response.data.content_md));
+                    Collection<AppInfo> infos = new ArrayList<>(bodyParser.parseBody(response.data.content_md));
                     long timeStop = System.currentTimeMillis();
                     Timber.d("Initial parse: Parsed %d items in %dms", infos.size(), (timeStop - timeStart));
 
@@ -75,18 +74,21 @@ public class LiveWikiRepository implements WikiRepository {
                                                 String name = r.getAppName();
                                                 if (name.contains("&")) {
                                                     int pos = name.indexOf("&") + 1;
-                                                    name = name.substring(0, pos) + "amp;" + name.substring(pos, name.length());
+                                                    name = name.substring(0, pos) + "amp;"
+                                                            + name.substring(pos, name.length());
                                                 }
                                                 if (!(revisionResponse.data.content_md).contains(name)) {
                                                     r.addTag(AppTags.NEW);
                                                 }
                                             }
                                             long newAppsTaggerTimeStop = System.currentTimeMillis();
-                                            Timber.d("Tagged all NEW items in %dms", (newAppsTaggerTimeStop - newAppsTaggerTimeStart));
+                                            Timber.d("Tagged all NEW items in %dms",
+                                                    (newAppsTaggerTimeStop - newAppsTaggerTimeStart));
                                             return infos;
                                         })
                                         .onErrorReturn(throwable -> {
-                                            Timber.e(throwable, "Error while fetching wiki revision: " + revisionId);
+                                            Timber.e(throwable,
+                                                    "Error while fetching wiki revision: %s", revisionId);
                                             return infos;
                                         });
                             })
@@ -105,6 +107,4 @@ public class LiveWikiRepository implements WikiRepository {
         this.authString = authString;
         return authString;
     }
-
-
 }

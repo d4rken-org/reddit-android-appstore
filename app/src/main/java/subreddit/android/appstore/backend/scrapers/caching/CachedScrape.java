@@ -30,7 +30,8 @@ public class CachedScrape extends RealmObject {
     String iconUrl;
     RealmList<RealmString> screenshotUrls;
 
-    public BaseScrapeResult toBaseScrapeResult() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public BaseScrapeResult toBaseScrapeResult() throws ClassNotFoundException,
+            NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Class<?> c = Class.forName(scrapeResultClassName);
         Constructor<?> cons = c.getConstructor(String.class, Collection.class);
         return (BaseScrapeResult) cons.newInstance(iconUrl, RealmString.toCollection(screenshotUrls));

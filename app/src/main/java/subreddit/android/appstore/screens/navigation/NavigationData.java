@@ -24,7 +24,7 @@ public class NavigationData {
         if (!primaryCategories.contains(primaryFilter)) {
             primaryCategories.add(primaryFilter);
         }
-        
+
         List<CategoryFilter> secondary = secondaryCategories.get(primaryFilter);
         if (secondary == null) secondary = new ArrayList<>();
         CategoryFilter secondaryFilter = new CategoryFilter(appInfo.getPrimaryCategory(), appInfo.getSecondaryCategory(), null, null);

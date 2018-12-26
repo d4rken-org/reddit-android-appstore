@@ -24,7 +24,8 @@ public class CategoryFilter implements Parcelable {
         newlyAdded = null;
     }
 
-    public CategoryFilter(@Nullable String primaryCategory, @Nullable String secondaryCategory, @Nullable String tertiaryCategory, @Nullable String newlyAdded) {
+    public CategoryFilter(@Nullable String primaryCategory, @Nullable String secondaryCategory,
+                          @Nullable String tertiaryCategory, @Nullable String newlyAdded) {
         this.primaryCategory = primaryCategory;
         this.secondaryCategory = secondaryCategory;
         this.tertiaryCategory = tertiaryCategory;
@@ -96,13 +97,13 @@ public class CategoryFilter implements Parcelable {
 
         CategoryFilter that = (CategoryFilter) o;
 
-        if (primaryCategory==null ? that.primaryCategory!=null : !primaryCategory.equals(that.primaryCategory))
+        if (primaryCategory == null ? that.primaryCategory != null : !primaryCategory.equals(that.primaryCategory))
             return false;
-        if (secondaryCategory==null ? that.secondaryCategory!=null : !secondaryCategory.equals(that.secondaryCategory))
+        if (secondaryCategory == null ? that.secondaryCategory != null : !secondaryCategory.equals(that.secondaryCategory))
             return false;
-        if (tertiaryCategory==null ? that.tertiaryCategory!=null : !tertiaryCategory.equals(that.tertiaryCategory))
+        if (tertiaryCategory == null ? that.tertiaryCategory != null : !tertiaryCategory.equals(that.tertiaryCategory))
             return false;
-        return (newlyAdded==null ? that.newlyAdded==null : newlyAdded.equals(that.newlyAdded));
+        return (newlyAdded == null ? that.newlyAdded == null : newlyAdded.equals(that.newlyAdded));
 
     }
 

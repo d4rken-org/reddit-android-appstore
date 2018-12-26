@@ -39,6 +39,4 @@ public class VersionHelper {
         // e.g. "1.2.3" = "1.2.3" or "1.2.3" < "1.2.3.4"
         return Integer.signum(vals1.length - vals2.length);
     }
-
-
 }

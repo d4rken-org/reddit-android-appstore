@@ -176,6 +176,7 @@ public class IconRequestModelLoader implements ModelLoader<IconRequest, InputStr
         }
 
         @Override
-        public void teardown() {}
+        public void teardown() {
+        }
     }
 }

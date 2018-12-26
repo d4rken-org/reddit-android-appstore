@@ -46,19 +46,20 @@ public class GPlayScraper implements MediaScraper {
                 })
                 .map(s -> client.newCall(new Request.Builder().url(s).build()).execute())
                 .map(response -> {
-                    if (response.code() == 404) throw new DeadLinkException(response.request().url().toString());
+                    if (response.code() == 404)
+                        throw new DeadLinkException(response.request().url().toString());
 
                     Document doc = Jsoup.parse(response.body().string());
 
                     String iconUrl = doc.select("img[alt*=Cover Art]").attr("src");
                     // Strip size parameter we generate these
-                    iconUrl = iconUrl.replaceAll("=(s|w|h)\\d+", "");
+                    iconUrl = iconUrl.replaceAll("=([swh])\\d+", "");
 
                     Collection<String> screenUrls = new ArrayList<>();
                     for (Element screenshots : doc.select("img[alt*=Screenshot Image]")) {
                         String screen = screenshots.attr("src");
                         // Strip size parameter we generate these
-                        screen = screen.replaceAll("=(-*(w|h|s)\\d+)*", "");
+                        screen = screen.replaceAll("=(-*([whs])\\d+)*", "");
                         screenUrls.add(screen);
                     }
 

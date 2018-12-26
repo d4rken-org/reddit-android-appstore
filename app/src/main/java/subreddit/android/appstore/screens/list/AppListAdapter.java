@@ -79,12 +79,18 @@ public class AppListAdapter extends BaseAdapter<AppListAdapter.ViewHolder> imple
     }
 
     static class ViewHolder extends BaseViewHolder {
-        @BindView(R.id.appname) TextView appName;
-        @BindView(R.id.description) TextView description;
-        @BindView(R.id.tag_container) FlowLayout tagContainer;
-        @BindView(R.id.icon_frame) View iconFrame;
-        @BindView(R.id.icon_image) ImageView iconImage;
-        @BindView(R.id.icon_placeholder) View iconPlaceholder;
+        @BindView(R.id.appname)
+        TextView appName;
+        @BindView(R.id.description)
+        TextView description;
+        @BindView(R.id.tag_container)
+        FlowLayout tagContainer;
+        @BindView(R.id.icon_frame)
+        View iconFrame;
+        @BindView(R.id.icon_image)
+        ImageView iconImage;
+        @BindView(R.id.icon_placeholder)
+        View iconPlaceholder;
 
         public ViewHolder(View itemView) {
             super(itemView);
