@@ -41,7 +41,7 @@
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:padding="8dp"
-                            android:src="@mipmap/ic_launcher" />
+                            app:srcCompat="@mipmap/ic_launcher" />
 
                         <TextView
                             android:layout_width="wrap_content"

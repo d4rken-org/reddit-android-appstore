@@ -31,7 +31,7 @@
 
     <style name="DefaultListItemContainer">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="background">?attr/selectableItemBackground</item>
     </style>
 
     <style name="ThreeLineListItemContainer" parent="DefaultListItemContainer">

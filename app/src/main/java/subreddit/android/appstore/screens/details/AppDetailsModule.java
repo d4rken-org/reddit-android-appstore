@@ -1,7 +1,7 @@
 package subreddit.android.appstore.screens.details;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,7 +18,7 @@ import subreddit.android.appstore.util.mvp.PresenterFactory;
 public class AppDetailsModule {
     private final AppInfo appInfo;
 
-    public AppDetailsModule(Activity activity) {
+    public AppDetailsModule(AppCompatActivity activity) {
         Gson gson = new GsonBuilder().create();
         appInfo = AppInfo.fromJson(gson, activity.getIntent().getStringExtra(AppDetailsActivity.ARG_KEY));
     }
