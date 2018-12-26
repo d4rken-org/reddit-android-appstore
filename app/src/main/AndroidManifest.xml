@@ -14,26 +14,26 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:theme="@style/AppTheme.Launcher"
-            android:name=".screens.MainActivity">
+            android:name=".screens.MainActivity"
+            android:theme="@style/AppTheme.Launcher">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".screens.details.AppDetailsActivity"
             android:label="@string/screen_details"
-            android:parentActivityName=".screens.MainActivity"/>
+            android:parentActivityName=".screens.MainActivity" />
         <activity
             android:name=".screens.settings.AboutActivity"
             android:label="@string/button_about"
-            android:parentActivityName=".screens.MainActivity"/>
+            android:parentActivityName=".screens.MainActivity" />
         <activity
             android:name=".screens.settings.SettingsActivity"
             android:label="@string/settings"
-            android:parentActivityName=".screens.MainActivity"/>
+            android:parentActivityName=".screens.MainActivity" />
     </application>
 
 </manifest>

@@ -5,8 +5,6 @@ import android.support.annotation.NonNull;
 
 import io.reactivex.Observable;
 import subreddit.android.appstore.backend.data.AppInfo;
-import subreddit.android.appstore.backend.scrapers.MediaScraper;
-import subreddit.android.appstore.backend.scrapers.ScrapeResult;
 
 public class FakeScraper implements MediaScraper {
     @NonNull

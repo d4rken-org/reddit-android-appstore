@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
 public class AppInfoTest {
 
     @Test
-    public void testCompareSortsIgnoringCase() throws Exception {
+    public void testCompareSortsIgnoringCase() {
         // Given
         AppInfo lowerCaseNameApp = new AppInfo();
         lowerCaseNameApp.setAppName("apple");

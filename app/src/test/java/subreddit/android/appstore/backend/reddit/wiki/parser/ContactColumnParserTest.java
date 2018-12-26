@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +17,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 
 public class ContactColumnParserTest {
-    @Mock EncodingFixer encodingFixer;
+    @Mock
+    EncodingFixer encodingFixer;
     private ContactColumnParser parser;
 
     @Before
@@ -28,10 +28,10 @@ public class ContactColumnParserTest {
     }
 
     @Test
-    public void testParse() throws IOException {
+    public void testParse() {
         String rawContactData = "/u/someuser1 thisismail1@gmail.com " +
                 "Twitter: [@twitteraccount](https://twitter.com/twitteraccount) " +
-                "Instagram: [@instagramaccount](http://instagram.com/instagramaccount) " +
+                "Instagram: [@instagramaccount](https://instagram.com/instagramaccount) " +
                 "okanothermail@internet.com /u/mDarken";
         Map<AppParser.Column, String> rawColumnMap = new HashMap<>();
         rawColumnMap.put(AppParser.Column.CONTACT, rawContactData);

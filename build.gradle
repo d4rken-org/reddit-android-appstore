@@ -4,22 +4,26 @@ buildscript {
     repositories {
         jcenter()
         google()
+        maven { url "https://jitpack.io" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath "io.realm:realm-gradle-plugin:5.1.0"
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0'
+        classpath 'io.realm:realm-gradle-plugin:5.8.0'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+        google()
         maven { url "https://jitpack.io" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-        google()
     }
 }
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

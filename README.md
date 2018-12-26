@@ -7,6 +7,15 @@
 
 The official app for displaying the curated app list from the [/r/Android wiki](https://www.reddit.com/r/android/wiki/apps), inspired by [this reddit post](https://redd.it/50rafp).
 
+<a href="https://f-droid.org/packages/subreddit.android.appstore">
+    <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+         alt="Get it on F-Droid" height="80">
+</a>
+<a href="https://github.com/d4rken/reddit-android-appstore/releases/latest">
+    <img src="https://i.imgur.com/9uZicXb.png"
+    alt="Download the latest build" height="80">
+</a>
+
 ## Features
 * Filter by category (Apps, Games, etc.) and traits (New, Free, Phone, Wear, etc.)
 * Search through the apps list
@@ -19,7 +28,7 @@ The official app for displaying the curated app list from the [/r/Android wiki](
 From commit [269d4fa](https://github.com/d4rken/reddit-android-appstore/commit/269d4fab0fd2a4553c7d51dcaaf5da82de3883a3)
 ![](art/preview-v080.png)
 
-## How to Contribute
+## How To Contribute
 * Make sure there is an issue for what you are working on __(create one if necessary)__
 * Write into that issue ticket that you are working on it
 * Follow current coding style
@@ -29,11 +38,11 @@ From commit [269d4fa](https://github.com/d4rken/reddit-android-appstore/commit/2
 ## Questions?
 [Create an issue](https://github.com/d4rken/reddit-android-appstore/issues/new)
 
-[Submit your App](https://androidflair.github.io/wikiapps/)
+[Submit your app](https://androidflair.github.io/wikiapps/)
 
 ## License
 ```
-Copyright 2017 /r/Android App Store Project
+Copyright 2017-present /r/Android App Store Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
