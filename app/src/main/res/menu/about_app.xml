@@ -8,13 +8,13 @@
             android:title="@string/version" />
 
         <item
-            android:icon="@drawable/ic_receipt_black_48px"
             android:id="@+id/licenses"
+            android:icon="@drawable/ic_receipt_black_48px"
             android:title="@string/licenses" />
 
         <item
-            android:icon="@drawable/ic_bug_report_black_48px"
             android:id="@+id/reportbug"
+            android:icon="@drawable/ic_bug_report_black_48px"
             android:title="@string/bugreport" />
 
     </group>

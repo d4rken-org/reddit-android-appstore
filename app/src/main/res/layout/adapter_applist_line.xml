@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout style="@style/DefaultListItemContainer"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="56dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/DefaultListItemContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="56dp">
 
     <FrameLayout
         android:id="@+id/icon_frame"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="top"
-        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp">
 
         <ImageView
@@ -20,71 +20,71 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
         <ProgressBar
             android:id="@+id/icon_placeholder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:visibility="visible"/>
+            android:visibility="visible" />
     </FrameLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_toRightOf="@id/icon_frame"
-        android:layout_toEndOf="@id/icon_frame"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp">
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_toEndOf="@id/icon_frame"
+        android:layout_toRightOf="@id/icon_frame"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
 
         <TextView
             android:id="@+id/appname"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Appname"/>
+            tools:text="Appname" />
 
         <TextView
             android:id="@+id/description"
             style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/appname"
-            android:layout_alignStart="@id/appname"
             android:layout_below="@id/appname"
+            android:layout_alignStart="@id/appname"
+            android:layout_alignLeft="@id/appname"
             android:ellipsize="end"
             android:maxLines="3"
-            tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."/>
+            tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr..." />
 
         <com.wefika.flowlayout.FlowLayout
             android:id="@+id/tag_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/appname"
-            android:layout_alignStart="@id/appname"
             android:layout_below="@id/description"
+            android:layout_alignStart="@id/appname"
+            android:layout_alignLeft="@id/appname"
             android:layout_gravity="top|start"
             android:orientation="horizontal"
             android:paddingTop="8dp">
 
-            <include layout="@layout/view_tagtemplate"/>
+            <include layout="@layout/view_tagtemplate" />
 
-            <include layout="@layout/view_tagtemplate"/>
+            <include layout="@layout/view_tagtemplate" />
 
-            <include layout="@layout/view_tagtemplate"/>
+            <include layout="@layout/view_tagtemplate" />
 
-            <include layout="@layout/view_tagtemplate"/>
+            <include layout="@layout/view_tagtemplate" />
 
-            <include layout="@layout/view_tagtemplate"/>
+            <include layout="@layout/view_tagtemplate" />
 
-            <include layout="@layout/view_tagtemplate"/>
+            <include layout="@layout/view_tagtemplate" />
 
-            <include layout="@layout/view_tagtemplate"/>
+            <include layout="@layout/view_tagtemplate" />
         </com.wefika.flowlayout.FlowLayout>
     </RelativeLayout>
 </RelativeLayout>

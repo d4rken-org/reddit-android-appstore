@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    android:id="@+id/tag"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tag"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginEnd="2dp"
@@ -11,12 +10,12 @@
     android:ellipsize="end"
     android:fontFamily="sans-serif-light"
     android:gravity="center"
-    android:paddingBottom="1dp"
-    android:paddingLeft="4dp"
-    android:paddingRight="4dp"
-    android:textStyle="bold"
-    android:paddingTop="1dp"
     android:maxLines="1"
+    android:paddingLeft="4dp"
+    android:paddingTop="1dp"
+    android:paddingRight="4dp"
+    android:paddingBottom="1dp"
     android:textAppearance="@style/TextAppearance.AppCompat.Small.Inverse"
     android:textSize="12sp"
-    tools:text="PlaceHolder"/>
+    android:textStyle="bold"
+    tools:text="PlaceHolder" />

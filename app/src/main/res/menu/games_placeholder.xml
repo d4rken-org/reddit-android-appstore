@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single"
-        android:id="@+id/placeholder_games">
+    <group
+        android:id="@+id/placeholder_games"
+        android:checkableBehavior="single">
 
     </group>
 </menu>

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout style="@style/OneLineListItemContainer"
-             xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:orientation="vertical"
-             android:padding="16dp">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/OneLineListItemContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <CheckBox
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="false"/>
+        android:clickable="false" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="48dp"
         android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
         android:orientation="vertical">
 
         <TextView
@@ -25,14 +25,14 @@
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="This is a tag"/>
+            tools:text="This is a tag" />
 
         <TextView
             android:id="@+id/tagcount"
             style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="25 items"/>
+            tools:text="25 items" />
     </LinearLayout>
 
 </FrameLayout>

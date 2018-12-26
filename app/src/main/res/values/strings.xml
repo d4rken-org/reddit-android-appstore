@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">/r/Android App store</string>
+    <string name="app_name">/r/Android App Store</string>
     <string name="button_refresh">Refresh</string>
     <string name="button_filter">Filter</string>
     <string name="button_search">Search</string>
@@ -43,7 +43,7 @@
     <string name="flag">Flag app</string>
     <string name="no_message">Please enter a message</string>
     <string name="no_email_client">No email client available</string>
-    <string name="flag_text">Please describe why you are flagging this app. You will be redirected to reddit to send a PM to the r/Android mod team</string>
+    <string name="flag_text">Please describe why you are flagging this app. You will be redirected to Reddit to send a PM to the r/Android mod team</string>
     <string name="error_contributors">There was a problem fetching contributors.</string>
     <string name="build_from_fdroid">Note: If you downloaded this app from F-Droid, the download link will require a reinstall.</string>
     <plurals name="x_items">
@@ -61,5 +61,5 @@
         <item>2</item>
     </string-array>
     <string name="no_download_client">No client available for this download</string>
-    <string name="submitapp">Submit an App</string>
+    <string name="submitapp">Submit an app</string>
 </resources>

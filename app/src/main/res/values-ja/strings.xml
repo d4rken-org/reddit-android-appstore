@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">/r/Android App store</string>
+    <string name="app_name">/r/Android App Store</string>
     <string name="button_refresh">更新</string>
     <string name="button_filter">フィルタ</string>
     <string name="button_search">検索</string>

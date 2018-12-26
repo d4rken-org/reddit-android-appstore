@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="start"
     android:background="?android:colorBackground"
     android:clickable="true"
+    android:focusable="true"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -15,19 +16,18 @@
         android:layout_weight="0"
         android:background="@color/colorPrimary">
 
-
         <ImageView
             android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_launcher" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/icon"
             android:layout_alignTop="@id/icon"
+            android:layout_alignBottom="@id/icon"
             android:layout_toEndOf="@+id/icon"
             android:layout_toRightOf="@+id/icon"
             android:gravity="center"
@@ -38,13 +38,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/header_version_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
@@ -52,31 +52,31 @@
             android:id="@+id/update_banner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:background="?selectableItemBackground"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center_vertical"
-            android:visibility="gone"
             android:padding="16dp"
-            tools:visibility="visible"
-            >
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_file_download_white_24dp"/>
+                android:src="@drawable/ic_file_download_white_24dp" />
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:maxLines="1"
                 android:text="@string/update"
-                android:textColor="@color/colorPrimaryDark"/>
+                android:textColor="@color/colorPrimaryDark" />
 
         </LinearLayout>
 
@@ -86,13 +86,13 @@
         android:id="@+id/navigationview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <android.support.design.widget.NavigationView
         android:id="@+id/footer_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        app:menu="@menu/drawer_footer"/>
+        app:menu="@menu/drawer_footer" />
 
 </LinearLayout>

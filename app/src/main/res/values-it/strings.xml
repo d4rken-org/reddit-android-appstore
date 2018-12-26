@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">/r/Android App store</string>
+    <string name="app_name">/r/Android App Store</string>
     <string name="button_refresh">Aggiorna</string>
     <string name="button_filter">Filtra</string>
     <string name="button_search">Cerca</string>
@@ -46,7 +46,7 @@
         <item quantity="one">%s elemento</item>
         <item quantity="other">%s elementi</item>
     </plurals>
-        <string-array name="themes">
+    <string-array name="themes">
         <item>Chiaro</item>
         <item>Scuro</item>
         <item>AMOLED</item>
@@ -56,6 +56,6 @@
         <item>1</item>
         <item>2</item>
     </string-array>
- <string name="no_download_client">Nessun client disponibile per questo download</string>
- <string name="submitapp">Suggerisci un\'app</string>
+    <string name="no_download_client">Nessun client disponibile per questo download</string>
+    <string name="submitapp">Suggerisci un\'app</string>
 </resources>
