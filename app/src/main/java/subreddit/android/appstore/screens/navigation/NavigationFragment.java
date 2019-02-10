@@ -151,6 +151,7 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem clickedItem) {
         CategoryFilter clickedFilter = menuItemCategoryFilterMap.get(clickedItem);
+        boolean isCollapse = clickedFilter.getTertiaryCategory() == null && clickedItem.isChecked();
         for (int i = 0; i < navigationView.getMenu().size(); i++) {
             MenuItem item = navigationView.getMenu().getItem(i);
             item.setChecked(false);
@@ -158,12 +159,20 @@ public class NavigationFragment extends BasePresenterFragment<NavigationContract
             item.setVisible(filter.getPrimaryCategory() == null
                     || filter.getSecondaryCategory() == null
                     || filter.getTertiaryCategory() == null
-                    || (filter.getPrimaryCategory().equals(clickedFilter.getPrimaryCategory())) && filter.getSecondaryCategory().equals(clickedFilter.getSecondaryCategory())
+                    || (filter.getPrimaryCategory().equals(clickedFilter.getPrimaryCategory()))
+                    && filter.getSecondaryCategory().equals(clickedFilter.getSecondaryCategory())
+                    && !item.isVisible()
                     || filter.getPrimaryCategory().equals(getContext().getString(R.string.app_category_everything))
                     || filter.getPrimaryCategory().equals(getContext().getString(R.string.app_category_new))
             );
         }
-        clickedItem.setChecked(true);
+
+        if (isCollapse) {
+            clickedItem.setChecked(false);
+        } else {
+            clickedItem.setChecked(true);
+        }
+
         getPresenter().notifySelectedFilter(clickedFilter);
         onCategorySelectedListener.onCategorySelected(clickedFilter);
 
