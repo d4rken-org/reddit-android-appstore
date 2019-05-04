@@ -63,8 +63,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
         applicationVariants.all { variant ->
-            if (variant.buildType.name != "debug") {
+            if (variant.buildType.name == "debug") {
+                variant.mergedFlavor.resourceConfigurations.clear()
+                variant.mergedFlavor.resourceConfigurations.add("en")
+            } else if (variant.buildType.name != "debug") {
                 variant.outputs.each { output ->
                     output.outputFileName = "${packageName}-v" + defaultConfig.versionName + "(" + defaultConfig.versionCode + ")-" + variant.buildType.name.toUpperCase() + "-" + gitSha() + ".apk"
                 }
@@ -186,7 +190,7 @@ dependencies {
     implementation 'com.futuremind.recyclerfastscroll:fastscroll:0.2.4'
 
     // OKHttp
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
 
     // Retrofit
