@@ -63,8 +63,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
         applicationVariants.all { variant ->
-            if (variant.buildType.name != "debug") {
+            if (variant.buildType.name == "debug") {
+                variant.mergedFlavor.resourceConfigurations.clear()
+                variant.mergedFlavor.resourceConfigurations.add("en")
+            } else if (variant.buildType.name != "debug") {
                 variant.outputs.each { output ->
                     output.outputFileName = "${packageName}-v" + defaultConfig.versionName + "(" + defaultConfig.versionCode + ")-" + variant.buildType.name.toUpperCase() + "-" + gitSha() + ".apk"
                 }
@@ -160,12 +164,7 @@ ext {
 //noinspection GroovyAssignabilityCheck
 configurations {
     all {
-        //noinspection GroovyAssignabilityCheck
-//        resolutionStrategy.force "com.android.support:recyclerview-v7:${supportLibVersion}"
-//        resolutionStrategy.force "com.android.support:support-annotations:${supportLibVersion}"
         resolutionStrategy.force "com.android.support:support-v4:${supportLibVersion}"
-//        resolutionStrategy.force "com.android.support:appcompat-v7:${supportLibVersion}"
-//        resolutionStrategy.force "com.android.support:design:${supportLibVersion}"
     }
     // https://stackoverflow.com/questions/49811851
     cleanedAnnotations
@@ -186,35 +185,35 @@ dependencies {
     implementation 'com.futuremind.recyclerfastscroll:fastscroll:0.2.4'
 
     // OKHttp
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
 
     // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.2.0'
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0-RC2'
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.3.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
     // Flow layout for tags
     implementation 'com.wefika:flowlayout:0.4.0'
 
     // RX
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.17'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
 
     // Gson
-    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
 
     //Dagger
-    implementation 'com.google.dagger:dagger:2.16'
-    annotationProcessor "com.google.dagger:dagger-compiler:2.16"
+    implementation 'com.google.dagger:dagger:2.22.1'
+    annotationProcessor "com.google.dagger:dagger-compiler:2.22.1"
 
     //Butterknife
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.jakewharton:butterknife:9.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0'
 
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
@@ -223,7 +222,7 @@ dependencies {
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
 
     // Mockito
-    testImplementation 'org.mockito:mockito-core:2.20.0'
+    testImplementation 'org.mockito:mockito-core:2.24.5'
 
     // jUnit
     testImplementation 'junit:junit:4.12'
