@@ -164,12 +164,7 @@ ext {
 //noinspection GroovyAssignabilityCheck
 configurations {
     all {
-        //noinspection GroovyAssignabilityCheck
-//        resolutionStrategy.force "com.android.support:recyclerview-v7:${supportLibVersion}"
-//        resolutionStrategy.force "com.android.support:support-annotations:${supportLibVersion}"
         resolutionStrategy.force "com.android.support:support-v4:${supportLibVersion}"
-//        resolutionStrategy.force "com.android.support:appcompat-v7:${supportLibVersion}"
-//        resolutionStrategy.force "com.android.support:design:${supportLibVersion}"
     }
     // https://stackoverflow.com/questions/49811851
     cleanedAnnotations
