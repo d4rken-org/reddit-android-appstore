@@ -34,7 +34,7 @@ android {
 
     def versionMajor = 0
     def versionMinor = 9
-    def versionPatch = 1
+    def versionPatch = 2
     def versionBuild = 0
 
 
