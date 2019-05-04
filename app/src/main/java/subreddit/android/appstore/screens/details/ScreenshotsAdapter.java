@@ -2,7 +2,6 @@ package subreddit.android.appstore.screens.details;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import subreddit.android.appstore.R;
 import subreddit.android.appstore.util.ui.glide.PlaceHolderRequestListener;
 
@@ -51,8 +49,8 @@ public class ScreenshotsAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         View itemView = layoutInflater.inflate(R.layout.adapter_gallery_image, container, false);
 
-        ImageView galleryImage = ButterKnife.findById(itemView, R.id.gallery_image);
-        View galleryPlaceholder = ButterKnife.findById(itemView, R.id.gallery_placeholder);
+        ImageView galleryImage = itemView.findViewById(R.id.gallery_image);
+        View galleryPlaceholder = itemView.findViewById(R.id.gallery_placeholder);
         Glide.with(context)
                 .load(urls.get(position))
                 .listener(new PlaceHolderRequestListener(galleryImage, galleryPlaceholder))
