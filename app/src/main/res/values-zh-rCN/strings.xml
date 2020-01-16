@@ -1,0 +1,65 @@
+<resources>
+  <string name="app_name">/r/Android App store</string>
+  <string name="button_refresh">刷新</string>
+  <string name="button_filter">过滤</string>
+  <string name="button_search">搜索</string>
+  <string name="screen_details">详情</string>
+  <string name="button_contact">联系开发者</string>
+  <string name="button_download">下载</string>
+  <string name="gplay">Google Play</string>
+  <string name="fdroid">F-Droid</string>
+  <string name="website">网站</string>
+  <string name="mail">电子邮件</string>
+  <string name="reddit">Reddit</string>
+  <string name="twitter">推特</string>
+  <string name="instagram">Instagram</string>
+  <string name="hint_type_to_filter">类型过滤</string>
+  <string name="button_about">关于</string>
+  <string name="text_contributors">贡献者</string>
+  <string name="licenses">许可证</string>
+  <string name="version">版本</string>
+  <string name="bugreport">报告BUG</string>
+  <string name="settings">设置</string>
+  <string name="more">更多</string>
+  <string name="appearance">外观</string>
+  <string name="preference_theme">主题</string>
+  <string name="preference_theme_desc">使用主题</string>
+  <string name="restart">切换主题需要重新启动</string>
+  <string name="later">以后</string>
+  <string name="app_category_everything">全部</string>
+  <string name="app_category_new">最新</string>
+  <string name="view_update">查看</string>
+  <string name="error">获取存储库时出错</string>
+  <string name="options">选项</string>
+  <string name="screenshots">截图</string>
+  <string name="options_loadmedia_title"><![CDATA[图标 & 截图]]></string>
+  <string name="options_loadmedia_summary">加载应用图标和截图</string>
+  <string name="options_savetagfilters_title">保存选定的标签过滤器</string>
+  <string name="options_savetagfilters_summary">每次按相同的选定标记筛选</string>
+  <string name="update">更新可用</string>
+  <string name="update_error">检查更新时出错</string>
+  <string name="update_confirm">更新</string>
+  <string name="cancel">取消</string>
+  <string name="flag">标记app</string>
+  <string name="no_message">请输入消息</string>
+  <string name="no_email_client">没有可用的email客户端</string>
+  <string name="flag_text">请描述为什么要标记此应用程序。您将被重定向到reddit，向r/Android mod团队发送一个PM</string>
+  <string name="error_contributors">获取贡献者时出现问题。</string>
+  <string name="build_from_fdroid">注意：如果您是从F-Droid下载此应用程序，则需要重新安装下载链接。</string>
+  <plurals name="x_items">
+    <item quantity="one">%s item</item>
+    <item quantity="other">%s items</item>
+  </plurals>
+  <string-array name="themes">
+    <item>明亮</item>
+    <item>黑暗</item>
+    <item>AMOLED</item>
+  </string-array>
+  <string-array name="themesValues">
+    <item>0</item>
+    <item>1</item>
+    <item>2</item>
+  </string-array>
+  <string name="no_download_client">没有可供此下载的客户端</string>
+  <string name="submitapp">提交应用</string>
+</resources>
